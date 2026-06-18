@@ -3,7 +3,9 @@ const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
 
 const DB_DIR = __dirname;
-const DB_FILE = path.join(DB_DIR, 'database.sqlite');
+const DB_FILE = process.env.NODE_ENV === 'test'
+  ? path.join(DB_DIR, 'database.test.sqlite')
+  : path.join(DB_DIR, 'database.sqlite');
 const SCHEMA_FILE = path.join(DB_DIR, 'schema.sql');
 
 // Ensure database directory exists

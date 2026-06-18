@@ -308,6 +308,18 @@ NE Relevance: ${e.ne_relevance || ''}
   } catch (err) {
     console.error('[Seeding] Failed to run coverage seed during database seed:', err);
   }
+  try {
+    const { seedDensity } = require('./seed-density');
+    seedDensity();
+  } catch (err) {
+    console.error('[Seeding] Failed to run density seed during database seed:', err);
+  }
+  try {
+    const { seedAuthorityData } = require('./seed-authority');
+    seedAuthorityData();
+  } catch (err) {
+    console.error('[Seeding] Failed to run authority seed during database seed:', err);
+  }
 }
 
 // Check if we are running this script directly

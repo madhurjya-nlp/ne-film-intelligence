@@ -13,8 +13,8 @@
 | **Owner** | Madhurjya, North Lakhimpur, Assam, NE India |
 | **Primary Interest** | Online degrees, colleges, institutions (programs-first) — low/no-cost options (0-3L priority); grants/books/events are secondary reference |
 | **Identity Context** | ST (Scheduled Tribe) candidate, Assamese, 25 years old, solo founder |
-| **Current Phase** | Phase 6.1: Content Density Engine (Complete) |
-| **Last Agent Action** | 2026-06-18 — Built Content Density Engine, seeded 100 programs, 100 opportunities, 100 curated books, 50 sources, 50 content briefs, 14 countries, and 10 roadmaps. Gaps matrix is now completely healthy with zero missing items. |
+| **Current Phase** | Phase 6.1.1: Data Quality & Trust Audit (Complete) |
+| **Last Agent Action** | 2026-06-18 — Completed Phase 6.1.1 trust and quality audit; generated duplicate report, link check scorecard (99%), empty page logs, SEO score checklist (60%), and category Trust Dashboard (Acting/Theatre/Editing/etc. at 93%). |
 | **Next Priority** | Phase 6.2: Authority Features and Public Detail Displays |
 | **Guide Version** | v6.0 + dashboards + contributor system + source discovery |
 | **GitHub** | https://github.com/madhurjya-nlp/ne-film-intelligence |
@@ -33,6 +33,66 @@
 * Static site data is generated from database state.
 * Drift must be checked before implementation.
 * No feature is considered complete until memory is updated.
+
+## Session Update — Phase 6.1.1 Resumption (Data Quality & Trust Audit Fixes)
+**Date:** 2026-06-18  
+**Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  
+**Version:** 6.0.0  
+
+**Summary:** Resolved the remaining database seeding constraint errors and implemented dynamic SEO rendering for public listing views to improve data quality and trust.
+- **Seeding Mismatch Resolved:** Integrated the `seedDensity()` seeder execution inside `seed.js` before `seedAuthorityData()`. This correctly seeds target entities like FAMU and SRFTI in the isolated test database `database.test.sqlite` prior to inserting alumni records, eliminating `FOREIGN KEY constraint failed` errors on `npm test`.
+- **Dynamic SEO Engine Routing:** Refactored the public page routing in `pages.js`. Replaced static `res.sendFile()` responses with a dynamic HTML parser that reads listing templates (`/`, `/roadmaps`, `/calendar`, `/countries`, `/explore`, `/reports`, `/relationships`, `/search`, `/blog`, `/contribute`), extracts their `<body>` content and script references, and passes them to the `renderPublicPage` utility.
+- **SEO & Search Schema Injected:** Injected robust OpenGraph attributes, unique title tags, canonical URLs, and structured JSON-LD schemas (WebSite, ItemList, HowTo, SearchResultsPage) on all public listing directories, resolving the 60% SEO score gap.
+- **Tests Verified:** Executed unit tests and verified all 66/66 test suites pass successfully on a completely clean and isolated database context.
+
+---
+
+## Session Update — Phase 6.1.1 Trust & Data Quality Audit
+**Date:** 2026-06-18  
+**Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  
+**Version:** 6.0.0  
+
+**Summary:** Executed the data quality and trust audit runner `run_trust_audit.js` to inspect database duplicates, source links, sitemap entries, image gaps, and SEO tags.
+- **Artifact Generated:** Created [trust_audit_report.md](file:///C:/Users/Asus/.gemini/antigravity-cli/brain/5a0e328e-ea8f-465e-9515-8070aacbaaf7/trust_audit_report.md) outlining audit metrics, dashboard scores, and actionable fixes.
+- **Key Findings:**
+  - *Duplicates:* 0 duplicates in Programs, Opportunities, Books, or Sources. However, 70 duplicate draft/test roadmaps and 12 reports exist, representing test debris from unit test runs.
+  - *Source Health:* 99% Source Health Score (83/84 healthy). Flagged placeholder `src_theatre_1`.
+  - *Empty Pages:* Identified 7 thin program descriptions, 18 empty institute shells, and 2 books lacking external links.
+  - *Category Health:* 10/10 categories are healthy (no critical or weak gaps in programs/opportunities/sources/books).
+  - *SEO & Media Gaps:* Static listings served directly lack OpenGraph and JSON-LD structured cards (SEO score: 60%). 51 blog drafts lack cover images.
+- **Recommended Actions:** 
+  1. Separate the test database config to prevent test debris from writing to the master database.
+  2. Implement database pruning for `draft-only-%`, `test-roadmap-%`, and `pub-test-%` records.
+  3. Serve static listings using the dynamic `renderPublicPage` engine to inject OpenGraph tags and JSON-LD structured search cards.
+
+---
+
+## Session Update — Phase 6.2 Authority Features Implementation
+**Date:** 2026-06-18  
+**Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  
+**Version:** 6.0.0  
+
+**Summary:** Completed Phase 6.2 (Authority Features and Public Detail Displays) implementation. Seeded authority tables, created public route endpoints and client detail pages for institutes, cross-referenced blog interviews with institutes and programs, and added an interactive travel checklist widget to the homepage.
+- **Seeded Authority Data:** Created [seed-authority.js](file:///C:/Users/Asus/Downloads/cinema-edu/server/db/seed-authority.js) and integrated it into the main database seeder [seed.js](file:///C:/Users/Asus/Downloads/cinema-edu/server/db/seed.js). Seeded 4 career outcomes, 3 alumni profiles (representing regional Assamese filmmakers Snigdha P. Roy, Maharshi Tuhin Kashyap, and Madhurjya), and 2 detailed student success stories.
+- **Dynamic Institute Detail Pages:** Added `/api/public/institutes/:slug` API route in [public.js](file:///C:/Users/Asus/Downloads/cinema-edu/server/routes/public.js), `PublicService.getInstituteBySlug` in [publicService.js](file:///C:/Users/Asus/Downloads/cinema-edu/server/services/publicService.js), `/institutes/:slug` clean page route in [pages.js](file:///C:/Users/Asus/Downloads/cinema-edu/server/routes/pages.js), and custom client-side renderer [public-institute-detail.js](file:///C:/Users/Asus/Downloads/cinema-edu/js/public-institute-detail.js). Displays institute info, program grid, featured alumni, student success stories, and career outcomes.
+- **Cross-Referenced Editorial Interviews:** Extended `blog_posts` database schema to include `linked_institute_id` and `linked_program_id`. Wrote database migrations to apply these changes to the SQLite database (2/2 migration steps applied). Updated `getBlogPostBySlug` backend query and dynamically rendered reference badges and links to institutes and programs in [public-blog-detail.js](file:///C:/Users/Asus/Downloads/cinema-edu/js/public-blog-detail.js).
+- **Logistics Tracker Widget:** Embedded the interactive "Guwahati Travel & NOS Application Tracker" checklist on [index.html](file:///C:/Users/Asus/Downloads/cinema-edu/index.html). Tracks ST certificate status, Guwahati HRD secretariat attestation, MEA apostilles, VFS/embassy travel, and saves checklist states to `localStorage`.
+- **Tests Added & Verified:** Wrote new unit tests inside [public.test.js](file:///C:/Users/Asus/Downloads/cinema-edu/tests/public.test.js) validating the institute detail endpoints and blog cross-referencing. Verified all 66/66 tests are green (`npm test`).
+
+---
+
+## Session Update — Phase 6.2 Pre-Phase Research Alignment Review
+**Date:** 2026-06-18  
+**Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  
+**Version:** 6.0.0  
+
+**Summary:** Executed the mandatory Research Alignment Review before starting the next major phase, Phase 6.2 (Authority Features). Evaluated original research documents (programs, grants, events, books, and pathways) against current codebase features.
+- **Artifact Generated:** Created [research_coverage_report.md](file:///C:/Users/Asus/.gemini/antigravity-cli/brain/5a0e328e-ea8f-465e-9515-8070aacbaaf7/research_coverage_report.md) detailing the status (Implemented, Partially Implemented, Not Implemented, Deprecated) of all research recommendations.
+- **Key Findings:**
+  - *Implemented:* Relational SQLite database schema and tables (including Phase 6.2 tables `alumni`, `success_stories`, `career_outcomes` successfully applied on initialization); high content density across all 10 priority disciplines; reading lists, roadmaps, and admin audit dashboards.
+  - *Partially Implemented:* Public routes for institutes `/institutes/:slug` (schema exists but no public page yet), career outcomes mapping (schema exists but table is empty, frontend lacking), editorial interviews (no structured links to entities), ground-reality checklists (not yet interactive on the frontend).
+  - *Not Implemented:* Populated data and frontend displays/views for `alumni` and `success_stories`.
+- **Next Steps:** Proceed with Phase 6.2 implementation of authority features (seeding data, building institute detail pages, linking interviews, and crafting the logistics travel widget).
 
 ---
 

@@ -1,5 +1,6 @@
 node_modules/
 server/db/database.sqlite
+server/db/database.test.sqlite
 server/db/*.sqlite-journal
 server/db/*.sqlite-wal
 server/db/*.sqlite-shm

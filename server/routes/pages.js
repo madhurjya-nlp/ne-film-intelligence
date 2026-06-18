@@ -3,6 +3,8 @@ const path = require('path');
 const { renderPublicPage } = require('../utils/seo');
 const { PublicService } = require('../services/publicService');
 
+const fs = require('fs');
+
 const router = express.Router();
 const rootDir = path.join(__dirname, '..', '..');
 
@@ -10,7 +12,164 @@ function sendShell(res, file) {
   res.sendFile(path.join(rootDir, file));
 }
 
-const LIST_PAGES = [
+const PAGE_METADATA = {
+  '/': {
+    title: 'NE Film Intelligence — Programs & Institutions Research',
+    description: 'Curated film education research, online degrees, and pathway roadmaps for filmmakers in Assam and Northeast India.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      'name': 'NE Film Intelligence',
+      'url': 'https://ne-film-intelligence.org',
+      'description': 'Curated film education research, online degrees, and pathway roadmaps for filmmakers in Assam and Northeast India.'
+    }
+  },
+  '/roadmaps': {
+    title: 'Filmmaker Roadmaps — NE Film Intelligence',
+    description: 'Structured filmmaker pathways: study abroad, film editing, festivals, documentary, funding, and low-budget routes.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      'name': 'Filmmaker Roadmaps',
+      'description': 'Structured filmmaker pathways with milestones and prerequisites.'
+    }
+  },
+  '/calendar': {
+    title: 'Opportunity Calendar — NE Film Intelligence',
+    description: 'Track film school application deadlines, festival dates, and grant windows synced from the database.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      'name': 'Opportunity Calendar',
+      'description': 'Application deadlines and festival dates.'
+    }
+  },
+  '/countries': {
+    title: 'Country Guides & Explorer — NE Film Intelligence',
+    description: 'Film education country guides: tuition, living costs, visas, scholarships, and related programs.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      'name': 'Country Intelligence Guides',
+      'description': 'Detailed profiles of countries offering film education.'
+    }
+  },
+  '/explore': {
+    title: 'Program & Institute Explorer — NE Film Intelligence',
+    description: 'Search online degrees, film schools, and institutions with filters for budget, country, format, and deadlines.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'SearchResultsPage',
+      'name': 'Program Explorer',
+      'description': 'Search and filter film education programs globally.'
+    }
+  },
+  '/reports': {
+    title: 'Research Reports Archive — NE Film Intelligence',
+    description: 'Data-driven analytics, coverage trends, category health metrics, and growth reports.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'ArchivePage',
+      'name': 'Research Reports Archive',
+      'description': 'Archive of database analysis reports.'
+    }
+  },
+  '/relationships': {
+    title: 'Knowledge Graph & Relationships — NE Film Intelligence',
+    description: 'Lightweight pathway explorer and graph relationships between countries, opportunities, events, and programs.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      'name': 'Knowledge Graph'
+    }
+  },
+  '/search': {
+    title: 'Search Directory — NE Film Intelligence',
+    description: 'Search across all database entities including programs, grants, events, institutes, and roadmaps.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'SearchResultsPage',
+      'name': 'Search Directory'
+    }
+  },
+  '/blog': {
+    title: 'NE Film Intelligence Blog & Interviews',
+    description: 'Living publication, editorial guides, and director interviews on film education for Northeast India.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'Blog',
+      'name': 'NE Film Intelligence Blog',
+      'description': 'Living publication, editorial guides, and director interviews.'
+    }
+  },
+  '/contribute': {
+    title: 'Submit Research — NE Film Intelligence',
+    description: 'Contribute new film programs, scholarships, books, or events to our open-access database.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      'name': 'Contributor Portal'
+    }
+  }
+};
+
+function renderStaticHtmlFile(res, filePath, meta) {
+  const fullPath = path.join(rootDir, filePath);
+  if (!fs.existsSync(fullPath)) {
+    return res.status(404).sendFile(path.join(rootDir, 'pages/404.html'));
+  }
+  let html = fs.readFileSync(fullPath, 'utf8');
+  
+  // Extract body content
+  const bodyStartIdx = html.indexOf('<body');
+  if (bodyStartIdx === -1) {
+    return res.sendFile(fullPath);
+  }
+  const bodyOpenTagCloseIdx = html.indexOf('>', bodyStartIdx);
+  const bodyEndIdx = html.indexOf('</body>');
+  if (bodyEndIdx === -1) {
+    return res.sendFile(fullPath);
+  }
+  let bodyContent = html.substring(bodyOpenTagCloseIdx + 1, bodyEndIdx);
+  
+  // Strip script tags from bodyContent and extract custom scripts
+  const scriptRegex = /<script\s+src="([^"]+)"[^>]*><\/script>/gi;
+  let match;
+  const scripts = [];
+  while ((match = scriptRegex.exec(bodyContent)) !== null) {
+    const src = match[1];
+    // Exclude common scripts because renderPublicPage already includes them:
+    if (!src.includes('public-api.js') && !src.includes('public-shell.js') && 
+        !src.includes('sound-engine.js') && !src.includes('motion-controller.js') && 
+        !src.includes('scroll-engine.js')) {
+      scripts.push(src);
+    }
+  }
+  
+  // Remove all script tags from the bodyContent
+  bodyContent = bodyContent.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  
+  // Get canonical URL
+  const base = `${res.req.protocol}://${res.req.get('host')}`;
+  const canonical = `${base}${res.req.originalUrl.split('?')[0]}`;
+  
+  // Update website JSON-LD URL if it's the home page
+  const pageJsonLd = meta.jsonLd ? JSON.parse(JSON.stringify(meta.jsonLd)) : null;
+  if (pageJsonLd && pageJsonLd.url === 'https://ne-film-intelligence.org') {
+    pageJsonLd.url = base;
+  }
+  
+  res.send(renderPublicPage({
+    title: meta.title,
+    description: meta.description,
+    canonical: canonical,
+    bodyContent: bodyContent,
+    scripts: scripts,
+    jsonLd: pageJsonLd
+  }));
+}
+
+const PUBLIC_LIST_PAGES = [
   ['/', 'index.html'],
   ['/roadmaps', 'pages/roadmaps.html'],
   ['/calendar', 'pages/calendar.html'],
@@ -20,12 +179,22 @@ const LIST_PAGES = [
   ['/relationships', 'pages/relationships.html'],
   ['/search', 'pages/search.html'],
   ['/blog', 'pages/blog.html'],
-  ['/contribute', 'pages/contribute.html'],
-  ['/admin/coverage', 'pages/admin-coverage.html'],
-  ['/admin/audit', 'pages/admin-audit.html'],
+  ['/contribute', 'pages/contribute.html']
 ];
 
-LIST_PAGES.forEach(([route, file]) => {
+const ADMIN_LIST_PAGES = [
+  ['/admin/coverage', 'pages/admin-coverage.html'],
+  ['/admin/audit', 'pages/admin-audit.html']
+];
+
+PUBLIC_LIST_PAGES.forEach(([route, file]) => {
+  router.get(route, (req, res) => {
+    const meta = PAGE_METADATA[route] || { title: 'NE Film Intelligence', description: '' };
+    renderStaticHtmlFile(res, file, meta);
+  });
+});
+
+ADMIN_LIST_PAGES.forEach(([route, file]) => {
   router.get(route, (req, res) => sendShell(res, file));
 });
 
@@ -60,6 +229,23 @@ router.get('/countries/:slug', (req, res) => {
     `,
     scripts: ['/js/public-country-detail.js'],
     jsonLd: { '@context': 'https://schema.org', '@type': 'Place', name: c.name, description: c.summary },
+  }));
+});
+
+router.get('/institutes/:slug', (req, res) => {
+  const inst = PublicService.getInstituteBySlug(req.params.slug);
+  if (!inst) return res.status(404).sendFile(path.join(rootDir, 'pages/404.html'));
+  const base = `${req.protocol}://${req.get('host')}`;
+  res.send(renderPublicPage({
+    title: `${inst.title} — Institute Profile | NE Film Intelligence`,
+    description: inst.summary,
+    canonical: `${base}/institutes/${inst.slug}`,
+    bodyContent: `
+      <div id="page-root" data-page="institute-detail" data-slug="${inst.slug}"></div>
+      <script id="page-bootstrap" type="application/json">${JSON.stringify({ id: inst.id, slug: inst.slug, title: inst.title, summary: inst.summary }).replace(/</g, '\\u003c')}</script>
+    `,
+    scripts: ['/js/public-institute-detail.js'],
+    jsonLd: { '@context': 'https://schema.org', '@type': 'EducationalOrganization', name: inst.title, description: inst.summary },
   }));
 });
 

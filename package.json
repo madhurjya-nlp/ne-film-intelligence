@@ -13,7 +13,7 @@
     "ingest": "node -e \"require('./server/ingestion/ingestionService').syncAllActive().then(r=>console.log(JSON.stringify(r,null,2)))\"",
     "intelligence:seed": "node server/db/seed-intelligence.js",
     "calendar:sync": "node -e \"console.log(require('./server/services/calendarService').CalendarService.syncFromEntities())\"",
-    "test": "node --test --test-concurrency=1 tests/*.test.js",
+    "test": "node -r ./tests/setup.js --test --test-concurrency=1 tests/*.test.js",
     "agent:start": "node scripts/instruction-agent.js session-start",
     "agent:end": "node scripts/instruction-agent.js session-end",
     "agent:push": "node scripts/instruction-agent.js push-if-major",

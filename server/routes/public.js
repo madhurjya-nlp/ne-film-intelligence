@@ -46,6 +46,12 @@ router.get('/countries/:slug', asyncRoute(async (req, res) => {
   res.json(c);
 }));
 
+router.get('/institutes/:slug', asyncRoute(async (req, res) => {
+  const inst = PublicService.getInstituteBySlug(req.params.slug);
+  if (!inst) return res.status(404).json({ error: 'Institute not found' });
+  res.json(inst);
+}));
+
 router.get('/explore', asyncRoute(async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = Math.min(parseInt(req.query.limit) || 20, 100);

@@ -161,4 +161,42 @@ test.describe('CineEduAssan Phase 4 Public Intelligence Tests', () => {
     const pub = PublicService.getRoadmapBySlug(rm.slug);
     assert.strictEqual(pub, null);
   });
+
+  test.it('PublicService: getInstituteBySlug retrieves institute profiles, verified programs, featured alumni, and career outcomes', () => {
+    const inst = PublicService.getInstituteBySlug('dbhrgfti-dr-bhupen-hazarika-regional-govt-film-tv-institute');
+    if (inst) {
+      assert.ok(inst.title);
+      assert.ok(Array.isArray(inst.programs));
+      assert.ok(Array.isArray(inst.alumni));
+      assert.ok(Array.isArray(inst.success_stories));
+      assert.ok(Array.isArray(inst.career_outcomes));
+      
+      if (inst.alumni.length > 0) {
+        assert.ok(inst.alumni[0].name);
+      }
+    }
+  });
+
+  test.it('PublicService: getBlogPostBySlug retrieves linked_institute and linked_program', () => {
+    const { run } = require('../server/db/db');
+    const uid = Date.now();
+    run(`
+      INSERT INTO blog_posts (id, title, slug, content, status, created_at, updated_at, linked_institute_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `, [
+      `blog_${uid}`,
+      `Interview ${uid}`,
+      `interview-${uid}`,
+      `Content ${uid}`,
+      'published',
+      new Date().toISOString(),
+      new Date().toISOString(),
+      'inst_dbhrgfti-dr-bhupen-hazarika-regional-govt-film-tv-institute'
+    ]);
+
+    const post = PublicService.getBlogPostBySlug(`interview-${uid}`);
+    assert.ok(post);
+    assert.ok(post.linked_institute);
+    assert.strictEqual(post.linked_institute.slug, 'dbhrgfti-dr-bhupen-hazarika-regional-govt-film-tv-institute');
+  });
 });

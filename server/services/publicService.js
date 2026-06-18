@@ -149,6 +149,58 @@ const PublicService = {
     return full;
   },
 
+  getInstituteBySlug(slug) {
+    const institute = queryOne(`SELECT * FROM institutes WHERE slug = ? AND publication_status = 'published'`, [slug]);
+    if (!institute) return null;
+
+    const programs = queryAll(
+      `SELECT p.id, p.slug, p.title, p.category, p.tuition_or_cost, p.format, p.summary, p.deadline
+       FROM programs p
+       WHERE p.institute_id = ? AND ${PUB} ORDER BY p.title ASC`,
+      [institute.id]
+    );
+
+    const alumni = queryAll(
+      `SELECT a.id, a.name, a.graduation_year, a.current_role, a.achievement_summary, a.profile_image_url
+       FROM alumni a
+       WHERE a.institute_id = ? ORDER BY a.graduation_year DESC`,
+      [institute.id]
+    );
+
+    let success_stories = [];
+    if (alumni.length > 0) {
+      const alumniIds = alumni.map(a => a.id);
+      const placeholders = alumniIds.map(() => '?').join(',');
+      success_stories = queryAll(
+        `SELECT s.id, s.title, s.slug, s.summary, s.video_url, s.alumni_id, a.name as alumni_name
+         FROM success_stories s
+         JOIN alumni a ON s.alumni_id = a.id
+         WHERE s.alumni_id IN (${placeholders}) AND s.publication_status = 'published'`,
+        alumniIds
+      );
+    }
+
+    const career_outcomes = queryAll(
+      `SELECT id, title, salary_range_low, salary_range_high, placement_rate, related_programs, requirements_text
+       FROM career_outcomes`
+    ).filter(co => {
+      try {
+        const relatedProgs = JSON.parse(co.related_programs || '[]');
+        return programs.some(p => relatedProgs.includes(p.id) || relatedProgs.includes(p.slug));
+      } catch (err) {
+        return false;
+      }
+    });
+
+    return {
+      ...institute,
+      programs,
+      alumni,
+      success_stories,
+      career_outcomes
+    };
+  },
+
   listReports({ search, report_type } = {}) {
     const result = ReportService.list({ publication_status: 'published', report_type });
     if (search) {
@@ -233,6 +285,13 @@ const PublicService = {
   getBlogPostBySlug(slug) {
     const post = queryOne(`SELECT * FROM blog_posts WHERE slug = ? AND status = 'published'`, [slug]);
     if (!post) return null;
+
+    if (post.linked_institute_id) {
+      post.linked_institute = queryOne(`SELECT id, title, slug FROM institutes WHERE id = ?`, [post.linked_institute_id]);
+    }
+    if (post.linked_program_id) {
+      post.linked_program = queryOne(`SELECT id, title, slug FROM programs WHERE id = ?`, [post.linked_program_id]);
+    }
     
     post.related_articles = queryAll(
       `SELECT id, title, slug, excerpt, cover_image, author, published_at, reading_time 
@@ -254,6 +313,7 @@ const PublicService = {
     queryAll(`SELECT slug FROM reports WHERE publication_status='published'`).forEach((r) => add(`/reports/${r.slug}`, '0.7'));
     queryAll(`SELECT slug FROM programs WHERE ${PUB}`).forEach((p) => add(`/explore?type=program&id=${p.slug}`, '0.6'));
     queryAll(`SELECT slug FROM blog_posts WHERE status='published'`).forEach((p) => add(`/blog/${p.slug}`, '0.8'));
+    queryAll(`SELECT slug FROM institutes WHERE publication_status='published'`).forEach((inst) => add(`/institutes/${inst.slug}`, '0.7'));
 
     return urls;
   },

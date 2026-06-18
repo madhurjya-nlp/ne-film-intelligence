@@ -426,7 +426,9 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
   reading_time INTEGER,
-  featured INTEGER CHECK(featured IN (0, 1)) DEFAULT 0
+  featured INTEGER CHECK(featured IN (0, 1)) DEFAULT 0,
+  linked_institute_id TEXT REFERENCES institutes(id) ON DELETE SET NULL,
+  linked_program_id TEXT REFERENCES programs(id) ON DELETE SET NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_blog_slug ON blog_posts(slug);
@@ -538,5 +540,55 @@ CREATE TABLE IF NOT EXISTS source_candidates (
 );
 
 CREATE INDEX IF NOT EXISTS idx_source_candidates_url ON source_candidates(url);
+
+-- ═══════════════════════════════════════════════════════════════
+-- PHASE 6.2: Authority Features
+-- ═══════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS alumni (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  graduation_year INTEGER,
+  institute_id TEXT REFERENCES institutes(id) ON DELETE SET NULL,
+  program_id TEXT REFERENCES programs(id) ON DELETE SET NULL,
+  current_role TEXT,
+  achievement_summary TEXT,
+  profile_image_url TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_alumni_institute ON alumni(institute_id);
+CREATE INDEX IF NOT EXISTS idx_alumni_program ON alumni(program_id);
+
+CREATE TABLE IF NOT EXISTS success_stories (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  alumni_id TEXT NOT NULL REFERENCES alumni(id) ON DELETE CASCADE,
+  summary TEXT NOT NULL,
+  body_content TEXT NOT NULL,
+  video_url TEXT,
+  publication_status TEXT CHECK(publication_status IN ('draft', 'published', 'archived')) DEFAULT 'draft',
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_success_stories_alumni ON success_stories(alumni_id);
+CREATE INDEX IF NOT EXISTS idx_success_stories_slug ON success_stories(slug);
+CREATE INDEX IF NOT EXISTS idx_success_stories_publication ON success_stories(publication_status);
+
+CREATE TABLE IF NOT EXISTS career_outcomes (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  salary_range_low REAL,
+  salary_range_high REAL,
+  placement_rate REAL,
+  related_programs TEXT, -- JSON array or comma-separated string of program IDs/titles
+  requirements_text TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
 
 

@@ -43,6 +43,19 @@
               </div>
             </header>
 
+            ${post.linked_institute || post.linked_program ? `
+              <div class="nb-alert nb-alert--info" style="margin-bottom: 24px; padding: 16px; border: 4px solid var(--rule); border-radius: var(--radius); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+                <div>
+                  <span class="nb-badge nb-badge--verified" style="margin-bottom: 4px; display: inline-block;">Cross-Referenced Research</span>
+                  <p style="font-size: 14px; margin: 0;">This interview references:</p>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  ${post.linked_institute ? `<a href="/institutes/${post.linked_institute.slug}" class="nb-btn nb-btn--secondary nb-btn--sm" style="text-decoration: none;">View Institute: ${post.linked_institute.title}</a>` : ''}
+                  ${post.linked_program ? `<a href="/explore?type=program&id=${post.linked_program.slug}" class="nb-btn nb-btn--secondary nb-btn--sm" style="text-decoration: none;">View Program: ${post.linked_program.title}</a>` : ''}
+                </div>
+              </div>
+            ` : ''}
+
             ${coverHtml}
 
             <div class="blog-post__body nb-rich-text" style="font-size: 16px; line-height: 1.8; color: var(--text);">

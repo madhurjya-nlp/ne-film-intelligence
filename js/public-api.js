@@ -19,6 +19,7 @@ const PublicAPI = {
     return this.get(`/countries?${q}`);
   },
   country(slug) { return this.get(`/countries/${slug}`); },
+  institute(slug) { return this.get(`/institutes/${slug}`); },
   explore(params = {}) {
     const q = new URLSearchParams(params).toString();
     return this.get(`/explore?${q}`);

@@ -416,6 +416,19 @@ function runMigrations(db) {
     }
   }
 
+  if (tableExists(db, 'blog_posts')) {
+    if (!columnExists(db, 'blog_posts', 'linked_institute_id')) {
+      db.exec('ALTER TABLE blog_posts ADD COLUMN linked_institute_id TEXT');
+      applied++;
+      console.log('[Migration] Added blog_posts.linked_institute_id column');
+    }
+    if (!columnExists(db, 'blog_posts', 'linked_program_id')) {
+      db.exec('ALTER TABLE blog_posts ADD COLUMN linked_program_id TEXT');
+      applied++;
+      console.log('[Migration] Added blog_posts.linked_program_id column');
+    }
+  }
+
   if (applied === 0) {
     console.log('[Migration] Database already up to date.');
   } else {
