@@ -6,6 +6,10 @@ const ingestionRouter = require('./routes/ingestion');
 const intelligenceRouter = require('./routes/intelligence');
 const publicRouter = require('./routes/public');
 const pagesRouter = require('./routes/pages');
+const { bootstrapDatabase } = require('./db/bootstrap');
+
+// Run bootstrap checks
+bootstrapDatabase();
 
 const app = express();
 const PORT = process.env.PORT || 3000;

@@ -34,6 +34,19 @@
 * Drift must be checked before implementation.
 * No feature is considered complete until memory is updated.
 
+## Session Update — Deployment Bootstrap Automation
+**Date:** 2026-06-18  
+**Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  
+**Version:** 6.0.0  
+
+**Summary:** Automated the seeding of SQLite databases on server startup in clean/new cloud deployments.
+- **Auto-Bootstrap Hook:** Created [bootstrap.js](file:///C:/Users/Asus/Downloads/cinema-edu/server/db/bootstrap.js) and integrated it into the server entry point [index.js](file:///C:/Users/Asus/Downloads/cinema-edu/server/index.js). On startup, the hook checks for existing database records (specifically within the `programs` table) and dynamically triggers core and intelligence database seeders if empty.
+- **Safety Checks:** Configured the check to bypass execution when `NODE_ENV === 'test'` or when tables are not initialized yet, ensuring zero conflict with unit tests or local CLI seeder runs.
+- **Bootstrap Tests:** Created [bootstrap.test.js](file:///C:/Users/Asus/Downloads/cinema-edu/tests/bootstrap.test.js) validating test-env isolation, idempotency checks, and foreign key compliance.
+- **Tests Verified:** Confirmed all 69/69 test suites pass successfully.
+
+---
+
 ## Session Update — Deployment Setup (Express App Hosting)
 **Date:** 2026-06-18  
 **Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  
