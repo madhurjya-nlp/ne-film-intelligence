@@ -178,15 +178,15 @@ function seedDensity() {
 
   transaction(() => {
     // Clear old seed-density items to allow clean re-runs
-    run(`DELETE FROM programs WHERE id LIKE 'prog_%_%'`);
-    run(`DELETE FROM opportunities WHERE id LIKE 'opp_%_%'`);
-    run(`DELETE FROM books WHERE id LIKE 'bk_%_%'`);
-    run(`DELETE FROM book_external_links WHERE id LIKE 'link_bk_%_%'`);
-    run(`DELETE FROM blog_posts WHERE id LIKE 'blog_%_%'`);
-    run(`DELETE FROM roadmaps WHERE id LIKE 'roadmap_%'`);
-    run(`DELETE FROM sources WHERE id LIKE 'src_%_%_%'`);
-    run(`DELETE FROM reports WHERE id LIKE 'rpt_%'`);
-    run(`DELETE FROM report_sections WHERE id LIKE 'sect_rpt_%'`);
+    run(`DELETE FROM programs WHERE id GLOB 'prog_*_[0-9]' OR id GLOB 'prog_*_[0-9][0-9]'`);
+    run(`DELETE FROM opportunities WHERE id GLOB 'opp_*_[0-9]' OR id GLOB 'opp_*_[0-9][0-9]'`);
+    run(`DELETE FROM books WHERE id GLOB 'bk_*_[0-9]' OR id GLOB 'bk_*_[0-9][0-9]'`);
+    run(`DELETE FROM book_external_links WHERE book_id GLOB 'bk_*_[0-9]' OR book_id GLOB 'bk_*_[0-9][0-9]'`);
+    run(`DELETE FROM blog_posts WHERE id GLOB 'blog_*_[0-9]' OR id GLOB 'blog_*_[0-9][0-9]'`);
+    run(`DELETE FROM roadmaps WHERE id GLOB 'roadmap_*'`);
+    run(`DELETE FROM sources WHERE id GLOB 'src_*_[0-9]' OR id GLOB 'src_*_[0-9][0-9]'`);
+    run(`DELETE FROM reports WHERE id GLOB 'rpt_*'`);
+    run(`DELETE FROM report_sections WHERE report_id GLOB 'rpt_*'`);
 
     // 1. Seed Missing Countries
     NEW_COUNTRIES.forEach(c => {

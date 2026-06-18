@@ -34,6 +34,20 @@
 * Drift must be checked before implementation.
 * No feature is considered complete until memory is updated.
 
+## Session Update — Database Cleanup, Trust Sanitation & Category Normalization
+**Date:** 2026-06-18  
+**Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  
+**Version:** 6.0.0  
+
+**Summary:** Performed strict sanitation, duplicate resolution, link validation, and category assignment normalization.
+- **Sanitized Test Debris:** Removed test roadmap `rm_test` and its cascading steps, deleted the dummy newsletter subscriber `all@1234.com`, and pruned the orphaned `opp_test` relationship from `database.sqlite` and the test database.
+- **Resolved Duplicate & Wildcard Bugs:** Identified a wildcard issue in the seeder `seed-density.js` where standard SQLite `LIKE` wildcards (`%_%\_%`) accidentally cleared valid, non-density records. Replaced with highly specific native `GLOB` queries (`GLOB 'prog_*_[0-9]'`), preserving all coverage-seeded and taxonomy-seeded programs, sources, books, and blogs.
+- **Validated Link Health:** Corrected outdated and broken links in `seed-taxonomy-sources.js` for key industry, producing, and criticism sources (e.g. TorinoFilmLab, Series Mania). Executed a network verification runner yielding a 100% health rating (82/82 active URLs passing) for all registered sources.
+- **Normalized Category Assignments:** Restored 78 bridge mappings in the `entity_categories` table, linking general programs (e.g., `dbhrgfti`, `nos-st`, `germany-public-ma`) and opportunities (e.g., `doha`, `hbf`) to valid category taxonomy disciplines.
+- **Tests Verified:** Validated all 69/69 tests are passing cleanly on the sanitized DB.
+
+---
+
 ## Session Update — Deployment Bootstrap Automation
 **Date:** 2026-06-18  
 **Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  

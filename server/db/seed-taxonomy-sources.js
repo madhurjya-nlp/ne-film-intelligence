@@ -22,8 +22,8 @@ const SOURCES = [
   { id: 'src_nsd_acting', name: 'National School of Drama (NSD)', type: 'university', url: 'https://nsd.gov.in', country: 'India', category: 'acting', trust_level: 100 },
   // SCREENWRITING
   { id: 'src_sundance_writers', name: 'Sundance Labs', type: 'festival', url: 'https://www.sundance.org/programs/feature-film', country: 'United States', category: 'screenwriting', trust_level: 95 },
-  { id: 'src_torino_screenwriting', name: 'TorinoFilmLab Screenwriting', type: 'festival', url: 'https://www.torinofilmlab.it/screenwriting', country: 'Italy', category: 'screenwriting', trust_level: 95 },
-  { id: 'src_series_mania_writers', name: 'Series Mania Writers Campus', type: 'festival', url: 'https://seriesmania.com/writers-campus', country: 'France', category: 'screenwriting', trust_level: 95 },
+  { id: 'src_torino_screenwriting', name: 'TorinoFilmLab Screenwriting', type: 'festival', url: 'https://www.torinofilmlab.it', country: 'Italy', category: 'screenwriting', trust_level: 95 },
+  { id: 'src_series_mania_writers', name: 'Series Mania Writers Campus', type: 'festival', url: 'https://seriesmania.com', country: 'France', category: 'screenwriting', trust_level: 95 },
   { id: 'src_screencraft_writing', name: 'ScreenCraft Fellowships', type: 'industry', url: 'https://screencraft.org', country: 'United States', category: 'screenwriting', trust_level: 85 },
   // DOCUMENTARY
   { id: 'src_idfa_academy', name: 'IDFA Academy', type: 'festival', url: 'https://www.idfa.nl', country: 'Netherlands', category: 'documentary', trust_level: 95 },
@@ -49,11 +49,11 @@ const SOURCES = [
   { id: 'src_filmsound_institute', name: 'Film Sound Institute', type: 'other', url: 'https://filmsound.org', country: 'United States', category: 'sound-design', trust_level: 85 },
   // PRODUCING
   { id: 'src_eave_producing', name: 'EAVE Producers Workshop', type: 'industry', url: 'https://eave.org', country: 'Luxembourg', category: 'producing', trust_level: 95 },
-  { id: 'src_torino_producing', name: 'TorinoFilmLab Producing Lab', type: 'festival', url: 'https://www.torinofilmlab.it/producing', country: 'Italy', category: 'producing', trust_level: 95 },
-  { id: 'src_film_independent_producing', name: 'Film Independent Producing Lab', type: 'industry', url: 'https://www.filmindependent.org/programs/artist-development/producing-lab', country: 'United States', category: 'producing', trust_level: 90 },
+  { id: 'src_torino_producing', name: 'TorinoFilmLab Producing Lab', type: 'festival', url: 'https://www.torinofilmlab.it', country: 'Italy', category: 'producing', trust_level: 95 },
+  { id: 'src_film_independent_producing', name: 'Film Independent Producing Lab', type: 'industry', url: 'https://www.filmindependent.org', country: 'United States', category: 'producing', trust_level: 90 },
   // FILM CRITICISM
   { id: 'src_fipresci_criticism', name: 'FIPRESCI (International Critics)', type: 'industry', url: 'https://www.fipresci.org', country: 'Germany', category: 'film-criticism', trust_level: 85 },
-  { id: 'src_berlinale_critics_campus', name: 'Berlinale Critics Campus', type: 'festival', url: 'https://www.berlinale-talents.de/critics', country: 'Germany', category: 'film-criticism', trust_level: 95 },
+  { id: 'src_berlinale_critics_campus', name: 'Berlinale Critics Campus', type: 'festival', url: 'https://www.berlinale-talents.de', country: 'Germany', category: 'film-criticism', trust_level: 95 },
   { id: 'src_young_critics_labs', name: 'Young Critics Labs', type: 'other', url: 'https://www.fipresci.org/education', country: 'Germany', category: 'film-criticism', trust_level: 85 }
 ];
 
