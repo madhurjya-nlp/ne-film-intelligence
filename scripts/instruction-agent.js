@@ -212,10 +212,7 @@ function pushIfMajor() {
     if (files.length > 0) {
       const toAdd = files.filter((f) => !f.includes('database.sqlite') && !f.startsWith('node_modules'));
       if (toAdd.length) {
-        run(`git add ${toAdd.map((f) => `"${f}"`).join(' ')}`, { silent: true });
-      }
-      if (gitStatusPorcelain().includes('AGENT_MEMORY.md')) {
-        run('git add AGENT_MEMORY.md', { silent: true });
+        spawnSync('git', ['add', ...toAdd], { cwd: ROOT, stdio: 'pipe' });
       }
     }
 

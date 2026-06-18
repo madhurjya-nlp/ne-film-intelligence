@@ -14,8 +14,8 @@
 | **Primary Interest** | Online degrees, colleges, institutions (programs-first) — low/no-cost options (0-3L priority); grants/books/events are secondary reference |
 | **Identity Context** | ST (Scheduled Tribe) candidate, Assamese, 25 years old, solo founder |
 | **Current Phase** | Phase 5.1: Motion System, UX Polish, Research Expansion & Monetization Foundation |
-| **Last Agent Action** | 2026-06-18 — Instruction Agent skill + CLI hooks for memory sync and GitHub auto-push |
-| **Next Priority** | Connect Netlify to GitHub for auto-deploy; Phase 5.2 Render/production for live DB |
+| **Last Agent Action** | 2026-06-18 — Session halted; owner continuing in a different CLI |
+| **Next Priority** | See handoff below — Netlify↔GitHub link, Phase 5.2, optional db-touch hooks |
 | **Guide Version** | v5.1 + data seam v3 (SQLite Synced) + ingestion v1 + intelligence v1 |
 | **GitHub** | https://github.com/madhurjya-nlp/ne-film-intelligence |
 | **Live URL (static)** | https://effortless-speculoos-0dde1a.netlify.app (older deploy — not auto-synced with GitHub yet) |
@@ -33,6 +33,39 @@
 * Static site data is generated from database state.
 * Drift must be checked before implementation.
 * No feature is considered complete until memory is updated.
+
+---
+
+## Session Update — Session Halt & Handoff (owner switching CLI)
+
+**Date:** 2026-06-18  
+**Version:** 5.1.0  
+
+**Summary:** Owner ending this Grok/Cursor session. Remaining work to continue in a **different CLI agent**. Instruction Agent is live and pushed to GitHub.
+
+**Completed this arc:**
+- Phase 5.1 (motion, sound, books schema, programs-first UX, rebrand NEFI)
+- GitHub repo: `madhurjya-nlp/ne-film-intelligence` on `main`
+- Instruction Agent: memory-after-every-prompt + db-touch + push-if-major
+- Deploy model clarified: Netlify = static; full DB = `npm start` → localhost:3000
+
+**Next CLI — start here:**
+```bash
+cd C:\Users\Asus\Downloads\cinema-edu
+npm run agent:start
+```
+Then read this file (`AGENT_MEMORY.md`) and `AGENT_INSTRUCTIONS.md` in full.
+
+**Pending tasks (pick any):**
+1. Connect Netlify dashboard → GitHub repo for auto-deploy on push
+2. Phase 5.2: seed `books` table, Render/production deploy, PWA
+3. Wrap `seed`/`migrate`/`ingest` to auto-run `npm run agent:db-touch`
+4. Fix empty-state copy when user is on wrong URL (Netlify vs localhost)
+5. Admin verified-stamp UX
+
+**Repo state:** Clean on `main`, latest commits include instruction agent. Tests: 53 passing (`npm test`). DB local only (not in git).
+
+**Owner note:** For live programs from database, always open `http://localhost:3000` after `npm start` — not Netlify or file://.
 
 ---
 
