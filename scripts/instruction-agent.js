@@ -250,11 +250,15 @@ function parseArgs() {
   let summary = '';
   let actor = '';
   let action = '';
+  const rest = [];
   for (let i = 1; i < args.length; i++) {
     if (args[i] === '--summary' && args[i + 1]) { summary = args[++i]; continue; }
     if (args[i] === '--actor' && args[i + 1]) { actor = args[++i]; continue; }
     if (args[i] === '--action' && args[i + 1]) { action = args[++i]; continue; }
+    if (!args[i].startsWith('--')) rest.push(args[i]);
   }
+  // npm on Windows sometimes drops --summary; accept trailing positional text
+  if (!summary && rest.length) summary = rest.join(' ');
   return { cmd, summary, actor, action };
 }
 

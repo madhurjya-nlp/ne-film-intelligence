@@ -33,7 +33,7 @@ INSTRUCTION AGENT — SESSION START (npm run agent:start):
 INSTRUCTION AGENT — END OF EVERY PROMPT (before final response):
 
 [ ] 5. Append Session Update to AGENT_MEMORY.md (summary, files, follow-up)
-[ ] 6. npm run agent:end -- --summary "what you did this turn"
+[ ] 6. npm run agent:end -- "what you did this turn"  (or: node scripts/instruction-agent.js session-end --summary "...")
 [ ] 7. If MAJOR_CHANGES → npm run agent:push (GitHub main)
 [ ] 8. After DB work → npm run agent:db-touch was run + findings in memory
 ```

@@ -51,7 +51,8 @@ Before your final response, **always**:
 3. Run:
 
 ```bash
-node scripts/instruction-agent.js session-end --summary "One-line summary of this turn"
+npm run agent:end -- "One-line summary of this turn"
+# or: node scripts/instruction-agent.js session-end --summary "..."
 ```
 
 4. If output says `MAJOR_CHANGES` or `PUSH_RECOMMENDED` → run:

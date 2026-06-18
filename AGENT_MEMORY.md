@@ -62,7 +62,8 @@
 
 **Major-change push rules:** Never commits `database.sqlite` or `node_modules/`. Target: `origin/main` → `madhurjya-nlp/ne-film-intelligence`.
 
-**Follow-Up:** Optionally wrap `seed`/`migrate`/`ingest` npm scripts to auto-call `db-touch`.
+**Follow-Up:** Optionally wrap `seed`/`migrate`/`ingest` npm scripts to auto-call `db-touch`.  
+**Windows note:** Use `npm run agent:end -- "summary text"` (positional) — `--summary` flag can be dropped by npm on Windows.
 
 ---
 
