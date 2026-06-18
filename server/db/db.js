@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
 
-const DB_DIR = __dirname;
 const DB_FILE = process.env.NODE_ENV === 'test'
-  ? path.join(DB_DIR, 'database.test.sqlite')
-  : path.join(DB_DIR, 'database.sqlite');
-const SCHEMA_FILE = path.join(DB_DIR, 'schema.sql');
+  ? path.join(__dirname, 'database.test.sqlite')
+  : (process.env.DATABASE_PATH || path.join(__dirname, 'database.sqlite'));
+const DB_DIR = path.dirname(DB_FILE);
+const SCHEMA_FILE = path.join(__dirname, 'schema.sql');
 
 // Ensure database directory exists
 if (!fs.existsSync(DB_DIR)) {

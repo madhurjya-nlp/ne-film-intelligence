@@ -34,6 +34,19 @@
 * Drift must be checked before implementation.
 * No feature is considered complete until memory is updated.
 
+## Session Update — Deployment Setup (Express App Hosting)
+**Date:** 2026-06-18  
+**Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  
+**Version:** 6.0.0  
+
+**Summary:** Configured the platform repository for Option 1 Express App hosting on Render, Fly.io, or Railway.
+- **Dynamic Database Path:** Updated [db.js](file:///C:/Users/Asus/Downloads/cinema-edu/server/db/db.js) to support the `DATABASE_PATH` environment variable. It dynamically creates directory prefixes on startup, allowing SQLite DB storage on persistent volumes (e.g. `/data/database.sqlite`) to prevent database loss on container rebuilds/restarts.
+- **Render Configuration:** Created [render.yaml](file:///C:/Users/Asus/Downloads/cinema-edu/render.yaml) blueprint defining the Node web service, setting up a 1GB persistent disk volume mounted at `/data`, and binding port and environment variables.
+- **Fly.io Configuration:** Created [fly.toml](file:///C:/Users/Asus/Downloads/cinema-edu/fly.toml) specifying application region, builder environment, persistent disk mounts (`nefi_db_volume`), and dynamic port bounds.
+- **Tests Verified:** Confirmed all 66/66 test suites execute cleanly on local and isolated contexts.
+
+---
+
 ## Session Update — Phase 6.1.1 Resumption (Data Quality & Trust Audit Fixes)
 **Date:** 2026-06-18  
 **Conversation ID:** 5a0e328e-ea8f-465e-9515-8070aacbaaf7  

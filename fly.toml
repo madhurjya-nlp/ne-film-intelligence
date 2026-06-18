@@ -1,0 +1,40 @@
+# fly.toml app configuration file for Fly.io
+app = "ne-film-intelligence"
+primary_region = "sin" # Singapore region (closest to NE India)
+
+[build]
+  # Use standard buildpack or default Node environment
+  builder = "heroku/buildpacks:20"
+
+[env]
+  NODE_ENV = "production"
+  DATABASE_PATH = "/data/database.sqlite"
+  PORT = "8080"
+
+[[mounts]]
+  source = "nefi_db_volume"
+  destination = "/data"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.concurrency]]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"

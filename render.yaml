@@ -1,0 +1,17 @@
+# Render Blueprint configuration for NE Film Intelligence
+services:
+  - type: web
+    name: ne-film-intelligence
+    env: node
+    plan: free # Can be upgraded to starter if persistent disk requires it
+    buildCommand: npm install
+    startCommand: npm start
+    disk:
+      name: nefi-db-volume
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_PATH
+        value: /data/database.sqlite
