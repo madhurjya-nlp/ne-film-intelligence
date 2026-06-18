@@ -207,17 +207,45 @@ const PublicService = {
     };
   },
 
+  getBlogPosts({ search } = {}) {
+    let sql = `SELECT id, title, slug, excerpt, cover_image, author, status, published_at, reading_time, featured FROM blog_posts WHERE status = 'published'`;
+    const params = [];
+    if (search) {
+      sql += ` AND (title LIKE ? OR content LIKE ? OR excerpt LIKE ?)`;
+      const term = `%${search}%`;
+      params.push(term, term, term);
+    }
+    sql += ` ORDER BY featured DESC, published_at DESC`;
+    const items = queryAll(sql, params);
+    const featured = items.filter(i => i.featured === 1);
+    const latest = items.filter(i => i.featured !== 1);
+    return { total: items.length, items, featured, latest };
+  },
+
+  getBlogPostBySlug(slug) {
+    const post = queryOne(`SELECT * FROM blog_posts WHERE slug = ? AND status = 'published'`, [slug]);
+    if (!post) return null;
+    
+    post.related_articles = queryAll(
+      `SELECT id, title, slug, excerpt, cover_image, author, published_at, reading_time 
+       FROM blog_posts WHERE status = 'published' AND id != ? ORDER BY published_at DESC LIMIT 3`,
+      [post.id]
+    );
+    return post;
+  },
+
   getSitemapUrls(baseUrl) {
     const urls = [{ loc: `${baseUrl}/`, priority: '1.0' }];
     const add = (path, p = '0.8') => urls.push({ loc: `${baseUrl}${path}`, priority: p });
 
     add('/roadmaps'); add('/calendar'); add('/countries'); add('/explore');
-    add('/reports'); add('/relationships'); add('/search');
+    add('/reports'); add('/relationships'); add('/search'); add('/blog');
 
     queryAll(`SELECT slug FROM roadmaps WHERE publication_status='published'`).forEach((r) => add(`/roadmaps/${r.slug}`, '0.9'));
     queryAll(`SELECT slug FROM countries WHERE publication_status='published'`).forEach((c) => add(`/countries/${c.slug}`, '0.9'));
     queryAll(`SELECT slug FROM reports WHERE publication_status='published'`).forEach((r) => add(`/reports/${r.slug}`, '0.7'));
     queryAll(`SELECT slug FROM programs WHERE ${PUB}`).forEach((p) => add(`/explore?type=program&id=${p.slug}`, '0.6'));
+    queryAll(`SELECT slug FROM blog_posts WHERE status='published'`).forEach((p) => add(`/blog/${p.slug}`, '0.8'));
 
     return urls;
   },

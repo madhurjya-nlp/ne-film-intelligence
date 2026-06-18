@@ -7,7 +7,9 @@ const {
   EventService, 
   SourceService, 
   SubmissionService, 
-  ModerationService 
+  ModerationService,
+  BlogService,
+  NewsletterService
 } = require('../services/dbService');
 
 const {
@@ -17,7 +19,9 @@ const {
   eventSchema,
   sourceSchema,
   submissionSchema,
-  reviewQueueSchema
+  reviewQueueSchema,
+  blogPostSchema,
+  newsletterSubscriberSchema
 } = require('../services/validation');
 
 // Helper for async routing error handling
@@ -256,4 +260,66 @@ router.post('/sync', asyncRoute(async (req, res) => {
   }
 }));
 
+// ── BLOG ROUTES ──
+router.get('/blog', asyncRoute(async (req, res) => {
+  const limit = parseInt(req.query.limit) || 50;
+  const offset = parseInt(req.query.offset) || 0;
+  const filters = {
+    search: req.query.search,
+    status: req.query.status,
+    featured: req.query.featured !== undefined ? req.query.featured === 'true' || req.query.featured === '1' : undefined
+  };
+  const result = BlogService.list(filters, limit, offset);
+  res.json(result);
+}));
+
+router.get('/blog/stats', asyncRoute(async (req, res) => {
+  const stats = BlogService.getStats();
+  res.json(stats);
+}));
+
+router.get('/blog/:id', asyncRoute(async (req, res) => {
+  const post = BlogService.get(req.params.id);
+  if (!post) return res.status(404).json({ error: 'Blog post not found' });
+  res.json(post);
+}));
+
+router.post('/blog', asyncRoute(async (req, res) => {
+  const check = blogPostSchema.safeParse(req.body);
+  if (!check.success) return res.status(400).json({ errors: check.error.format() });
+
+  const post = BlogService.create(check.data);
+  res.status(201).json(post);
+}));
+
+router.put('/blog/:id', asyncRoute(async (req, res) => {
+  const check = blogPostSchema.partial().safeParse(req.body);
+  if (!check.success) return res.status(400).json({ errors: check.error.format() });
+
+  const post = BlogService.update(req.params.id, check.data);
+  res.json(post);
+}));
+
+router.delete('/blog/:id', asyncRoute(async (req, res) => {
+  BlogService.delete(req.params.id);
+  res.status(204).end();
+}));
+
+// ── NEWSLETTER ROUTES ──
+router.post('/newsletter/subscribe', asyncRoute(async (req, res) => {
+  const check = newsletterSubscriberSchema.safeParse(req.body);
+  if (!check.success) return res.status(400).json({ errors: check.error.format() });
+
+  const sub = NewsletterService.subscribe(check.data.email);
+  res.status(201).json(sub);
+}));
+
+router.get('/newsletter/subscribers', asyncRoute(async (req, res) => {
+  const limit = parseInt(req.query.limit) || 50;
+  const offset = parseInt(req.query.offset) || 0;
+  const result = NewsletterService.list(limit, offset);
+  res.json(result);
+}));
+
 module.exports = router;
+

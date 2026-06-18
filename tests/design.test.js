@@ -75,9 +75,9 @@ test.describe('CineEduAssan Phase 5 Design System Tests', () => {
     assert.ok(!seo.includes("href=\"/css/design-system.css\""));
   });
 
-  test.it('package.json version is 5.1.0', () => {
+  test.it('package.json version is 5.2.0', () => {
     const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-    assert.strictEqual(pkg.version, '5.1.0');
+    assert.strictEqual(pkg.version, '5.2.0');
   });
 
   test.it('public-shell.js exposes PubUI with card type variants', () => {

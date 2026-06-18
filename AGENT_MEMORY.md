@@ -9,16 +9,16 @@
 | Key | Value |
 |---|---|
 | **Project Name** | NE Film Intelligence (NEFI) — formerly CineEduAssan (CEA) |
-| **Version** | 5.1.0 |
+| **Version** | 5.2.0 |
 | **Owner** | Madhurjya, North Lakhimpur, Assam, NE India |
 | **Primary Interest** | Online degrees, colleges, institutions (programs-first) — low/no-cost options (0-3L priority); grants/books/events are secondary reference |
 | **Identity Context** | ST (Scheduled Tribe) candidate, Assamese, 25 years old, solo founder |
-| **Current Phase** | Phase 5.1: Motion System, UX Polish, Research Expansion & Monetization Foundation |
-| **Last Agent Action** | 2026-06-18 — Session halted; owner continuing in a different CLI |
-| **Next Priority** | See handoff below — Netlify↔GitHub link, Phase 5.2, optional db-touch hooks |
-| **Guide Version** | v5.1 + data seam v3 (SQLite Synced) + ingestion v1 + intelligence v1 |
+| **Current Phase** | Phase 5.2: Living Publication System (Blog, Editor, SEO, Newsletter, Search) |
+| **Last Agent Action** | 2026-06-18 — Completed Living Publication extension (Phases 1-9) |
+| **Next Priority** | Production deploy coordination & offline PWA shell implementation |
+| **Guide Version** | v5.2 + blog database + search + newsletter + SEO |
 | **GitHub** | https://github.com/madhurjya-nlp/ne-film-intelligence |
-| **Live URL (static)** | https://effortless-speculoos-0dde1a.netlify.app (older deploy — not auto-synced with GitHub yet) |
+| **Live URL (static)** | https://effortless-speculoos-0dde1a.netlify.app |
 | **Live URL (full DB)** | http://localhost:3000 — requires `npm start` in project folder |
 
 ---
@@ -33,6 +33,33 @@
 * Static site data is generated from database state.
 * Drift must be checked before implementation.
 * No feature is considered complete until memory is updated.
+
+---
+
+## Session Update — Living Publication Launch
+**Date:** 2026-06-18  
+**Version:** 5.2.0  
+
+**Summary:** Finished implementing the Living Publication system, integrating a dynamic Blog, Newsletter signup pipeline, SEO tags, CKEditor, sitemaps, RSS, and Search integration.
+- **Blog Architecture:** Completed database schemas, indexes, and models in `BlogService`.
+- **Editorial System:** Dynamic CRUD endpoints registered; Admin Dashboard lists blog stats and recent drafts. CKEditor configured with classic build.
+- **Search Integration:** Extended `SearchService` to return matching blog articles under category labels.
+- **Newsletter System:** Created subscriber collection widgets in Footer, Blog Sidebar, and Article details. Registered API subscriber signup routes.
+- **SEO & Feeds:** Configured `/sitemap.xml` dynamic list containing blog posts, `/rss.xml` feed generating 50 latest published posts, and `/blog/:slug` page details mapping Twitter Cards, Open Graph, and JSON-LD news article schema.
+- **Tests Added:** Added `tests/publication.test.js` validating Blog CRUD, Search matching, RSS feed structure, sitemap endpoints, and newsletter subscriber retention. Resolved version mismatch test failures in `tests/design.test.js` and `tests/phase51.test.js`. All 58 tests are green.
+- **Seed Examples:** Successfully seeded the 6 target draft articles with Assamese cultural and logistical relevance.
+- **Navigation Update:** Mounted the `/blog` links to the header/footer arrays in `js/public-shell.js`.
+
+---
+
+## Session Update — Living Publication Initial Sync
+**Date:** 2026-06-18  
+**Version:** 5.2.0  
+
+**Summary:** Synchronized memory before coding the Living Publication extension. Prepared drift report and initialized session.
+- **Drift Findings:** Package version is 5.1.0; memory version was 5.1.0 (in sync). Bumping version to 5.2.0 to represent the Living Publication extension.
+- **Repository state:** Working directory is clean, 53 tests passing.
+- **Implementation Strategy:** Follow Phases 1 through 9. Implement SQLite migrations, Admin Blog UI, Classic CKEditor integration with 30s autosave, `/blog` and `/blog/:slug` public routes with SEO, RSS & Sitemap generator, SearchService extensions, newsletter signup widgets, seed articles, and test suite verification.
 
 ---
 

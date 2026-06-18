@@ -34,4 +34,16 @@ const PublicAPI = {
   },
   entity(type, id) { return this.get(`/relationships/${type}/${id}`); },
   search(q, limit = 8) { return this.get(`/search?q=${encodeURIComponent(q)}&limit=${limit}`); },
+  blog(q = '') { return this.get(`/blog${q}`); },
+  blogPost(slug) { return this.get(`/blog/${slug}`); },
+  subscribeNewsletter(email) {
+    return fetch('/api/newsletter/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    }).then(res => {
+      if (!res.ok) throw new Error('Subscription failed');
+      return res.json();
+    });
+  },
 };

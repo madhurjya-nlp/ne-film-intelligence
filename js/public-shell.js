@@ -8,6 +8,7 @@
     { href: '/countries', label: 'Countries' },
     { href: '/books.html', label: 'Books' },
     { href: '/events.html', label: 'Events' },
+    { href: '/blog', label: 'Blog' },
     { href: '/search', label: 'Search' },
     { href: '/admin.html', label: 'Admin' },
   ];
@@ -18,6 +19,7 @@
     { href: '/countries', label: 'Countries' },
     { href: '/books.html', label: 'Books' },
     { href: '/events.html', label: 'Events' },
+    { href: '/blog', label: 'Blog' },
     { href: '/search', label: 'Search' },
     { href: '/grants.html', label: 'Grants (ref)' },
     { href: '/calendar', label: 'Calendar' },
@@ -28,6 +30,8 @@
     roadmap: 'roadmap',
     country: 'country',
     report: 'report',
+    blog: 'report',
+    blog_article: 'report',
     program: 'opportunity',
     opportunity: 'opportunity',
     institute: 'opportunity',
@@ -96,7 +100,7 @@
             <p class="pub-footer__tagline">Programs &amp; institutions research for Assam &amp; Northeast India filmmakers</p>
           </div>
           <div class="pub-footer__center">
-            <div class="pub-footer__ver">v5.1.0 · Build 2026-06-18</div>
+            <div class="pub-footer__ver">v5.2.0 · Build 2026-06-18</div>
             <div class="pub-footer__ver pub-footer__ver--highlight">Database-verified programs · Personal research</div>
           </div>
           <div>

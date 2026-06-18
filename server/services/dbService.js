@@ -876,6 +876,194 @@ const ModerationService = {
   }
 };
 
+// ── BLOG SERVICE ──
+const BlogService = {
+  create(data) {
+    return transaction(() => {
+      const id = data.id || 'post_' + generateId();
+      const slug = getUniqueSlug('blog_posts', data.title);
+      
+      const words = (data.content || '').split(/\s+/).filter(Boolean).length;
+      const readingTime = data.reading_time || Math.max(1, Math.round(words / 200));
+
+      const now = new Date().toISOString();
+      const status = data.status || 'draft';
+      const publishedAt = status === 'published' ? (data.published_at || now) : null;
+
+      run(
+        `INSERT INTO blog_posts (
+          id, title, slug, excerpt, content, cover_image, author, status, 
+          published_at, created_at, updated_at, reading_time, featured
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          id,
+          data.title,
+          slug,
+          data.excerpt || null,
+          data.content,
+          data.cover_image || null,
+          data.author || 'Admin',
+          status,
+          publishedAt,
+          now,
+          now,
+          readingTime,
+          data.featured !== undefined ? (data.featured ? 1 : 0) : 0
+        ]
+      );
+
+      return this.get(id);
+    });
+  },
+
+  get(id) {
+    return queryOne(`SELECT * FROM blog_posts WHERE id = ?`, [id]);
+  },
+
+  getBySlug(slug) {
+    return queryOne(`SELECT * FROM blog_posts WHERE slug = ?`, [slug]);
+  },
+
+  update(id, data) {
+    return transaction(() => {
+      const current = this.get(id);
+      if (!current) throw new Error('Blog post not found');
+
+      const title = data.title !== undefined ? data.title : current.title;
+      const slug = data.title !== undefined ? getUniqueSlug('blog_posts', data.title, id) : current.slug;
+      
+      const content = data.content !== undefined ? data.content : current.content;
+      let readingTime = current.reading_time;
+      if (data.content !== undefined) {
+        const words = content.split(/\s+/).filter(Boolean).length;
+        readingTime = data.reading_time || Math.max(1, Math.round(words / 200));
+      } else if (data.reading_time !== undefined) {
+        readingTime = data.reading_time;
+      }
+
+      const status = data.status !== undefined ? data.status : current.status;
+      let publishedAt = current.published_at;
+      if (data.status !== undefined) {
+        if (status === 'published' && !current.published_at) {
+          publishedAt = data.published_at || new Date().toISOString();
+        } else if (status !== 'published') {
+          publishedAt = null;
+        }
+      }
+
+      run(
+        `UPDATE blog_posts SET 
+          title = ?, slug = ?, excerpt = ?, content = ?, cover_image = ?, 
+          author = ?, status = ?, published_at = ?, updated_at = ?, 
+          reading_time = ?, featured = ?
+         WHERE id = ?`,
+        [
+          title,
+          slug,
+          data.excerpt !== undefined ? data.excerpt : current.excerpt,
+          content,
+          data.cover_image !== undefined ? data.cover_image : current.cover_image,
+          data.author !== undefined ? data.author : current.author,
+          status,
+          publishedAt,
+          new Date().toISOString(),
+          readingTime,
+          data.featured !== undefined ? (data.featured ? 1 : 0) : current.featured,
+          id
+        ]
+      );
+
+      return this.get(id);
+    });
+  },
+
+  delete(id) {
+    return run(`DELETE FROM blog_posts WHERE id = ?`, [id]);
+  },
+
+  list(filters = {}, limit = 50, offset = 0) {
+    let sql = `SELECT * FROM blog_posts`;
+    const params = [];
+    const conditions = [];
+
+    if (filters.status) {
+      conditions.push(`status = ?`);
+      params.push(filters.status);
+    }
+    if (filters.featured !== undefined) {
+      conditions.push(`featured = ?`);
+      params.push(filters.featured ? 1 : 0);
+    }
+    if (filters.search) {
+      conditions.push(`(title LIKE ? OR content LIKE ? OR excerpt LIKE ?)`);
+      const term = `%${filters.search}%`;
+      params.push(term, term, term);
+    }
+
+    if (conditions.length > 0) {
+      sql += ` WHERE ` + conditions.join(` AND `);
+    }
+
+    sql += ` ORDER BY featured DESC, COALESCE(published_at, created_at) DESC LIMIT ? OFFSET ?`;
+    params.push(limit, offset);
+
+    const items = queryAll(sql, params);
+
+    let countSql = `SELECT COUNT(*) as total FROM blog_posts`;
+    const countParams = params.slice(0, -2);
+    if (conditions.length > 0) {
+      countSql += ` WHERE ` + conditions.join(` AND `);
+    }
+    const totalRow = queryOne(countSql, countParams);
+    const total = totalRow ? totalRow.total : 0;
+
+    return { items, total };
+  },
+
+  getStats() {
+    const draftCount = queryOne(`SELECT COUNT(*) as count FROM blog_posts WHERE status = 'draft'`).count;
+    const publishedCount = queryOne(`SELECT COUNT(*) as count FROM blog_posts WHERE status = 'published'`).count;
+    const archivedCount = queryOne(`SELECT COUNT(*) as count FROM blog_posts WHERE status = 'archived'`).count;
+    const totalCount = queryOne(`SELECT COUNT(*) as count FROM blog_posts`).count;
+
+    return {
+      draft: draftCount,
+      published: publishedCount,
+      archived: archivedCount,
+      total: totalCount
+    };
+  }
+};
+
+// ── NEWSLETTER SERVICE ──
+const NewsletterService = {
+  subscribe(email) {
+    return transaction(() => {
+      const existing = queryOne(`SELECT id, email, created_at FROM newsletter_subscribers WHERE email = ?`, [email.toLowerCase().trim()]);
+      if (existing) return existing;
+
+      const id = 'sub_' + generateId();
+      const now = new Date().toISOString();
+      run(
+        `INSERT INTO newsletter_subscribers (id, email, created_at) VALUES (?, ?, ?)`,
+        [id, email.toLowerCase().trim(), now]
+      );
+      return { id, email: email.toLowerCase().trim(), created_at: now };
+    });
+  },
+
+  list(limit = 50, offset = 0) {
+    const items = queryAll(`SELECT * FROM newsletter_subscribers ORDER BY created_at DESC LIMIT ? OFFSET ?`, [limit, offset]);
+    const totalRow = queryOne(`SELECT COUNT(*) as total FROM newsletter_subscribers`);
+    const total = totalRow ? totalRow.total : 0;
+    return { items, total };
+  },
+
+  unsubscribe(email) {
+    return run(`DELETE FROM newsletter_subscribers WHERE email = ?`, [email.toLowerCase().trim()]);
+  }
+};
+
 module.exports = {
   InstituteService,
   ProgramService,
@@ -883,5 +1071,8 @@ module.exports = {
   EventService,
   SourceService,
   SubmissionService,
-  ModerationService
+  ModerationService,
+  BlogService,
+  NewsletterService
 };
+

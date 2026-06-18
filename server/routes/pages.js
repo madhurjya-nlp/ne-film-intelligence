@@ -19,6 +19,7 @@ const LIST_PAGES = [
   ['/reports', 'pages/reports.html'],
   ['/relationships', 'pages/relationships.html'],
   ['/search', 'pages/search.html'],
+  ['/blog', 'pages/blog.html'],
 ];
 
 LIST_PAGES.forEach(([route, file]) => {
@@ -76,6 +77,38 @@ router.get('/reports/:slug', (req, res) => {
   }));
 });
 
+router.get('/blog/:slug', (req, res) => {
+  const post = PublicService.getBlogPostBySlug(req.params.slug);
+  if (!post) return res.status(404).sendFile(path.join(rootDir, 'pages/404.html'));
+  const base = `${req.protocol}://${req.get('host')}`;
+  
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    'headline': post.title,
+    'description': post.excerpt || post.title,
+    'datePublished': post.published_at || post.created_at,
+    'dateModified': post.updated_at || post.created_at,
+    'author': {
+      '@type': 'Person',
+      'name': post.author || 'Admin'
+    }
+  };
+
+  res.send(renderPublicPage({
+    title: `${post.title} | NE Film Intelligence Blog`,
+    description: post.excerpt || post.title,
+    canonical: `${base}/blog/${post.slug}`,
+    ogImage: post.cover_image || null,
+    bodyContent: `
+      <div id="page-root" data-page="blog-detail" data-slug="${post.slug}"></div>
+      <script id="page-bootstrap" type="application/json">${JSON.stringify(post).replace(/</g, '\\u003c')}</script>
+    `,
+    scripts: ['/js/public-blog-detail.js'],
+    jsonLd
+  }));
+});
+
 router.get('/sitemap.xml', (req, res) => {
   const base = `${req.protocol}://${req.get('host')}`;
   const urls = PublicService.getSitemapUrls(base);
@@ -94,6 +127,45 @@ Disallow: /admin.html
 Disallow: /api/ingestion/
 Sitemap: ${base}/sitemap.xml
 `);
+});
+
+router.get('/rss.xml', (req, res) => {
+  const base = `${req.protocol}://${req.get('host')}`;
+  const now = new Date().toUTCString();
+  const { queryAll } = require('../db/db');
+  const posts = queryAll(`SELECT * FROM blog_posts WHERE status = 'published' ORDER BY published_at DESC LIMIT 50`);
+  
+  function escapeXml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
+
+  const itemsXml = posts.map(post => `    <item>
+      <title>${escapeXml(post.title)}</title>
+      <link>${base}/blog/${post.slug}</link>
+      <guid>${base}/blog/${post.slug}</guid>
+      <pubDate>${new Date(post.published_at || post.created_at).toUTCString()}</pubDate>
+      <description>${escapeXml(post.excerpt || post.title)}</description>
+    </item>`).join('\n');
+
+  const xml = `<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NE Film Intelligence Blog</title>
+    <link>${base}/blog</link>
+    <description>Living publication &amp; research articles on film education for Northeast India.</description>
+    <language>en-us</language>
+    <lastBuildDate>${now}</lastBuildDate>
+    <atom:link href="${base}/rss.xml" rel="self" type="application/rss+xml" />
+${itemsXml}
+  </channel>
+</rss>`;
+
+  res.type('application/xml').send(xml);
 });
 
 module.exports = router;

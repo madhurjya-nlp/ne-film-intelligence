@@ -41,6 +41,14 @@ const DashboardService = {
     `);
 
     const calendarStats = CalendarService.getStats();
+    
+    const blogStats = queryOne(`SELECT COUNT(*) as total,
+      SUM(CASE WHEN status='draft' THEN 1 ELSE 0 END) as draft,
+      SUM(CASE WHEN status='published' THEN 1 ELSE 0 END) as published,
+      SUM(CASE WHEN status='archived' THEN 1 ELSE 0 END) as archived
+      FROM blog_posts`);
+
+    const recentPosts = queryAll(`SELECT id, title, status, published_at, created_at FROM blog_posts ORDER BY created_at DESC LIMIT 3`);
 
     const totalOpportunities = (programs?.total || 0) + (opportunities?.total || 0) + (events?.total || 0);
     const activeOpportunities = (programs?.active || 0) + (opportunities?.active || 0) + (events?.active || 0);
@@ -52,6 +60,13 @@ const DashboardService = {
         programs: { total: programs?.total || 0, active: programs?.active || 0, pending: programs?.pending || 0 },
         opportunities: { total: opportunities?.total || 0, active: opportunities?.active || 0, pending: opportunities?.pending || 0 },
         events: { total: events?.total || 0, active: events?.active || 0, pending: events?.pending || 0 },
+      },
+      blog: {
+        total: blogStats?.total || 0,
+        draft: blogStats?.draft || 0,
+        published: blogStats?.published || 0,
+        archived: blogStats?.archived || 0,
+        recent: recentPosts || []
       },
       countries_covered: distinctCountries.length,
       countries_in_intelligence: countriesTable?.total || 0,

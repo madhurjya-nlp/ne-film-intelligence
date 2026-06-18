@@ -180,6 +180,25 @@ const reviewQueueSchema = z.object({
   updated_by: z.string().nullable().optional()
 });
 
+const blogPostSchema = z.object({
+  id: z.string().optional(),
+  slug: z.string().optional(),
+  title: z.string().min(2, 'Title must be at least 2 characters'),
+  excerpt: z.string().nullable().optional(),
+  content: z.string().min(10, 'Content must be at least 10 characters'),
+  cover_image: z.string().url('Invalid cover image URL').or(z.literal('')).nullable().optional(),
+  author: z.string().nullable().optional(),
+  status: publicationStatusEnum.default('draft').optional(),
+  published_at: z.string().nullable().optional(),
+  reading_time: z.number().int().min(0).optional(),
+  featured: z.union([z.literal(0), z.literal(1)]).default(0).optional(),
+});
+
+const newsletterSubscriberSchema = z.object({
+  id: z.string().optional(),
+  email: z.string().email('Invalid email address'),
+});
+
 // Export all schemas
 module.exports = {
   sourceSchema,
@@ -192,5 +211,8 @@ module.exports = {
   bookSchema,
   bookExternalLinkSchema,
   bookLinkTypeEnum,
-  reviewQueueSchema
+  reviewQueueSchema,
+  blogPostSchema,
+  newsletterSubscriberSchema
 };
+

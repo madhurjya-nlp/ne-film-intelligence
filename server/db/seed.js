@@ -290,6 +290,12 @@ NE Relevance: ${e.ne_relevance || ''}
   });
 
   console.log('[Seeding] Finished seeding database successfully.');
+  try {
+    const { seedBlogPosts } = require('./seed-blog');
+    seedBlogPosts();
+  } catch (err) {
+    console.error('[Seeding] Failed to run blog seed during database seed:', err);
+  }
 }
 
 // Check if we are running this script directly

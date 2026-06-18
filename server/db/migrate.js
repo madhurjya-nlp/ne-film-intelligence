@@ -251,6 +251,45 @@ function runMigrations(db) {
     console.log('[Migration] Created book_external_links table');
   }
 
+  if (!tableExists(db, 'blog_posts')) {
+    db.exec(`
+      CREATE TABLE blog_posts (
+        id TEXT PRIMARY KEY,
+        title TEXT NOT NULL,
+        slug TEXT UNIQUE NOT NULL,
+        excerpt TEXT,
+        content TEXT NOT NULL,
+        cover_image TEXT,
+        author TEXT,
+        status TEXT CHECK(status IN ('draft', 'published', 'archived')) DEFAULT 'draft',
+        published_at TEXT,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        reading_time INTEGER,
+        featured INTEGER CHECK(featured IN (0, 1)) DEFAULT 0
+      );
+      CREATE INDEX IF NOT EXISTS idx_blog_slug ON blog_posts(slug);
+      CREATE INDEX IF NOT EXISTS idx_blog_published ON blog_posts(published_at);
+      CREATE INDEX IF NOT EXISTS idx_blog_status ON blog_posts(status);
+    `);
+    applied++;
+    console.log('[Migration] Created blog_posts table');
+  }
+
+  if (!tableExists(db, 'newsletter_subscribers')) {
+    db.exec(`
+      CREATE TABLE newsletter_subscribers (
+        id TEXT PRIMARY KEY,
+        email TEXT UNIQUE NOT NULL,
+        created_at TEXT NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_newsletter_email ON newsletter_subscribers(email);
+    `);
+    applied++;
+    console.log('[Migration] Created newsletter_subscribers table');
+  }
+
+
   if (applied === 0) {
     console.log('[Migration] Database already up to date.');
   } else {

@@ -98,4 +98,14 @@ router.get('/sitemap-data', asyncRoute(async (req, res) => {
   res.json(PublicService.getSitemapUrls(base));
 }));
 
+router.get('/blog', asyncRoute(async (req, res) => {
+  res.json(PublicService.getBlogPosts({ search: req.query.search }));
+}));
+
+router.get('/blog/:slug', asyncRoute(async (req, res) => {
+  const post = PublicService.getBlogPostBySlug(req.params.slug);
+  if (!post) return res.status(404).json({ error: 'Blog post not found' });
+  res.json(post);
+}));
+
 module.exports = router;

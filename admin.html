@@ -528,6 +528,7 @@
           <button class="admin-nav-btn" data-tab="opportunities" role="tab" aria-selected="false">💵 Scholarships & Grants</button>
           <button class="admin-nav-btn" data-tab="events" role="tab" aria-selected="false">🎬 Labs & Festivals</button>
           <button class="admin-nav-btn" data-tab="submissions" role="tab" aria-selected="false">📩 Submissions</button>
+          <button class="admin-nav-btn" data-tab="blog" role="tab" aria-selected="false">✍️ Blog Articles</button>
           <button class="admin-nav-btn" data-tab="institutes" role="tab" aria-selected="false">🏫 Institutes</button>
           <button class="admin-nav-btn" data-tab="sources" role="tab" aria-selected="false">📡 Sources</button>
           <button class="admin-nav-btn" data-tab="sync-history" role="tab" aria-selected="false">📋 Sync History</button>
@@ -638,8 +639,17 @@
       <form id="entry-form">
         <input type="hidden" id="entry-id">
         
+        <!-- Autosave Recovery Banner -->
+        <div id="autosave-recovery-banner" style="display: none; margin-bottom: 16px; padding: 12px; font-size: 12px; border: 1px solid var(--rule); background: var(--bg-elevated); display: flex; justify-content: space-between; align-items: center;">
+          <span>⚠️ An unsaved draft was found.</span>
+          <div>
+            <button type="button" class="btn" id="btn-restore-draft" style="padding: 4px 8px; font-size: 10px; margin-right: 4px;">Restore</button>
+            <button type="button" class="btn" id="btn-discard-draft" style="padding: 4px 8px; font-size: 10px; border-color: var(--red); color: var(--red);">Discard</button>
+          </div>
+        </div>
+
         <div class="form-group">
-          <label for="form-title">Opportunity Title *</label>
+          <label for="form-title" id="form-title-label">Opportunity Title *</label>
           <input type="text" id="form-title" required class="form-control" placeholder="e.g. Diploma in Editing">
         </div>
 
@@ -662,7 +672,25 @@
           </select>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <!-- Blog Meta (Author & Featured) Container -->
+        <div style="display: none; grid-template-columns: 1fr 1fr; gap: 12px;" id="form-blog-meta-container">
+          <div class="form-group">
+            <label for="form-author">Author *</label>
+            <input type="text" id="form-author" class="form-control" placeholder="e.g. Madhurjya">
+          </div>
+          <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px; margin-top: 24px;">
+            <input type="checkbox" id="form-featured" style="width: 20px; height: 20px; cursor: pointer;">
+            <label for="form-featured" style="margin-bottom: 0; cursor: pointer; text-transform: none; font-size: 11px;">Featured Article</label>
+          </div>
+        </div>
+
+        <!-- Cover Image Container -->
+        <div class="form-group" id="form-cover-image-container" style="display: none;">
+          <label for="form-cover-image">Cover Image URL</label>
+          <input type="url" id="form-cover-image" class="form-control" placeholder="https://images.unsplash.com/...">
+        </div>
+
+        <div id="form-location-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
           <div class="form-group">
             <label for="form-country">Country *</label>
             <input type="text" id="form-country" required class="form-control" placeholder="e.g. India">
@@ -679,7 +707,7 @@
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div id="form-format-cost-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
           <div class="form-group">
             <label for="form-format">Attendance Format *</label>
             <select id="form-format" required class="form-control">
@@ -694,7 +722,7 @@
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div id="form-duration-deadline-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
           <div class="form-group">
             <label for="form-duration">Duration</label>
             <input type="text" id="form-duration" class="form-control" placeholder="e.g. 3 years, 6 weeks">
@@ -706,21 +734,27 @@
         </div>
 
         <div class="form-group">
-          <label for="form-summary">Brief Summary (UI Card Body) *</label>
+          <label for="form-summary" id="form-summary-label">Brief Summary (UI Card Body) *</label>
           <textarea id="form-summary" required rows="2" class="form-control" placeholder="1-2 sentences on what this is..."></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="form-description">Detailed Description & Cost Breakdown</label>
+        <div class="form-group" id="form-description-container">
+          <label for="form-description" id="form-description-label">Detailed Description & Cost Breakdown</label>
           <textarea id="form-description" rows="4" class="form-control" placeholder="Write cost bands, class sizes, online format remarks..."></textarea>
         </div>
 
-        <div class="form-group">
+        <!-- Blog Rich Text Content Container -->
+        <div class="form-group" id="form-blog-content-container" style="display: none;">
+          <label for="form-blog-content">Article Content *</label>
+          <textarea id="form-blog-content" rows="10" class="form-control" placeholder="Write article content here..."></textarea>
+        </div>
+
+        <div class="form-group" id="form-eligibility-container">
           <label for="form-eligibility">Assam / Northeast Ground Reality Notes</label>
           <textarea id="form-eligibility" rows="3" class="form-control" placeholder="Guwahati attestation steps, flights, ST reserved quotas, remote connectivity fit..."></textarea>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div id="form-url-tags-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
           <div class="form-group">
             <label for="form-url">Website URL</label>
             <input type="url" id="form-url" class="form-control" placeholder="https://">
@@ -730,7 +764,6 @@
             <input type="text" id="form-tags" class="form-control" placeholder="doc, free, st-friendly, editing">
           </div>
         </div>
-
       </form>
     </div>
     <div class="modal-footer">

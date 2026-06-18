@@ -6,9 +6,12 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-function renderPublicPage({ title, description, canonical, bodyContent, scripts = [], jsonLd = null }) {
+function renderPublicPage({ title, description, canonical, bodyContent, scripts = [], jsonLd = null, ogImage = null }) {
   const ld = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
   const extraScripts = scripts.map((s) => `<script src="${s}" defer></script>`).join('\n');
+  const imageTag = ogImage ? `
+  <meta property="og:image" content="${escapeHtml(ogImage)}">
+  <meta name="twitter:image" content="${escapeHtml(ogImage)}">` : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -21,6 +24,9 @@ function renderPublicPage({ title, description, canonical, bodyContent, scripts 
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${escapeHtml(title)}">
+  <meta name="twitter:description" content="${escapeHtml(description)}">${imageTag}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">

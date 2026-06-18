@@ -408,3 +408,34 @@ CREATE TABLE IF NOT EXISTS entity_relationships (
 CREATE INDEX IF NOT EXISTS idx_rel_from ON entity_relationships(from_type, from_id);
 CREATE INDEX IF NOT EXISTS idx_rel_to ON entity_relationships(to_type, to_id);
 CREATE INDEX IF NOT EXISTS idx_rel_type ON entity_relationships(relationship_type);
+
+-- 13. Blog Posts (Phase 1)
+CREATE TABLE IF NOT EXISTS blog_posts (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  excerpt TEXT,
+  content TEXT NOT NULL,
+  cover_image TEXT,
+  author TEXT,
+  status TEXT CHECK(status IN ('draft', 'published', 'archived')) DEFAULT 'draft',
+  published_at TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  reading_time INTEGER,
+  featured INTEGER CHECK(featured IN (0, 1)) DEFAULT 0
+);
+
+CREATE INDEX IF NOT EXISTS idx_blog_slug ON blog_posts(slug);
+CREATE INDEX IF NOT EXISTS idx_blog_published ON blog_posts(published_at);
+CREATE INDEX IF NOT EXISTS idx_blog_status ON blog_posts(status);
+
+-- 14. Newsletter Subscribers (Phase 7)
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+  id TEXT PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_newsletter_email ON newsletter_subscribers(email);
+

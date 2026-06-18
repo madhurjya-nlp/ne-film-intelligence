@@ -109,8 +109,8 @@ test.describe('NE Film Intelligence Phase 5.1 Tests', () => {
     assert.ok(shell.includes('sound-engine.js'));
   });
 
-  test.it('package.json version is 5.1.0', () => {
+  test.it('package.json version is 5.2.0', () => {
     const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-    assert.strictEqual(pkg.version, '5.1.0');
+    assert.strictEqual(pkg.version, '5.2.0');
   });
 });

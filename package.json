@@ -1,6 +1,6 @@
 {
   "name": "cine-edu-assan",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "NE Film Intelligence — Programs & institutions research for Assam & NE India",
   "main": "server/index.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "agent:db-touch": "node scripts/instruction-agent.js db-touch"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.4.2",
     "cheerio": "^1.2.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",

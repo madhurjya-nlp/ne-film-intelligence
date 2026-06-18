@@ -14,6 +14,8 @@
   let institutesList = [];
   let activeEditItem = null;
   let activeModItem = null;
+  let editorInstance = null;
+  let autosaveTimer = null;
 
   // DOM Elements
   const tabButtons = document.querySelectorAll('.admin-nav-btn');
@@ -92,8 +94,29 @@
         { label: 'Upcoming Deadlines', value: data.upcoming_deadlines },
         { label: 'Pending Reviews', value: data.pending_reviews },
         { label: 'Roadmaps', value: data.roadmaps },
-        { label: 'Relationships', value: data.relationships },
+        { label: 'Blog Articles', value: data.blog?.total || 0 },
       ];
+
+      const recentBlogHtml = data.blog?.recent && data.blog.recent.length > 0
+        ? `
+          <div class="item-card" style="margin-top: 16px;">
+            <div class="item-card__header"><h3 class="item-card__title">Recent Blog Articles</h3></div>
+            <div class="item-card__body">
+              <ul style="padding-left: 18px; margin: 8px 0;">
+                ${data.blog.recent.map(post => `
+                  <li style="margin-bottom: 8px;">
+                    <strong>${post.title}</strong> 
+                    <span class="status-badge ${post.status}" style="font-size: 8px; padding: 1px 6px; margin-left: 6px;">${post.status}</span>
+                    <span style="font-size: 11px; color: var(--text-muted); font-family: var(--f-mono); margin-left: 8px;">
+                      Created: ${new Date(post.created_at).toLocaleDateString()}
+                    </span>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+          </div>
+        `
+        : '';
 
       itemsList.innerHTML = `
         <div class="metrics-grid">
@@ -110,6 +133,7 @@
             <strong>Programs:</strong> ${data.breakdown.programs.total} total, ${data.breakdown.programs.active} active, ${data.breakdown.programs.pending} pending<br>
             <strong>Grants:</strong> ${data.breakdown.opportunities.total} total, ${data.breakdown.opportunities.active} active<br>
             <strong>Events:</strong> ${data.breakdown.events.total} total, ${data.breakdown.events.active} active<br>
+            <strong>Blog Articles:</strong> ${data.blog?.total || 0} total, ${data.blog?.published || 0} published, ${data.blog?.draft || 0} drafts<br>
             <strong>Calendar:</strong> ${data.calendar.closing_soon || 0} closing soon, ${data.calendar.expired || 0} expired
           </div>
           <div class="item-card__footer">
@@ -117,6 +141,7 @@
             <button class="btn btn-primary" data-action="refresh-dashboard">Refresh</button>
           </div>
         </div>
+        ${recentBlogHtml}
       `;
       itemsList.querySelector('[data-action="refresh-dashboard"]')?.addEventListener('click', fetchDashboard);
     } catch (err) {
@@ -158,6 +183,10 @@
       if (status) url += `&status=${status}`;
     } else if (currentTab === 'discoveries') {
       url = `${API_BASE}/ingestion/discoveries?limit=100`;
+    } else if (currentTab === 'blog') {
+      url = `${API_BASE}/blog?limit=100`;
+      if (query) url += `&search=${encodeURIComponent(query)}`;
+      if (status) url += `&status=${status}`;
     } else {
       url = `${API_BASE}/${currentTab}?limit=100`;
       if (query) url += `&search=${encodeURIComponent(query)}`;
@@ -379,6 +408,15 @@
     } else if (currentTab === 'countries') {
       headerMetaHtml = `${item.region} • ${item.publication_status}`;
       detailsHtml = `<div class="item-card__details">${item.summary?.slice(0, 200) || ''}…</div>`;
+    } else if (currentTab === 'blog') {
+      headerMetaHtml = `By ${item.author || 'Admin'} &nbsp;·&nbsp; ${item.reading_time || 1} min read &nbsp;·&nbsp; ${item.featured ? '🌟 Featured' : 'Standard'}`;
+      detailsHtml = `
+        <div class="item-card__details">
+          <strong>Slug</strong>: ${item.slug}<br>
+          <strong>Cover Image</strong>: ${item.cover_image ? `<a href="${item.cover_image}" target="_blank">${item.cover_image.slice(0, 50)}…</a>` : 'None'}<br>
+          <strong>Published Date</strong>: ${item.published_at ? new Date(item.published_at).toLocaleString() : 'Not Published'}
+        </div>
+      `;
     }
 
     // Source display
@@ -418,6 +456,17 @@
           <button class="btn" data-action="reject-sub" data-id="${item.id}" style="color:var(--red);border-color:var(--red);">Reject</button>
         `;
       }
+    } else if (currentTab === 'blog') {
+      const publishBtn = item.status !== 'published' ? 
+        `<button class="btn btn-success" data-action="publish-blog" data-id="${item.id}">Publish</button>` : '';
+      const archiveBtn = item.status !== 'archived' ? 
+        `<button class="btn" data-action="archive-blog" data-id="${item.id}">Archive</button>` : '';
+      moderationControls = `
+        ${publishBtn}
+        ${archiveBtn}
+        <button class="btn" data-action="edit" data-id="${item.id}">Edit</button>
+        <button class="btn" data-action="delete" data-id="${item.id}" style="color:var(--red);border-color:transparent;padding:6px;">Delete</button>
+      `;
     } else {
       moderationControls = `
         <button class="btn" data-action="edit" data-id="${item.id}">Edit</button>
@@ -462,6 +511,42 @@
 
   // ── CARD BUTTON EVENT HANDLERS ──
   async function handleCardAction(action, id, item) {
+    if (action === 'publish-blog') {
+      try {
+        const res = await fetch(`${API_BASE}/blog/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'published' })
+        });
+        if (res.ok) {
+          showToast('Blog article published.');
+          fetchItems();
+        } else {
+          showToast('Failed to publish article.');
+        }
+      } catch (err) {
+        showToast('Failed to publish.');
+      }
+      return;
+    } else if (action === 'archive-blog') {
+      try {
+        const res = await fetch(`${API_BASE}/blog/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'archived' })
+        });
+        if (res.ok) {
+          showToast('Blog article archived.');
+          fetchItems();
+        } else {
+          showToast('Failed to archive article.');
+        }
+      } catch (err) {
+        showToast('Failed to archive.');
+      }
+      return;
+    }
+
     if (action === 'view-roadmap') {
       const res = await fetch(`${API_BASE}/intelligence/roadmaps/${id}`);
       const rm = await res.json();
@@ -681,122 +766,232 @@
     }
   };
 
+  // ── AUTOSAVE HELPERS ──
+  function startAutosaveTimer() {
+    stopAutosaveTimer();
+    autosaveTimer = setInterval(() => {
+      if (!editModal.classList.contains('open') || currentTab !== 'blog') {
+        stopAutosaveTimer();
+        return;
+      }
+
+      const title = document.getElementById('form-title').value;
+      const author = document.getElementById('form-author').value;
+      const featured = document.getElementById('form-featured').checked ? 1 : 0;
+      const coverImage = document.getElementById('form-cover-image').value;
+      const excerpt = document.getElementById('form-summary').value;
+      const content = editorInstance ? editorInstance.getData() : document.getElementById('form-blog-content').value;
+
+      if (title || excerpt || content) {
+        const draft = { title, author, featured, coverImage, excerpt, content, timestamp: new Date().toISOString() };
+        localStorage.setItem('nefi_blog_draft', JSON.stringify(draft));
+        
+        const titleEl = document.getElementById('edit-modal-title');
+        const originalText = activeEditItem ? 'Edit Entry' : 'Add New Entry';
+        titleEl.innerHTML = `${originalText} <span style="font-size: 10px; color: var(--text-muted); font-family: var(--f-mono); margin-left: 8px;">(Autosaved ${new Date().toLocaleTimeString()})</span>`;
+      }
+    }, 30000);
+  }
+
+  function stopAutosaveTimer() {
+    if (autosaveTimer) {
+      clearInterval(autosaveTimer);
+      autosaveTimer = null;
+    }
+  }
+
   // ── EDIT/CREATE FORM MODAL ──
   function openEditModal(item = null) {
     entryForm.reset();
     document.getElementById('entry-id').value = item ? item.id : '';
     document.getElementById('edit-modal-title').textContent = item ? 'Edit Entry' : 'Add New Entry';
 
-    // Toggle specific containers depending on currentTab
     const instContainer = document.getElementById('form-institute-container');
     const orgContainer = document.getElementById('form-org-container');
     const typeContainer = document.getElementById('form-type-container');
     const costContainer = document.getElementById('form-cost-container');
+    const locationContainer = document.getElementById('form-location-container');
+    const formatCostContainer = document.getElementById('form-format-cost-container');
+    const durationDeadlineContainer = document.getElementById('form-duration-deadline-container');
+    const eligibilityContainer = document.getElementById('form-eligibility-container');
+    const urlTagsContainer = document.getElementById('form-url-tags-container');
+    const descriptionContainer = document.getElementById('form-description-container');
+
+    const blogMetaContainer = document.getElementById('form-blog-meta-container');
+    const coverImageContainer = document.getElementById('form-cover-image-container');
+    const blogContentContainer = document.getElementById('form-blog-content-container');
+
+    const titleLabel = document.getElementById('form-title-label');
+    const titleInput = document.getElementById('form-title');
+    const summaryLabel = document.getElementById('form-summary-label');
+    const summaryInput = document.getElementById('form-summary');
+
     const typeSelect = document.getElementById('form-type');
 
-    if (currentTab === 'programs') {
-      instContainer.style.display = 'block';
-      orgContainer.style.display = 'none';
-      typeContainer.style.display = 'block';
-      costContainer.style.display = 'block';
-      
-      typeContainer.querySelector('label').textContent = 'Program Focus Category *';
-      typeSelect.innerHTML = `
-        <option value="General">General / All-round</option>
-        <option value="Direction">Directing</option>
-        <option value="Cinematography">Cinematography</option>
-        <option value="Editing">Editing</option>
-        <option value="Audiography">Sound/Audiography</option>
-        <option value="Production">Production & Business</option>
-      `;
+    // Default Labels
+    titleLabel.textContent = 'Opportunity Title *';
+    titleInput.placeholder = 'e.g. Diploma in Editing';
+    summaryLabel.textContent = 'Brief Summary (UI Card Body) *';
+    summaryInput.placeholder = '1-2 sentences on what this is...';
 
-      if (item) {
-        document.getElementById('form-title').value = item.title;
-        document.getElementById('form-institute-id').value = item.institute_id;
-        typeSelect.value = item.category;
-        document.getElementById('form-country').value = item.country;
-        document.getElementById('form-region').value = item.region;
-        document.getElementById('form-format').value = item.format;
-        document.getElementById('form-cost').value = item.tuition_or_cost;
-        document.getElementById('form-duration').value = item.duration;
-        document.getElementById('form-deadline').value = item.deadline;
-        document.getElementById('form-summary').value = item.summary;
-        document.getElementById('form-description').value = item.description || '';
-        document.getElementById('form-eligibility').value = item.eligibility || '';
-        document.getElementById('form-url').value = item.website_url || '';
-        document.getElementById('form-tags').value = item.tags ? item.tags.join(', ') : '';
-      }
-    } else if (currentTab === 'opportunities') {
-      instContainer.style.display = 'none';
-      orgContainer.style.display = 'block';
-      typeContainer.style.display = 'block';
-      costContainer.style.display = 'none';
+    // Hide autosave recovery by default
+    document.getElementById('autosave-recovery-banner').style.display = 'none';
 
-      typeContainer.querySelector('label').textContent = 'Opportunity Type *';
-      typeSelect.innerHTML = `
-        <option value="grant">Grant</option>
-        <option value="scholarship">Scholarship</option>
-        <option value="fellowship">Fellowship</option>
-        <option value="lab">Development Lab</option>
-        <option value="residency">Artist Residency</option>
-      `;
-
-      if (item) {
-        document.getElementById('form-title').value = item.title;
-        document.getElementById('form-org').value = item.org;
-        typeSelect.value = item.type;
-        document.getElementById('form-country').value = item.country;
-        document.getElementById('form-region').value = item.region;
-        document.getElementById('form-format').value = item.format;
-        document.getElementById('form-duration').value = item.duration;
-        document.getElementById('form-deadline').value = item.deadline;
-        document.getElementById('form-summary').value = item.summary;
-        document.getElementById('form-description').value = item.description || '';
-        document.getElementById('form-eligibility').value = item.eligibility || '';
-        document.getElementById('form-url').value = item.website_url || '';
-        document.getElementById('form-tags').value = item.tags ? item.tags.join(', ') : '';
-      }
-    } else if (currentTab === 'events') {
-      instContainer.style.display = 'none';
-      orgContainer.style.display = 'none';
-      typeContainer.style.display = 'block';
-      costContainer.style.display = 'none';
-
-      typeContainer.querySelector('label').textContent = 'Event Type *';
-      typeSelect.innerHTML = `
-        <option value="festival">Film Festival</option>
-        <option value="co-production market">Co-Production Market</option>
-        <option value="pitch forum">Pitch Forum</option>
-        <option value="other">Other Event</option>
-      `;
-
-      if (item) {
-        document.getElementById('form-title').value = item.title;
-        typeSelect.value = item.type;
-        document.getElementById('form-country').value = item.country;
-        document.getElementById('form-region').value = item.region;
-        document.getElementById('form-format').value = item.format;
-        document.getElementById('form-duration').value = item.duration;
-        document.getElementById('form-deadline').value = item.deadline;
-        document.getElementById('form-summary').value = item.summary;
-        document.getElementById('form-description').value = item.description || '';
-        document.getElementById('form-eligibility').value = item.eligibility || '';
-        document.getElementById('form-url').value = item.website_url || '';
-        document.getElementById('form-tags').value = item.tags ? item.tags.join(', ') : '';
-      }
-    } else if (currentTab === 'institutes') {
+    if (currentTab === 'blog') {
       instContainer.style.display = 'none';
       orgContainer.style.display = 'none';
       typeContainer.style.display = 'none';
       costContainer.style.display = 'none';
+      locationContainer.style.display = 'none';
+      formatCostContainer.style.display = 'none';
+      durationDeadlineContainer.style.display = 'none';
+      eligibilityContainer.style.display = 'none';
+      urlTagsContainer.style.display = 'none';
+      descriptionContainer.style.display = 'none';
+
+      blogMetaContainer.style.display = 'grid';
+      coverImageContainer.style.display = 'block';
+      blogContentContainer.style.display = 'block';
+
+      titleLabel.textContent = 'Article Title *';
+      titleInput.placeholder = 'e.g. How Film Students From Assam Can Study Abroad';
+      summaryLabel.textContent = 'Excerpt / Brief Summary *';
+      summaryInput.placeholder = 'A short 1-2 sentence description of the article...';
 
       if (item) {
-        document.getElementById('form-title').value = item.title;
-        document.getElementById('form-country').value = item.country;
-        document.getElementById('form-region').value = item.region;
-        document.getElementById('form-summary').value = item.summary;
-        document.getElementById('form-description').value = item.description || '';
-        document.getElementById('form-url').value = item.website_url || '';
+        titleInput.value = item.title;
+        document.getElementById('form-author').value = item.author || 'Admin';
+        document.getElementById('form-featured').checked = item.featured === 1;
+        document.getElementById('form-cover-image').value = item.cover_image || '';
+        summaryInput.value = item.excerpt || '';
+        document.getElementById('form-blog-content').value = item.content || '';
+      } else {
+        document.getElementById('form-author').value = 'Admin';
+        const draft = localStorage.getItem('nefi_blog_draft');
+        if (draft) {
+          document.getElementById('autosave-recovery-banner').style.display = 'flex';
+        }
+      }
+
+      // Initialize CKEditor
+      if (window.ClassicEditor) {
+        if (!editorInstance) {
+          window.ClassicEditor.create(document.querySelector('#form-blog-content'), {
+            toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'insertTable', 'undo', 'redo']
+          })
+            .then(editor => {
+              editorInstance = editor;
+              editorInstance.setData(item ? item.content || '' : '');
+            })
+            .catch(err => console.error('CKEditor Init Error:', err));
+        } else {
+          editorInstance.setData(item ? item.content || '' : '');
+        }
+      }
+
+      startAutosaveTimer();
+
+    } else {
+      blogMetaContainer.style.display = 'none';
+      coverImageContainer.style.display = 'none';
+      blogContentContainer.style.display = 'none';
+
+      instContainer.style.display = currentTab === 'programs' ? 'block' : 'none';
+      orgContainer.style.display = currentTab === 'opportunities' ? 'block' : 'none';
+      typeContainer.style.display = ['programs', 'opportunities', 'events'].includes(currentTab) ? 'block' : 'none';
+      costContainer.style.display = currentTab === 'programs' ? 'block' : 'none';
+
+      locationContainer.style.display = 'grid';
+      formatCostContainer.style.display = 'grid';
+      durationDeadlineContainer.style.display = 'grid';
+      eligibilityContainer.style.display = 'block';
+      urlTagsContainer.style.display = 'grid';
+      descriptionContainer.style.display = 'block';
+
+      if (currentTab === 'programs') {
+        typeContainer.querySelector('label').textContent = 'Program Focus Category *';
+        typeSelect.innerHTML = `
+          <option value="General">General / All-round</option>
+          <option value="Direction">Directing</option>
+          <option value="Cinematography">Cinematography</option>
+          <option value="Editing">Editing</option>
+          <option value="Audiography">Sound/Audiography</option>
+          <option value="Production">Production & Business</option>
+        `;
+
+        if (item) {
+          titleInput.value = item.title;
+          document.getElementById('form-institute-id').value = item.institute_id;
+          typeSelect.value = item.category;
+          document.getElementById('form-country').value = item.country;
+          document.getElementById('form-region').value = item.region;
+          document.getElementById('form-format').value = item.format;
+          document.getElementById('form-cost').value = item.tuition_or_cost;
+          document.getElementById('form-duration').value = item.duration;
+          document.getElementById('form-deadline').value = item.deadline;
+          summaryInput.value = item.summary;
+          document.getElementById('form-description').value = item.description || '';
+          document.getElementById('form-eligibility').value = item.eligibility || '';
+          document.getElementById('form-url').value = item.website_url || '';
+          document.getElementById('form-tags').value = item.tags ? item.tags.join(', ') : '';
+        }
+      } else if (currentTab === 'opportunities') {
+        typeContainer.querySelector('label').textContent = 'Opportunity Type *';
+        typeSelect.innerHTML = `
+          <option value="grant">Grant</option>
+          <option value="scholarship">Scholarship</option>
+          <option value="fellowship">Fellowship</option>
+          <option value="lab">Development Lab</option>
+          <option value="residency">Artist Residency</option>
+        `;
+
+        if (item) {
+          titleInput.value = item.title;
+          document.getElementById('form-org').value = item.org;
+          typeSelect.value = item.type;
+          document.getElementById('form-country').value = item.country;
+          document.getElementById('form-region').value = item.region;
+          document.getElementById('form-format').value = item.format;
+          document.getElementById('form-duration').value = item.duration;
+          document.getElementById('form-deadline').value = item.deadline;
+          summaryInput.value = item.summary;
+          document.getElementById('form-description').value = item.description || '';
+          document.getElementById('form-eligibility').value = item.eligibility || '';
+          document.getElementById('form-url').value = item.website_url || '';
+          document.getElementById('form-tags').value = item.tags ? item.tags.join(', ') : '';
+        }
+      } else if (currentTab === 'events') {
+        typeContainer.querySelector('label').textContent = 'Event Type *';
+        typeSelect.innerHTML = `
+          <option value="festival">Film Festival</option>
+          <option value="co-production market">Co-Production Market</option>
+          <option value="pitch forum">Pitch Forum</option>
+          <option value="other">Other Event</option>
+        `;
+
+        if (item) {
+          titleInput.value = item.title;
+          typeSelect.value = item.type;
+          document.getElementById('form-country').value = item.country;
+          document.getElementById('form-region').value = item.region;
+          document.getElementById('form-format').value = item.format;
+          document.getElementById('form-duration').value = item.duration;
+          document.getElementById('form-deadline').value = item.deadline;
+          summaryInput.value = item.summary;
+          document.getElementById('form-description').value = item.description || '';
+          document.getElementById('form-eligibility').value = item.eligibility || '';
+          document.getElementById('form-url').value = item.website_url || '';
+          document.getElementById('form-tags').value = item.tags ? item.tags.join(', ') : '';
+        }
+      } else if (currentTab === 'institutes') {
+        if (item) {
+          titleInput.value = item.title;
+          document.getElementById('form-country').value = item.country;
+          document.getElementById('form-region').value = item.region;
+          summaryInput.value = item.summary;
+          document.getElementById('form-description').value = item.description || '';
+          document.getElementById('form-url').value = item.website_url || '';
+        }
       }
     }
 
@@ -811,6 +1006,31 @@
   document.getElementById('btn-edit-cancel').onclick = () => {
     editModal.classList.remove('open');
     activeEditItem = null;
+    stopAutosaveTimer();
+  };
+
+  document.getElementById('btn-restore-draft').onclick = () => {
+    const draftStr = localStorage.getItem('nefi_blog_draft');
+    if (draftStr) {
+      const draft = JSON.parse(draftStr);
+      document.getElementById('form-title').value = draft.title || '';
+      document.getElementById('form-author').value = draft.author || 'Admin';
+      document.getElementById('form-featured').checked = draft.featured === 1;
+      document.getElementById('form-cover-image').value = draft.coverImage || '';
+      document.getElementById('form-summary').value = draft.excerpt || '';
+      document.getElementById('form-blog-content').value = draft.content || '';
+      if (editorInstance && draft.content) {
+        editorInstance.setData(draft.content);
+      }
+      showToast('Draft restored.');
+    }
+    document.getElementById('autosave-recovery-banner').style.display = 'none';
+  };
+
+  document.getElementById('btn-discard-draft').onclick = () => {
+    localStorage.removeItem('nefi_blog_draft');
+    document.getElementById('autosave-recovery-banner').style.display = 'none';
+    showToast('Draft discarded.');
   };
 
   document.getElementById('btn-edit-save').onclick = async () => {
@@ -895,6 +1115,15 @@
         description,
         website_url: url
       };
+    } else if (currentTab === 'blog') {
+      payload = {
+        title,
+        author: document.getElementById('form-author').value,
+        featured: document.getElementById('form-featured').checked ? 1 : 0,
+        cover_image: document.getElementById('form-cover-image').value || null,
+        excerpt: summary,
+        content: editorInstance ? editorInstance.getData() : document.getElementById('form-blog-content').value
+      };
     }
 
     try {
@@ -907,6 +1136,8 @@
       if (res.ok) {
         showToast(isEdit ? 'Updated successfully.' : 'Created successfully.');
         editModal.classList.remove('open');
+        localStorage.removeItem('nefi_blog_draft');
+        stopAutosaveTimer();
         fetchItems();
       } else {
         const errorData = await res.json();
@@ -943,6 +1174,11 @@
         filterRegionGroup.style.display = 'none';
         filterFormatGroup.style.display = 'none';
         btnAddItem.style.display = 'none';
+        filterStatus.parentElement.parentElement.style.display = 'flex';
+      } else if (currentTab === 'blog') {
+        filterRegionGroup.style.display = 'none';
+        filterFormatGroup.style.display = 'none';
+        btnAddItem.style.display = 'inline-flex';
         filterStatus.parentElement.parentElement.style.display = 'flex';
       } else {
         filterRegionGroup.style.display = 'flex';

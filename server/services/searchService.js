@@ -48,6 +48,11 @@ const SearchService = {
          WHERE publication_status = 'published' AND (title LIKE ? OR summary LIKE ? OR target_audience LIKE ?) LIMIT ?`,
         [q, q, q, limit]
       ),
+      blog_articles: queryAll(
+        `SELECT id, slug, title, excerpt as summary, 'blog_article' as type FROM blog_posts
+         WHERE status = 'published' AND (title LIKE ? OR excerpt LIKE ? OR content LIKE ?) LIMIT ?`,
+        [q, q, q, limit]
+      ),
     };
 
     const total = Object.values(categories).reduce((sum, arr) => sum + arr.length, 0);
@@ -63,6 +68,7 @@ const SearchService = {
         ...categories.countries.map((r) => ({ ...r, href: `/countries/${r.slug}` })),
         ...categories.reports.map((r) => ({ ...r, href: `/reports/${r.slug}` })),
         ...categories.institutes.map((r) => ({ ...r, href: `/explore?type=institute&search=${encodeURIComponent(r.title)}` })),
+        ...categories.blog_articles.map((r) => ({ ...r, href: `/blog/${r.slug}` })),
       ],
     };
   },
