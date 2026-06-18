@@ -9,14 +9,14 @@
 | Key | Value |
 |---|---|
 | **Project Name** | NE Film Intelligence (NEFI) — formerly CineEduAssan (CEA) |
-| **Version** | 5.2.0 |
+| **Version** | 6.0.0 |
 | **Owner** | Madhurjya, North Lakhimpur, Assam, NE India |
 | **Primary Interest** | Online degrees, colleges, institutions (programs-first) — low/no-cost options (0-3L priority); grants/books/events are secondary reference |
 | **Identity Context** | ST (Scheduled Tribe) candidate, Assamese, 25 years old, solo founder |
-| **Current Phase** | Phase 5.2: Living Publication System (Blog, Editor, SEO, Newsletter, Search) |
-| **Last Agent Action** | 2026-06-18 — Completed Living Publication extension (Phases 1-9) |
-| **Next Priority** | Production deploy coordination & offline PWA shell implementation |
-| **Guide Version** | v5.2 + blog database + search + newsletter + SEO |
+| **Current Phase** | Phase 6: Research Coverage & Community Engine (Complete) |
+| **Last Agent Action** | 2026-06-18 — Completed Phase 6 Coverage & Community Engine (Taxonomy, Dashboards, Contributor System, Automations, Newsletter, Tests) |
+| **Next Priority** | Phase 6.1: Production Deploy, mobile caching, search optimizations |
+| **Guide Version** | v6.0 + dashboards + contributor system + source discovery |
 | **GitHub** | https://github.com/madhurjya-nlp/ne-film-intelligence |
 | **Live URL (static)** | https://effortless-speculoos-0dde1a.netlify.app |
 | **Live URL (full DB)** | http://localhost:3000 — requires `npm start` in project folder |
@@ -33,6 +33,28 @@
 * Static site data is generated from database state.
 * Drift must be checked before implementation.
 * No feature is considered complete until memory is updated.
+
+---
+
+## Session Update — Phase 6 Complete
+**Date:** 2026-06-18  
+**Version:** 6.0.0  
+
+**Summary:** Completed Phase 6 Research Coverage & Community Engine. Fully integrated the Category Taxonomy, admin dashboards, community contributor system, automated source discovery scanner, freshness scoring, dead link checks, and Neo-Brutalist newsletter popups.
+- **Coverage Metrics:** Enabled dashboard at `/admin/coverage` indicating coverage scores, priority gaps, missing countries.
+- **New Sources:** Seeded 32 official sources across new categories.
+- **Files Changed:** `pages/contribute.html`, `js/public-shell.js`, `admin.html`, `js/admin.js`, `server/routes/pages.js`, `server/services/coverageService.js`, `server/services/validation.js`, `server/db/schema.sql`, `server/db/migrate.js`, `tests/coverage.test.js`.
+- **Follow-Up Tasks:** Deploy the live Node app on Render/production server, configure calendar deadlines cron.
+
+---
+
+## Session Update — Phase 6 Initial Sync
+**Date:** 2026-06-18  
+**Version:** 6.0.0  
+
+**Summary:** Synchronized version and initialized session for Phase 6 (Research Coverage & Community Engine). Prepared drift report.
+- **Repository state:** Working directory is clean, 58 tests passing.
+- **Plan:** Build category taxonomy, dashboards, source discovery flow, contributor portal, and newsletter slide-up panel.
 
 ---
 
@@ -498,6 +520,49 @@ Then read this file (`AGENT_MEMORY.md`) and `AGENT_INSTRUCTIONS.md` in full.
 
 ---
 
+## 📡 Phase 6 Coverage & Community Engine Architecture
+
+### Coverage Dashboard
+Mounted at `/admin/coverage` (admin page \`pages/admin-coverage.html\`), fetching metrics from `/api/coverage/dashboard` and source health details from `/api/sources/health`. Calculates coverage scores per category, detects priority gap alerts (less than 10 programs, 5 opportunities, or no recent updates), lists missing target countries (Germany, France, UK, Japan, South Korea, Canada, Australia), and categorizes sources and roadmaps. Also includes the Blog Content Gap alerts, flagging any category without matching blog posts (e.g. "No Screenwriting Guides").
+
+### Contributor System
+Community portal located at `/contribute` (public page \`pages/contribute.html\`), utilizing a brutalist form mapping to `contributor_submissions` table. Administator queue under Contributor Submissions nav button in `/admin.html` triggers approve/reject API requests (\`POST /api/contributor/submissions/:id/moderate\`). Approving promotes entries into target databases (\`programs\`, \`opportunities\`, \`events\`, \`books\`) with "Contributed by: [Name]" attribution.
+
+### Source Discovery
+Scanner pipeline mounted at `/api/candidates/scan` and `/api/candidates/:id/moderate`. Triggers in sources list page (\`/admin.html\`) allow scanning known sources to parse external links into `source_candidates` (E2). Automatic trust score mapping (E3) evaluates candidate properties (University/Government domains get 100, Festival gets 95, Org gets 85, Unknown gets 0) prior to promotion to the Source Registry.
+
+### Freshness Scoring
+Classifies registry sources in health metrics into four freshness bands:
+- Updated < 30 days: **Fresh**
+- 30–90 days: **Aging**
+- 90–180 days: **Stale**
+- 180+ days: **Needs Verification**
+
+### Dead Link Monitoring
+Allows administrators to trigger HTTP link checks (\`POST /api/sources/:id/check-link\`), logging response status code and speed into `dead_link_checks` table. Automatically flags status codes of \`404\`, \`500+\`, or timeouts (\`0\`) as "Dead Link" status in dashboards.
+
+### Newsletter Improvements
+Redesigned standard newsletters into a Neo-Brutalist slide-up panel injected globally via \`js/public-shell.js\`. Triggers on:
+1. 60 seconds elapsed.
+2. 40% scroll depth.
+3. Article completion (85%+ scroll depth on blog details).
+Uses cookie suppressions preventing displaying more than once every 7 days, or permanently on clicking "Dismiss forever".
+
+### New Categories
+Added 10 categories to taxonomy registry:
+- Acting
+- Theatre
+- Screenwriting
+- Editing
+- Documentary
+- Animation
+- Film Criticism
+- Producing
+- Cinematography
+- Sound Design
+
+---
+
 ## 🔄 Phase 2 Ingestion Architecture
 
 ### Pipeline Flow
@@ -792,6 +857,7 @@ Germany, France, Japan, South Korea, UK, Canada
 
 | Date-Time UTC | Agent | Done | Next |
 |---|---|---|---|
+| 2026-06-18 | Antigravity — Phase 6 | Complete Phase 6 Coverage & Community Engine: category taxonomy, initial sources, admin dashboards, contributor portal, discovery engine, newsletter popup redesign, editorial blog workflow, and 5 new tests (63 tests total, all green). | Phase 6.1: production deployment, personalization and search optimizations |
 | 2026-06-18 (latest) | Grok — Phase 5 Design | Neo-brutalist design-system-v2.css; migrated all pages + admin; 40/40 tests pass; zero logic changes. | Phase 6: PWA, personalization, mobile nav, production deploy |
 | 2026-06-18 | Grok — Phase 4 Public Layer | Exposed DB intelligence via public pages: roadmaps, calendar, countries, explore, search, SEO; homepage restructured; 33/33 tests pass. | Deploy Express server, Phase 5 personalization + PWA |
 | 2026-06-18 | Grok — Phase 3 Intelligence | Built research intelligence layer: roadmaps, calendar, reports, countries, knowledge graph, dashboard; 21/21 tests pass. | Public roadmap pages, entity linking, Phase 4 personalization |

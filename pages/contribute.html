@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contribute | NE Film Intelligence</title>
+  <meta name="description" content="Submit programs, grants, festivals, workshops, and books to the NE Film Intelligence research database. Help build a community knowledge engine.">
+  <link rel="canonical" href="/contribute">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system-v2.css">
+  <style>
+    .contribute-hero {
+      border-bottom: 4px solid var(--rule);
+      padding: 48px 0;
+      background: var(--surface);
+    }
+    
+    .contribute-layout {
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--f-display);
+      font-size: 16px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .dynamic-fields {
+      border: 4px solid var(--rule);
+      padding: 24px;
+      background: var(--bg-elevated);
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .dynamic-fields::before {
+      content: 'FIELDS FOR TYPE';
+      position: absolute;
+      top: -12px;
+      left: 16px;
+      background: var(--yellow);
+      color: #000;
+      border: 2px solid var(--rule);
+      padding: 2px 8px;
+      font-family: var(--f-mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .submission-success {
+      background: var(--yellow-dim);
+      border: 4px solid var(--rule);
+      padding: 40px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      margin: 48px 0;
+      display: none;
+    }
+  </style>
+</head>
+<body class="public-page" data-pub-header>
+  <main class="pub-main">
+    <div class="contribute-hero">
+      <div class="container">
+        <p class="nb-eyebrow">Community Knowledge Engine</p>
+        <h1 style="font-family: var(--f-display); font-size: 42px; margin-bottom: 8px;">Contribute to <em>Intelligence</em></h1>
+        <p style="font-size: 16px; color: var(--text-secondary); max-width: 680px;">
+          Help expand our trusted database. Submit a film education program, grant, festival, workshop, or book. All submissions enter a moderation queue before publishing with optional attribution to your name.
+        </p>
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="contribute-layout">
+        <!-- Success Alert Panel -->
+        <div id="success-panel" class="submission-success">
+          <span class="nb-badge --verified" style="font-size: 16px; padding: 8px 16px; margin-bottom: 16px; display: inline-block;">Submission Queue Successful</span>
+          <h2 style="font-family: var(--f-display); font-size: 28px; margin-bottom: 12px;" id="success-title">Thank You, Contributor!</h2>
+          <p style="font-size: 15px; max-width: 500px; margin: 0 auto 24px; line-height: 1.6;" id="success-message">
+            Your submission has been received and queued for admin review. Once verified, it will be published with attribution to your name.
+          </p>
+          <button type="button" class="nb-btn --primary" id="reset-form-btn">Submit Another Entry</button>
+        </div>
+
+        <!-- Submission Form -->
+        <form id="contribute-form" class="nb-card" style="padding: 32px; background: var(--surface); box-shadow: var(--shadow-md);">
+          <h2 style="font-family: var(--f-display); font-size: 24px; margin-bottom: 24px; border-bottom: 4px solid var(--rule); padding-bottom: 12px;">Submit New Intelligence</h2>
+          
+          <!-- Contributor Info -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contributor-name">Your Name *</label>
+              <input type="text" id="contributor-name" required class="nb-input" style="width: 100%;" placeholder="e.g. Madhurjya">
+            </div>
+            <div class="form-group">
+              <label for="contributor-email">Your Email *</label>
+              <input type="email" id="contributor-email" required class="nb-input" style="width: 100%;" placeholder="e.g. yourname@example.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="contributor-org">Organization (Optional)</label>
+            <input type="text" id="contributor-org" class="nb-input" style="width: 100%;" placeholder="e.g. Northeast Film Society">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="submission-type">Submission Type *</label>
+              <select id="submission-type" required class="nb-select" style="width: 100%;">
+                <option value="program">Film Education Program</option>
+                <option value="grant">Grant / Scholarship / Funding</option>
+                <option value="festival">Film Festival</option>
+                <option value="workshop">Workshop / Lab</option>
+                <option value="book">Open-Access / Reference Book</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="category-id">Primary Category *</label>
+              <select id="category-id" required class="nb-select" style="width: 100%;">
+                <option value="" disabled selected>Loading categories...</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Entry Fields Container -->
+          <div id="dynamic-container" class="dynamic-fields">
+            <!-- Will render inputs based on type -->
+          </div>
+
+          <div class="form-group">
+            <label class="nb-checkbox">
+              <input type="checkbox" id="contributor-attribution" checked>
+              <span class="checkbox-box"></span>
+              <span class="checkbox-label">Display "Contributed by: [Name]" publicly on this database record once approved.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="nb-btn --primary" style="width: 100%; font-size: 18px; padding: 12px;">Submit to Review Queue</button>
+        </form>
+      </div>
+    </div>
+  </main>
+  
+  <script src="/js/public-api.js"></script>
+  <script src="/js/public-shell.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const typeSelect = document.getElementById('submission-type');
+      const categorySelect = document.getElementById('category-id');
+      const dynamicContainer = document.getElementById('dynamic-container');
+      const form = document.getElementById('contribute-form');
+      const successPanel = document.getElementById('success-panel');
+      const resetBtn = document.getElementById('reset-form-btn');
+      
+      let categories = [];
+
+      // Fetch Categories
+      fetch('/api/public/categories')
+        .then(res => res.json())
+        .then(data => {
+          categories = data;
+          categorySelect.innerHTML = categories.map(cat => 
+            `<option value="${cat.id}">${cat.name}</option>`
+          ).join('');
+        })
+        .catch(err => {
+          console.error('Failed to load categories', err);
+          categorySelect.innerHTML = '<option value="">Failed to load categories</option>';
+        });
+
+      // Render fields helper
+      function renderFields() {
+        const type = typeSelect.value;
+        let html = '';
+        
+        if (type === 'program') {
+          dynamicContainer.className = 'dynamic-fields';
+          dynamicContainer.style.setProperty('--type-label', '"Film Education Program"');
+          html = `
+            <div class="form-group">
+              <label for="title">Program Title *</label>
+              <input type="text" id="title" required class="nb-input" style="width: 100%;" placeholder="e.g. Master in Cinematography">
+            </div>
+            <div class="form-group">
+              <label for="institute_name">Institute Name *</label>
+              <input type="text" id="institute_name" required class="nb-input" style="width: 100%;" placeholder="e.g. Lodz Film School">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="country">Country *</label>
+                <input type="text" id="country" required class="nb-input" style="width: 100%;" placeholder="e.g. Poland">
+              </div>
+              <div class="form-group">
+                <label for="format">Format *</label>
+                <select id="format" required class="nb-select" style="width: 100%;">
+                  <option value="offline">Offline / In-person</option>
+                  <option value="online">Online</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tuition_or_cost">Tuition / Costs *</label>
+                <input type="text" id="tuition_or_cost" required class="nb-input" style="width: 100%;" placeholder="e.g. €550/year or Tuition-Free">
+              </div>
+              <div class="form-group">
+                <label for="duration">Duration *</label>
+                <input type="text" id="duration" required class="nb-input" style="width: 100%;" placeholder="e.g. 2 Years">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="website_url">Website URL *</label>
+                <input type="url" id="website_url" required class="nb-input" style="width: 100%;" placeholder="e.g. https://example.edu/program">
+              </div>
+              <div class="form-group">
+                <label for="deadline">Application Deadline (YYYY-MM-DD)</label>
+                <input type="date" id="deadline" class="nb-input" style="width: 100%;">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="summary">Program Summary (Brief) *</label>
+              <textarea id="summary" required class="nb-input" style="width: 100%; height: 80px;" placeholder="Brief 1-2 sentence description of the program."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="eligibility">Eligibility Requirements</label>
+              <textarea id="eligibility" class="nb-input" style="width: 100%; height: 80px;" placeholder="e.g. Bachelor's degree, Portfolio submission, English proficiency."></textarea>
+            </div>
+          `;
+        } 
+        else if (type === 'grant') {
+          dynamicContainer.className = 'dynamic-fields';
+          dynamicContainer.style.setProperty('--type-label', '"Grant & Funding"');
+          html = `
+            <div class="form-group">
+              <label for="title">Grant/Scholarship Title *</label>
+              <input type="text" id="title" required class="nb-input" style="width: 100%;" placeholder="e.g. IDFA Bertha Fund Classic">
+            </div>
+            <div class="form-group">
+              <label for="org">Awarding Organization *</label>
+              <input type="text" id="org" required class="nb-input" style="width: 100%;" placeholder="e.g. International Documentary Film Festival Amsterdam">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="amount">Funding Amount *</label>
+                <input type="text" id="amount" required class="nb-input" style="width: 100%;" placeholder="e.g. Up to €25,000">
+              </div>
+              <div class="form-group">
+                <label for="country">Applicable Country/Region *</label>
+                <input type="text" id="country" required class="nb-input" style="width: 100%;" placeholder="e.g. Global South, India, or Global">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="website_url">Website URL *</label>
+                <input type="url" id="website_url" required class="nb-input" style="width: 100%;" placeholder="https://example.com/grant">
+              </div>
+              <div class="form-group">
+                <label for="deadline">Application Deadline (YYYY-MM-DD)</label>
+                <input type="date" id="deadline" class="nb-input" style="width: 100%;">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="summary">Grant Summary *</label>
+              <textarea id="summary" required class="nb-input" style="width: 100%; height: 80px;" placeholder="Brief description of the grant, what it covers, and its purpose."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="eligibility">Eligibility Criteria *</label>
+              <textarea id="eligibility" required class="nb-input" style="width: 100%; height: 80px;" placeholder="Who is eligible? Specify if there are criteria relevant to Northeast India."></textarea>
+            </div>
+          `;
+        }
+        else if (type === 'festival' || type === 'workshop') {
+          const typeLabel = type === 'festival' ? 'Film Festival' : 'Workshop / Lab';
+          dynamicContainer.className = 'dynamic-fields';
+          dynamicContainer.style.setProperty('--type-label', `"${typeLabel}"`);
+          html = `
+            <div class="form-group">
+              <label for="title">${typeLabel} Title *</label>
+              <input type="text" id="title" required class="nb-input" style="width: 100%;" placeholder="e.g. Berlinale Talents">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="country">Country *</label>
+                <input type="text" id="country" required class="nb-input" style="width: 100%;" placeholder="e.g. Germany">
+              </div>
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" class="nb-input" style="width: 100%;" placeholder="e.g. Berlin">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="format">Format *</label>
+                <select id="format" required class="nb-select" style="width: 100%;">
+                  <option value="offline">Offline / In-person</option>
+                  <option value="online">Online</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="duration">Duration / Dates</label>
+                <input type="text" id="duration" class="nb-input" style="width: 100%;" placeholder="e.g. 6 Days (Feb 14-19)">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="website_url">Website URL *</label>
+                <input type="url" id="website_url" required class="nb-input" style="width: 100%;" placeholder="https://example.com/festival">
+              </div>
+              <div class="form-group">
+                <label for="deadline">Submission/Application Deadline</label>
+                <input type="date" id="deadline" class="nb-input" style="width: 100%;">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="summary">Summary Description *</label>
+              <textarea id="summary" required class="nb-input" style="width: 100%; height: 80px;" placeholder="Brief details about the event, its scope, and why filmmakers should apply."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="eligibility">Eligibility</label>
+              <textarea id="eligibility" class="nb-input" style="width: 100%; height: 60px;" placeholder="e.g. Open to directors with their first or second short/feature film."></textarea>
+            </div>
+          `;
+        }
+        else if (type === 'book') {
+          dynamicContainer.className = 'dynamic-fields';
+          dynamicContainer.style.setProperty('--type-label', '"Reference Book"');
+          html = `
+            <div class="form-group">
+              <label for="title">Book Title *</label>
+              <input type="text" id="title" required class="nb-input" style="width: 100%;" placeholder="e.g. In the Blink of an Eye">
+            </div>
+            <div class="form-group">
+              <label for="author">Author(s) *</label>
+              <input type="text" id="author" required class="nb-input" style="width: 100%;" placeholder="e.g. Walter Murch">
+            </div>
+            <div class="form-group">
+              <label for="website_url">Open-Access Link / Reference URL *</label>
+              <input type="url" id="website_url" required class="nb-input" style="width: 100%;" placeholder="e.g. Internet Archive or publisher link">
+            </div>
+            <div class="form-group">
+              <label for="summary">Book Summary *</label>
+              <textarea id="summary" required class="nb-input" style="width: 100%; height: 80px;" placeholder="Core topics covered by the book."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="ne_relevance">Northeast India / Local Relevance</label>
+              <textarea id="ne_relevance" class="nb-input" style="width: 100%; height: 80px;" placeholder="How or why this book is particularly relevant for filmmakers in Assam and Northeast India."></textarea>
+            </div>
+          `;
+        }
+        
+        dynamicContainer.innerHTML = html;
+
+        // Custom style dynamically injected for field label border text
+        const sheet = document.createElement('style');
+        sheet.innerHTML = `.dynamic-fields::before { content: ${dynamicContainer.style.getPropertyValue('--type-label')} !important; }`;
+        document.head.appendChild(sheet);
+      }
+
+      typeSelect.addEventListener('change', renderFields);
+      renderFields(); // Run on load
+
+      // Handle Submit
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const type = typeSelect.value;
+        const catId = categorySelect.value;
+        const catObj = categories.find(c => c.id === catId);
+        
+        // Assemble payload
+        const payload = {
+          title: document.getElementById('title').value,
+          website_url: document.getElementById('website_url').value,
+          category_id: catId,
+          category: catObj ? catObj.name : 'General'
+        };
+
+        if (type === 'program') {
+          payload.institute_id = 'inst_unknown';
+          payload.institute_name = document.getElementById('institute_name').value;
+          payload.country = document.getElementById('country').value;
+          payload.format = document.getElementById('format').value;
+          payload.tuition_or_cost = document.getElementById('tuition_or_cost').value;
+          payload.duration = document.getElementById('duration').value;
+          payload.summary = document.getElementById('summary').value;
+          payload.description = document.getElementById('summary').value;
+          payload.eligibility = document.getElementById('eligibility').value;
+          const deadline = document.getElementById('deadline').value;
+          if (deadline) payload.deadline = deadline;
+        } 
+        else if (type === 'grant') {
+          payload.org = document.getElementById('org').value;
+          payload.amount = document.getElementById('amount').value;
+          payload.country = document.getElementById('country').value;
+          payload.summary = document.getElementById('summary').value;
+          payload.description = document.getElementById('summary').value;
+          payload.eligibility = document.getElementById('eligibility').value;
+          const deadline = document.getElementById('deadline').value;
+          if (deadline) payload.deadline = deadline;
+        }
+        else if (type === 'festival' || type === 'workshop') {
+          payload.country = document.getElementById('country').value;
+          payload.city = document.getElementById('city') ? document.getElementById('city').value : '';
+          payload.format = document.getElementById('format').value;
+          payload.duration = document.getElementById('duration') ? document.getElementById('duration').value : '';
+          payload.summary = document.getElementById('summary').value;
+          payload.description = document.getElementById('summary').value;
+          payload.eligibility = document.getElementById('eligibility') ? document.getElementById('eligibility').value : '';
+          const deadline = document.getElementById('deadline').value;
+          if (deadline) payload.deadline = deadline;
+        }
+        else if (type === 'book') {
+          payload.author = document.getElementById('author').value;
+          payload.summary = document.getElementById('summary').value;
+          payload.ne_relevance = document.getElementById('ne_relevance').value;
+          payload.legacy_link = payload.website_url;
+        }
+
+        // Map page types to schema types:
+        // Page value 'grant' maps to schema 'opportunity'
+        // Page value 'festival' or 'workshop' maps to schema 'event'
+        let schemaType = type;
+        if (type === 'grant') schemaType = 'opportunity';
+        if (type === 'festival' || type === 'workshop') schemaType = 'event';
+
+        const submitBody = {
+          name: document.getElementById('contributor-name').value,
+          email: document.getElementById('contributor-email').value,
+          organization: document.getElementById('contributor-org').value,
+          submission_type: schemaType,
+          payload: payload
+        };
+
+        // Post
+        fetch('/api/public/contribute', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(submitBody)
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('Submission failed');
+          return res.json();
+        })
+        .then(data => {
+          form.style.display = 'none';
+          successPanel.style.display = 'block';
+          
+          const attribution = document.getElementById('contributor-attribution').checked;
+          const name = document.getElementById('contributor-name').value;
+          document.getElementById('success-message').innerText = `Your submission has been successfully received and queued in the moderation system. ${attribution ? 'If approved, it will be published with public attribution to: ' + name + '.' : 'It will be published anonymously as you requested.'}`;
+          
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Failed to submit entry. Please double-check details.');
+        });
+      });
+
+      resetBtn.addEventListener('click', () => {
+        form.reset();
+        successPanel.style.display = 'none';
+        form.style.display = 'block';
+        renderFields();
+      });
+    });
+  </script>
+</body>
+</html>

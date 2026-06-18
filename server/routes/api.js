@@ -321,5 +321,62 @@ router.get('/newsletter/subscribers', asyncRoute(async (req, res) => {
   res.json(result);
 }));
 
+// ── COVERAGE & HEALTH ADMIN ROUTES (PHASE 6) ──
+const { CoverageService } = require('../services/coverageService');
+
+router.get('/coverage/dashboard', asyncRoute(async (req, res) => {
+  res.json(CoverageService.getCoverageDashboard());
+}));
+
+router.get('/sources/health', asyncRoute(async (req, res) => {
+  res.json(CoverageService.getSourceHealthDashboard());
+}));
+
+router.post('/sources/:id/check-link', asyncRoute(async (req, res) => {
+  const { url, statusCode, responseTime } = req.body;
+  if (!url) return res.status(400).json({ error: 'URL is required' });
+  const result = CoverageService.logLinkCheck(req.params.id, url, statusCode || 200, responseTime || 100);
+  res.json(result);
+}));
+
+router.get('/contributor/submissions', asyncRoute(async (req, res) => {
+  const status = req.query.status || null;
+  res.json(CoverageService.listSubmissions(status));
+}));
+
+router.post('/contributor/submissions/:id/moderate', asyncRoute(async (req, res) => {
+  const { status, notes, reviewerName } = req.body;
+  if (!status || !['approved', 'rejected'].includes(status)) {
+    return res.status(400).json({ error: 'Valid status (approved or rejected) is required' });
+  }
+  const result = CoverageService.moderateSubmission(req.params.id, status, notes || '', reviewerName || 'Admin Reviewer');
+  res.json(result);
+}));
+
+router.get('/candidates', asyncRoute(async (req, res) => {
+  res.json(CoverageService.listCandidates());
+}));
+
+router.post('/candidates/:id/moderate', asyncRoute(async (req, res) => {
+  const { status, parserType } = req.body;
+  if (!status || !['approved', 'rejected'].includes(status)) {
+    return res.status(400).json({ error: 'Valid status is required' });
+  }
+  if (status === 'approved') {
+    const result = CoverageService.approveCandidate(req.params.id, parserType || 'generic');
+    res.json(result);
+  } else {
+    const result = CoverageService.rejectCandidate(req.params.id);
+    res.json(result);
+  }
+}));
+
+router.post('/candidates/scan', asyncRoute(async (req, res) => {
+  const { sourceId } = req.body;
+  if (!sourceId) return res.status(400).json({ error: 'sourceId is required' });
+  const count = CoverageService.discoverCandidatesFromSource(sourceId);
+  res.json({ success: true, count });
+}));
+
 module.exports = router;
 

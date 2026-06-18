@@ -261,7 +261,7 @@ function runMigrations(db) {
         content TEXT NOT NULL,
         cover_image TEXT,
         author TEXT,
-        status TEXT CHECK(status IN ('draft', 'published', 'archived')) DEFAULT 'draft',
+        status TEXT CHECK(status IN ('draft', 'review', 'published', 'archived')) DEFAULT 'draft',
         published_at TEXT,
         created_at TEXT NOT NULL,
         updated_at TEXT NOT NULL,
@@ -289,6 +289,132 @@ function runMigrations(db) {
     console.log('[Migration] Created newsletter_subscribers table');
   }
 
+
+  if (!tableExists(db, 'category_taxonomy')) {
+    db.exec(`
+      CREATE TABLE category_taxonomy (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        slug TEXT UNIQUE NOT NULL,
+        parent_category TEXT REFERENCES category_taxonomy(id) ON DELETE SET NULL,
+        description TEXT,
+        created_at TEXT NOT NULL
+      );
+      CREATE INDEX idx_category_parent ON category_taxonomy(parent_category);
+      CREATE INDEX idx_category_slug ON category_taxonomy(slug);
+    `);
+    applied++;
+    console.log('[Migration] Created category_taxonomy table');
+  }
+
+  if (!tableExists(db, 'entity_categories')) {
+    db.exec(`
+      CREATE TABLE entity_categories (
+        entity_type TEXT CHECK(entity_type IN ('program', 'opportunity', 'event', 'book', 'roadmap')) NOT NULL,
+        entity_id TEXT NOT NULL,
+        category_id TEXT NOT NULL REFERENCES category_taxonomy(id) ON DELETE CASCADE,
+        PRIMARY KEY (entity_type, entity_id, category_id)
+      );
+      CREATE INDEX idx_entity_categories_cat ON entity_categories(category_id);
+    `);
+    applied++;
+    console.log('[Migration] Created entity_categories table');
+  }
+
+  if (!tableExists(db, 'dead_link_checks')) {
+    db.exec(`
+      CREATE TABLE dead_link_checks (
+        id TEXT PRIMARY KEY,
+        source_id TEXT NOT NULL REFERENCES sources(id) ON DELETE CASCADE,
+        url TEXT NOT NULL,
+        status_code INTEGER,
+        response_time INTEGER,
+        checked_at TEXT NOT NULL
+      );
+      CREATE INDEX idx_dead_links_source ON dead_link_checks(source_id);
+    `);
+    applied++;
+    console.log('[Migration] Created dead_link_checks table');
+  }
+
+  if (!tableExists(db, 'contributor_submissions')) {
+    db.exec(`
+      CREATE TABLE contributor_submissions (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        organization TEXT,
+        submission_type TEXT CHECK(submission_type IN ('program', 'opportunity', 'event', 'book')) NOT NULL,
+        payload TEXT NOT NULL,
+        status TEXT CHECK(status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
+        created_at TEXT NOT NULL
+      );
+      CREATE INDEX idx_contrib_submissions_status ON contributor_submissions(status);
+    `);
+    applied++;
+    console.log('[Migration] Created contributor_submissions table');
+  }
+
+  if (!tableExists(db, 'source_candidates')) {
+    db.exec(`
+      CREATE TABLE source_candidates (
+        id TEXT PRIMARY KEY,
+        title TEXT NOT NULL,
+        url TEXT UNIQUE NOT NULL,
+        country TEXT,
+        category TEXT,
+        confidence_score REAL DEFAULT 0.0,
+        discovered_at TEXT NOT NULL
+      );
+      CREATE INDEX idx_source_candidates_url ON source_candidates(url);
+    `);
+    applied++;
+    console.log('[Migration] Created source_candidates table');
+  }
+
+  const attribTables = ['programs', 'opportunities', 'events', 'books'];
+  for (const tbl of attribTables) {
+    if (tableExists(db, tbl)) {
+      if (!columnExists(db, tbl, 'contributed_by')) {
+        db.exec(`ALTER TABLE ${tbl} ADD COLUMN contributed_by TEXT`);
+        applied++;
+        console.log(`[Migration] Added ${tbl}.contributed_by column`);
+      }
+    }
+  }
+  
+  if (tableExists(db, 'blog_posts')) {
+    const row = db.prepare("SELECT sql FROM sqlite_master WHERE name='blog_posts'").get();
+    if (row && row.sql && !row.sql.includes("'review'")) {
+      console.log('[Migration] Updating blog_posts check constraint to support "review" status...');
+      db.exec(`
+        ALTER TABLE blog_posts RENAME TO _blog_posts_old;
+        CREATE TABLE blog_posts (
+          id TEXT PRIMARY KEY,
+          title TEXT NOT NULL,
+          slug TEXT UNIQUE NOT NULL,
+          excerpt TEXT,
+          content TEXT NOT NULL,
+          cover_image TEXT,
+          author TEXT,
+          status TEXT CHECK(status IN ('draft', 'review', 'published', 'archived')) DEFAULT 'draft',
+          published_at TEXT,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL,
+          reading_time INTEGER,
+          featured INTEGER CHECK(featured IN (0, 1)) DEFAULT 0
+        );
+        INSERT INTO blog_posts (id, title, slug, excerpt, content, cover_image, author, status, published_at, created_at, updated_at, reading_time, featured)
+        SELECT id, title, slug, excerpt, content, cover_image, author, status, published_at, created_at, updated_at, reading_time, featured FROM _blog_posts_old;
+        DROP TABLE _blog_posts_old;
+        CREATE INDEX IF NOT EXISTS idx_blog_slug ON blog_posts(slug);
+        CREATE INDEX IF NOT EXISTS idx_blog_published ON blog_posts(published_at);
+        CREATE INDEX IF NOT EXISTS idx_blog_status ON blog_posts(status);
+      `);
+      applied++;
+      console.log('[Migration] Successfully updated blog_posts table constraints.');
+    }
+  }
 
   if (applied === 0) {
     console.log('[Migration] Database already up to date.');

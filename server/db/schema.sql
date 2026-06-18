@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS programs (
   publication_status TEXT CHECK(publication_status IN ('draft', 'published', 'archived')) DEFAULT 'draft',
   confidence_score REAL DEFAULT 1.0,
   duplicate_of_id TEXT REFERENCES programs(id),
+  contributed_by TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );
@@ -152,6 +153,7 @@ CREATE TABLE IF NOT EXISTS opportunities (
   publication_status TEXT CHECK(publication_status IN ('draft', 'published', 'archived')) DEFAULT 'draft',
   confidence_score REAL DEFAULT 1.0,
   duplicate_of_id TEXT REFERENCES opportunities(id),
+  contributed_by TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );
@@ -190,6 +192,7 @@ CREATE TABLE IF NOT EXISTS events (
   publication_status TEXT CHECK(publication_status IN ('draft', 'published', 'archived')) DEFAULT 'draft',
   confidence_score REAL DEFAULT 1.0,
   duplicate_of_id TEXT REFERENCES events(id),
+  contributed_by TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );
@@ -418,7 +421,7 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   content TEXT NOT NULL,
   cover_image TEXT,
   author TEXT,
-  status TEXT CHECK(status IN ('draft', 'published', 'archived')) DEFAULT 'draft',
+  status TEXT CHECK(status IN ('draft', 'review', 'published', 'archived')) DEFAULT 'draft',
   published_at TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
@@ -438,4 +441,102 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
 );
 
 CREATE INDEX IF NOT EXISTS idx_newsletter_email ON newsletter_subscribers(email);
+
+-- ═══════════════════════════════════════════════════════════════
+-- PHASE 5.1 Additive: Books & Links
+-- ═══════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS books (
+  id TEXT PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
+  author TEXT,
+  category TEXT,
+  summary TEXT,
+  ne_relevance TEXT,
+  legacy_link TEXT,
+  verification_status TEXT DEFAULT 'pending',
+  publication_status TEXT DEFAULT 'draft',
+  contributed_by TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_books_title ON books(title);
+CREATE INDEX IF NOT EXISTS idx_books_category ON books(category);
+
+CREATE TABLE IF NOT EXISTS book_external_links (
+  id TEXT PRIMARY KEY,
+  book_id TEXT NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+  link_type TEXT CHECK(link_type IN ('publisher','amazon','archive','open_access','goodreads')) NOT NULL,
+  url TEXT NOT NULL,
+  label TEXT,
+  priority INTEGER DEFAULT 0,
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_book_links_book ON book_external_links(book_id);
+CREATE INDEX IF NOT EXISTS idx_book_links_type ON book_external_links(link_type);
+
+-- ═══════════════════════════════════════════════════════════════
+-- PHASE 6: Research Coverage & Community Engine
+-- ═══════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS category_taxonomy (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  parent_category TEXT REFERENCES category_taxonomy(id) ON DELETE SET NULL,
+  description TEXT,
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_category_parent ON category_taxonomy(parent_category);
+CREATE INDEX IF NOT EXISTS idx_category_slug ON category_taxonomy(slug);
+
+CREATE TABLE IF NOT EXISTS entity_categories (
+  entity_type TEXT CHECK(entity_type IN ('program', 'opportunity', 'event', 'book', 'roadmap')) NOT NULL,
+  entity_id TEXT NOT NULL,
+  category_id TEXT NOT NULL REFERENCES category_taxonomy(id) ON DELETE CASCADE,
+  PRIMARY KEY (entity_type, entity_id, category_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_entity_categories_cat ON entity_categories(category_id);
+
+CREATE TABLE IF NOT EXISTS dead_link_checks (
+  id TEXT PRIMARY KEY,
+  source_id TEXT NOT NULL REFERENCES sources(id) ON DELETE CASCADE,
+  url TEXT NOT NULL,
+  status_code INTEGER,
+  response_time INTEGER,
+  checked_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_dead_links_source ON dead_link_checks(source_id);
+
+CREATE TABLE IF NOT EXISTS contributor_submissions (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  organization TEXT,
+  submission_type TEXT CHECK(submission_type IN ('program', 'opportunity', 'event', 'book')) NOT NULL,
+  payload TEXT NOT NULL,
+  status TEXT CHECK(status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_contrib_submissions_status ON contributor_submissions(status);
+
+CREATE TABLE IF NOT EXISTS source_candidates (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  url TEXT UNIQUE NOT NULL,
+  country TEXT,
+  category TEXT,
+  confidence_score REAL DEFAULT 0.0,
+  discovered_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_source_candidates_url ON source_candidates(url);
+
 

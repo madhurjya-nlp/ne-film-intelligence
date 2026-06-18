@@ -188,7 +188,7 @@ const blogPostSchema = z.object({
   content: z.string().min(10, 'Content must be at least 10 characters'),
   cover_image: z.string().url('Invalid cover image URL').or(z.literal('')).nullable().optional(),
   author: z.string().nullable().optional(),
-  status: publicationStatusEnum.default('draft').optional(),
+  status: z.enum(['draft', 'review', 'published', 'archived']).default('draft').optional(),
   published_at: z.string().nullable().optional(),
   reading_time: z.number().int().min(0).optional(),
   featured: z.union([z.literal(0), z.literal(1)]).default(0).optional(),

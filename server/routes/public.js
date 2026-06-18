@@ -108,4 +108,23 @@ router.get('/blog/:slug', asyncRoute(async (req, res) => {
   res.json(post);
 }));
 
+const { CoverageService } = require('../services/coverageService');
+
+router.post('/contribute', asyncRoute(async (req, res) => {
+  const { name, email, organization, submission_type, payload } = req.body;
+  if (!name || !email || !submission_type || !payload) {
+    return res.status(400).json({ error: 'Name, email, submission_type, and payload are required' });
+  }
+  const result = CoverageService.submitContributorRecord({
+    name, email, organization, submission_type, payload
+  });
+  res.status(201).json(result);
+}));
+
+router.get('/categories', asyncRoute(async (req, res) => {
+  const { queryAll } = require('../db/db');
+  const categories = queryAll('SELECT id, name, slug FROM category_taxonomy ORDER BY name ASC');
+  res.json(categories);
+}));
+
 module.exports = router;

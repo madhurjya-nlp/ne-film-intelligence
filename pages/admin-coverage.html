@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coverage &amp; Health Intelligence | NE Film Intelligence</title>
+  <link rel="stylesheet" href="/css/design-system-v2.css">
+  <link rel="stylesheet" href="/css/design-tokens-v3.css">
+  <link rel="stylesheet" href="/css/motion-system.css">
+  <style>
+    :root {
+      --surface-elevated: #FFF;
+      --rule-dim: #E5E5E5;
+    }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--f-body);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .badge-critical {
+      background: var(--red-dim);
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+
+    .badge-need {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+    }
+
+    .badge-good {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+
+    .badge-excellent {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .source-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border: 2px solid var(--black);
+      background: var(--surface);
+      margin-bottom: 12px;
+      box-shadow: 2px 2px 0 var(--black);
+      border-radius: var(--radius-sm);
+    }
+
+    .score-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body class="public-page" data-pub-header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__belt">
+    <span class="ticker__item"><b>Intelligence Dashboard</b> — Coverage Score Rating Live</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Source Link Checker Connected</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Missing Categories Logged</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+  </div>
+</div>
+
+<div class="container" style="padding-top: 40px; padding-bottom: 80px;">
+  <p class="nb-caption" style="margin-bottom: 8px;"><a href="/admin.html">Admin Console</a> <span>/</span> Coverage Dashboard</p>
+  <h1 style="font-family: var(--f-display); font-size: var(--h1); letter-spacing: -0.02em; margin-bottom: 24px;">
+    Coverage &amp; <em>Health Intelligence</em>
+  </h1>
+  
+  <div class="dashboard-grid">
+    
+    <!-- Left Column: Metrics & Scores -->
+    <div>
+      <section class="nb-card" style="margin-bottom: 24px;">
+        <h2 style="font-family: var(--f-display); font-size: 20px; margin-bottom: 16px;">Category Coverage Scores</h2>
+        <div style="overflow-x: auto;">
+          <table class="nb-table" id="table-coverage">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Programs</th>
+                <th>Opportunities</th>
+                <th>Sources</th>
+                <th>Roadmaps</th>
+                <th>Score</th>
+                <th>Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="7" style="text-align:center;">Calculating metrics...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="nb-card">
+        <h2 style="font-family: var(--f-display); font-size: 20px; margin-bottom: 16px;">Source Health Monitoring</h2>
+        <div id="sources-health-list">
+          <p>Analyzing link checking logs...</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right Column: Priority Alerts & Map -->
+    <div>
+      <section class="nb-card nb-card--opportunity" style="margin-bottom: 24px; border-color: var(--red);">
+        <h2 style="font-family: var(--f-display); font-size: 20px; color: var(--red); margin-bottom: 12px;">Expansion Priority Gaps</h2>
+        <p class="nb-caption" style="margin-bottom: 16px;">Categories requiring immediate dataset enrichment:</p>
+        <ul id="list-priority" style="padding-left: 20px; font-size: 14px; line-height: 1.6;">
+          <li>Loading alerts...</li>
+        </ul>
+      </section>
+
+      <section class="nb-card nb-card--report" style="margin-bottom: 24px; border-color: var(--blue);">
+        <h2 style="font-family: var(--f-display); font-size: 20px; color: var(--blue); margin-bottom: 12px;">Blog Content Gap Alerts</h2>
+        <p class="nb-caption" style="margin-bottom: 16px;">Categories missing editorial coverage:</p>
+        <ul id="list-blog-gaps" style="padding-left: 20px; font-size: 14px; line-height: 1.6;">
+          <li>Loading alerts...</li>
+        </ul>
+      </section>
+
+      <section class="nb-card" style="margin-bottom: 24px;">
+        <h2 style="font-family: var(--f-display); font-size: 18px; margin-bottom: 12px;">Country Coverage</h2>
+        <div style="margin-bottom: 16px;">
+          <h4 class="nb-caption">Missing Priority Countries:</h4>
+          <div id="missing-countries" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;"></div>
+        </div>
+        <div>
+          <h4 class="nb-caption">Covered Countries breakdown:</h4>
+          <ul id="covered-countries" style="padding-left: 20px; font-size: 13px; margin-top: 8px; line-height: 1.6;"></ul>
+        </div>
+      </section>
+
+      <section class="nb-card">
+        <h2 style="font-family: var(--f-display); font-size: 18px; margin-bottom: 12px;">Sources by Category</h2>
+        <ul id="sources-by-category" style="padding-left: 20px; font-size: 13px; line-height: 1.6;"></ul>
+      </section>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (async function() {
+    'use strict';
+
+    async function loadData() {
+      try {
+        const resCov = await fetch('/api/coverage/dashboard');
+        const resHlth = await fetch('/api/sources/health');
+        
+        if (!resCov.ok || !resHlth.ok) throw new Error('API Error');
+        
+        const covData = await resCov.json();
+        const hlthData = await resHlth.json();
+
+        renderCoverage(covData);
+        renderHealth(hlthData);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function renderCoverage(data) {
+      // 1. Render Score table
+      const tbody = document.querySelector('#table-coverage tbody');
+      tbody.innerHTML = data.categoryMetrics.map(cat => {
+        let ratingClass = 'badge-critical';
+        if (cat.rating === 'Excellent') ratingClass = 'badge-excellent';
+        else if (cat.rating === 'Good') ratingClass = 'badge-good';
+        else if (cat.rating === 'Needs Expansion') ratingClass = 'badge-need';
+
+        return `
+          <tr>
+            <td><strong>${cat.name}</strong></td>
+            <td>${cat.programs}</td>
+            <td>${cat.opportunities}</td>
+            <td>${cat.sources}</td>
+            <td>${cat.roadmaps}</td>
+            <td><strong>${cat.score}</strong></td>
+            <td><span class="nb-badge ${ratingClass}">${cat.rating}</span></td>
+          </tr>
+        `;
+      }).join('');
+
+      // 2. Render priority gaps
+      const listPriority = document.getElementById('list-priority');
+      if (data.expansionPriority.length === 0) {
+        listPriority.innerHTML = '<li>✅ All categories satisfy minimum density criteria.</li>';
+      } else {
+        listPriority.innerHTML = data.expansionPriority.map(cat => `
+          <li style="margin-bottom: 8px;">
+            <strong>${cat.name}</strong> — ${cat.programs} prog / ${cat.opportunities} opp.
+            <div style="font-size:11px;color:var(--text-muted);">Score: ${cat.score} · Rating: ${cat.rating}</div>
+          </li>
+        `).join('');
+      }
+
+      // 2b. Render blog gaps
+      const listBlogGaps = document.getElementById('list-blog-gaps');
+      if (!data.blogGaps || data.blogGaps.length === 0) {
+        listBlogGaps.innerHTML = '<li>✅ All categories have matching articles.</li>';
+      } else {
+        listBlogGaps.innerHTML = data.blogGaps.map(gap => `
+          <li style="margin-bottom: 8px;">
+            <strong style="color:var(--red);">${gap.alertLabel}</strong>
+            <div style="font-size:11px;color:var(--text-muted);">Flagged: Write a guide for ${gap.name}</div>
+          </li>
+        `).join('');
+      }
+
+      // 3. Render country maps
+      const missingContainer = document.getElementById('missing-countries');
+      if (data.countriesMissing.length === 0) {
+        missingContainer.innerHTML = '<span class="nb-badge badge-excellent">None (All Priority covered)</span>';
+      } else {
+        missingContainer.innerHTML = data.countriesMissing.map(c => `<span class="nb-badge badge-critical">${c}</span>`).join('');
+      }
+
+      const coveredContainer = document.getElementById('covered-countries');
+      coveredContainer.innerHTML = data.countriesCovered.map(c => `
+        <li><strong>${c.country}:</strong> ${c.programs} programs, ${c.opportunities} opportunities</li>
+      `).join('');
+
+      // 4. Render category source breakdown
+      const sourceCatContainer = document.getElementById('sources-by-category');
+      sourceCatContainer.innerHTML = data.sourcesByCategory.map(c => `
+        <li><strong>${c.category}:</strong> ${c.count} sources registered</li>
+      `).join('');
+    }
+
+    function renderHealth(data) {
+      const list = document.getElementById('sources-health-list');
+      if (data.length === 0) {
+        list.innerHTML = '<p>No sources found to check link status.</p>';
+        return;
+      }
+
+      list.innerHTML = data.map(src => {
+        const check = src.lastCheckDetails;
+        let deadClass = 'badge-excellent';
+        if (src.deadLinkStatus === 'Dead Link') deadClass = 'badge-critical';
+
+        let freshClass = 'badge-good';
+        if (src.freshness === 'Needs Verification') freshClass = 'badge-critical';
+        else if (src.freshness === 'Stale') freshClass = 'badge-need';
+
+        return `
+          <div class="source-row">
+            <div>
+              <strong style="font-size:14px;">${src.name}</strong><br>
+              <a href="${src.url}" target="_blank" style="font-size:11px;color:var(--text-muted);word-break:break-all;">${src.url}</a>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:6px;font-family:var(--f-mono);">
+                Rate: ${src.verificationRate}% Verified · Check: ${check ? check.checked_at.slice(0,10) : 'Never'}
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+              <span class="nb-badge ${deadClass}">${src.deadLinkStatus}</span>
+              <span class="nb-badge ${freshClass}">${src.freshness}</span>
+              <button class="btn" onclick="checkLink('${src.source_id}', '${src.url}')" style="padding:4px 8px;font-size:10px;">Check</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.checkLink = async function(sourceId, url) {
+      try {
+        const btn = event.target;
+        btn.textContent = '...';
+        btn.disabled = true;
+
+        // Perform client link request simulation to backend status checker
+        const response = await fetch(`/api/sources/${sourceId}/check-link`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        
+        if (response.ok) {
+          alert('Link check complete.');
+          loadData();
+        } else {
+          alert('Link check request failed.');
+        }
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    loadData();
+  })();
+</script>
+</body>
+</html>

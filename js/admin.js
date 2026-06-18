@@ -183,6 +183,11 @@
       if (status) url += `&status=${status}`;
     } else if (currentTab === 'discoveries') {
       url = `${API_BASE}/ingestion/discoveries?limit=100`;
+    } else if (currentTab === 'contributor-submissions') {
+      url = `${API_BASE}/contributor/submissions`;
+      if (status) url += `?status=${status}`;
+    } else if (currentTab === 'candidates') {
+      url = `${API_BASE}/candidates`;
     } else if (currentTab === 'blog') {
       url = `${API_BASE}/blog?limit=100`;
       if (query) url += `&search=${encodeURIComponent(query)}`;
@@ -209,7 +214,7 @@
         return;
       }
 
-      const items = currentTab === 'submissions' ? data : (data.items || []);
+      const items = (currentTab === 'submissions' || currentTab === 'contributor-submissions' || currentTab === 'candidates') ? data : (data.items || []);
 
       if (!items || items.length === 0) {
         if (currentTab === 'reports') {
@@ -417,6 +422,31 @@
           <strong>Published Date</strong>: ${item.published_at ? new Date(item.published_at).toLocaleString() : 'Not Published'}
         </div>
       `;
+    } else if (currentTab === 'contributor-submissions') {
+      headerMetaHtml = `Type: <strong>${item.submission_type.toUpperCase()}</strong> • By ${item.name} (${item.email}) • Org: ${item.organization || 'None'}`;
+      let payloadDetailsHtml = '<pre style="background:#f4f4f4;padding:8px;font-size:11px;overflow-x:auto;border:1px solid #ddd;margin-top:6px;width:100%;box-sizing:border-box;">';
+      try {
+        const payloadObj = typeof item.payload === 'string' ? JSON.parse(item.payload) : item.payload;
+        payloadDetailsHtml += JSON.stringify(payloadObj, null, 2);
+      } catch (e) {
+        payloadDetailsHtml += item.payload;
+      }
+      payloadDetailsHtml += '</pre>';
+
+      detailsHtml = `
+        <div class="item-card__details" style="display:block;margin-top:10px;width:100%;">
+          <strong>Submitted Payload:</strong>
+          ${payloadDetailsHtml}
+        </div>
+      `;
+    } else if (currentTab === 'candidates') {
+      headerMetaHtml = `Category: <strong>${item.category}</strong> • Country: ${item.country || 'Unknown'} • Discovered: ${new Date(item.discovered_at).toLocaleDateString()}`;
+      detailsHtml = `
+        <div class="item-card__details" style="display:block;margin-top:10px;">
+          <strong>Confidence Score:</strong> ${Math.round(item.confidence_score * 100)}% <br>
+          <strong>URL:</strong> <a href="${item.url}" target="_blank">${item.url}</a>
+        </div>
+      `;
     }
 
     // Source display
@@ -428,6 +458,7 @@
     let moderationControls = '';
     if (currentTab === 'sources') {
       moderationControls = `
+        <button class="btn btn-primary" data-action="scan-candidates" data-id="${item.id}" style="background:var(--blue);color:white;border-color:var(--blue);">Scan Candidates</button>
         <button class="btn btn-primary" data-action="sync-source" data-id="${item.id}">Run Sync</button>
         <button class="btn" data-action="toggle-source" data-id="${item.id}">${item.active_status ? 'Deactivate' : 'Activate'}</button>
       `;
@@ -437,7 +468,7 @@
       const modType = item.entity_type === 'opportunity' ? 'opportunity' : item.entity_type;
       moderationControls = `
         <button class="btn btn-success" data-action="approve-discovery" data-id="${item.id}" data-type="${modType}">Verify</button>
-        <button class="btn btn-primary" data-action="moderate-discovery" data-id="${item.id}" data-type="${modType}">Review</button>
+        <button class="btn" data-action="moderate-discovery" data-id="${item.id}" data-type="${modType}">Review</button>
         <button class="btn" data-action="reject-discovery" data-id="${item.id}" data-type="${modType}" style="color:var(--red);">Reject</button>
       `;
     } else if (currentTab === 'roadmaps') {
@@ -456,12 +487,45 @@
           <button class="btn" data-action="reject-sub" data-id="${item.id}" style="color:var(--red);border-color:var(--red);">Reject</button>
         `;
       }
+    } else if (currentTab === 'contributor-submissions') {
+      if (item.status === 'pending') {
+        moderationControls = `
+          <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px; width: 100%;">
+            <input type="text" placeholder="Reviewer Notes (optional)" class="form-control" id="notes-${item.id}" style="width: 100%; box-sizing:border-box;">
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-success" data-action="approve-contrib" data-id="${item.id}">Approve & Publish</button>
+              <button class="btn" data-action="reject-contrib" data-id="${item.id}" style="color:var(--red);border-color:var(--red);">Reject</button>
+            </div>
+          </div>
+        `;
+      } else {
+        moderationControls = `<span class="nb-badge ${item.status === 'approved' ? 'badge-excellent' : 'badge-critical'}">${item.status.toUpperCase()}</span>`;
+      }
+    } else if (currentTab === 'candidates') {
+      moderationControls = `
+        <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px; width: 100%;">
+          <label for="parser-${item.id}" style="font-size:11px;font-weight:700;">Select Parser for Source Registry:</label>
+          <select class="form-control" id="parser-${item.id}" style="width: 100%; box-sizing:border-box;">
+            <option value="generic">Generic Parser</option>
+            <option value="daad">DAAD Parser</option>
+            <option value="festival">Festival Parser</option>
+            <option value="university">University Parser</option>
+          </select>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-success" data-action="approve-cand" data-id="${item.id}">Approve to Sources</button>
+            <button class="btn" data-action="reject-cand" data-id="${item.id}" style="color:var(--red);border-color:var(--red);">Reject</button>
+          </div>
+        </div>
+      `;
     } else if (currentTab === 'blog') {
+      const reviewBtn = item.status === 'draft' ? 
+        `<button class="btn" data-action="review-blog" data-id="${item.id}">Submit Review</button>` : '';
       const publishBtn = item.status !== 'published' ? 
         `<button class="btn btn-success" data-action="publish-blog" data-id="${item.id}">Publish</button>` : '';
       const archiveBtn = item.status !== 'archived' ? 
         `<button class="btn" data-action="archive-blog" data-id="${item.id}">Archive</button>` : '';
       moderationControls = `
+        ${reviewBtn}
         ${publishBtn}
         ${archiveBtn}
         <button class="btn" data-action="edit" data-id="${item.id}">Edit</button>
@@ -475,9 +539,19 @@
       `;
     }
 
-    const cardTitle = currentTab === 'sync-history'
+    let cardTitle = currentTab === 'sync-history'
       ? `Sync: ${item.source_name || item.source_id}`
       : (currentTab === 'sources' ? item.name : (item.title || item.name));
+
+    if (currentTab === 'contributor-submissions') {
+      let payloadObj = {};
+      try {
+        payloadObj = typeof item.payload === 'string' ? JSON.parse(item.payload) : item.payload;
+      } catch (e) {}
+      cardTitle = `Submission: ${payloadObj.title || 'Untitled'} (${item.submission_type.toUpperCase()})`;
+    } else if (currentTab === 'candidates') {
+      cardTitle = `Candidate: ${item.title}`;
+    }
 
     card.innerHTML = `
       <div class="item-card__header">
@@ -511,7 +585,124 @@
 
   // ── CARD BUTTON EVENT HANDLERS ──
   async function handleCardAction(action, id, item) {
-    if (action === 'publish-blog') {
+    if (action === 'scan-candidates') {
+      const btn = document.querySelector(`button[data-action="scan-candidates"][data-id="${id}"]`);
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Scanning...';
+      }
+      try {
+        const res = await fetch(`${API_BASE}/candidates/scan`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sourceId: id })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          showToast(`Scan complete. Discovered ${data.count} candidates.`);
+          fetchItems();
+        } else {
+          showToast('Scan failed.');
+        }
+      } catch (err) {
+        showToast('Error running scan.');
+      }
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Scan Candidates';
+      }
+      return;
+    } else if (action === 'approve-contrib') {
+      const notes = document.getElementById(`notes-${id}`)?.value || '';
+      try {
+        const res = await fetch(`${API_BASE}/contributor/submissions/${id}/moderate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'approved', notes, reviewerName: 'Admin' })
+        });
+        if (res.ok) {
+          showToast('Submission approved and published.');
+          fetchItems();
+        } else {
+          showToast('Failed to approve submission.');
+        }
+      } catch (err) {
+        showToast('Error approving.');
+      }
+      return;
+    } else if (action === 'reject-contrib') {
+      const notes = document.getElementById(`notes-${id}`)?.value || '';
+      try {
+        const res = await fetch(`${API_BASE}/contributor/submissions/${id}/moderate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'rejected', notes, reviewerName: 'Admin' })
+        });
+        if (res.ok) {
+          showToast('Submission rejected.');
+          fetchItems();
+        } else {
+          showToast('Failed to reject submission.');
+        }
+      } catch (err) {
+        showToast('Error rejecting.');
+      }
+      return;
+    } else if (action === 'approve-cand') {
+      const parserType = document.getElementById(`parser-${id}`)?.value || 'generic';
+      try {
+        const res = await fetch(`${API_BASE}/candidates/${id}/moderate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'approved', parserType })
+        });
+        if (res.ok) {
+          showToast('Candidate approved and registered as Source.');
+          fetchItems();
+        } else {
+          showToast('Failed to approve candidate.');
+        }
+      } catch (err) {
+        showToast('Error approving candidate.');
+      }
+      return;
+    } else if (action === 'reject-cand') {
+      try {
+        const res = await fetch(`${API_BASE}/candidates/${id}/moderate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'rejected' })
+        });
+        if (res.ok) {
+          showToast('Candidate rejected.');
+          fetchItems();
+        } else {
+          showToast('Failed to reject candidate.');
+        }
+      } catch (err) {
+        showToast('Error rejecting candidate.');
+      }
+      return;
+    }
+
+    if (action === 'review-blog') {
+      try {
+        const res = await fetch(`${API_BASE}/blog/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'review' })
+        });
+        if (res.ok) {
+          showToast('Blog article submitted for review.');
+          fetchItems();
+        } else {
+          showToast('Failed to submit article for review.');
+        }
+      } catch (err) {
+        showToast('Failed to submit for review.');
+      }
+      return;
+    } else if (action === 'publish-blog') {
       try {
         const res = await fetch(`${API_BASE}/blog/${id}`, {
           method: 'PUT',
@@ -861,12 +1052,14 @@
       if (item) {
         titleInput.value = item.title;
         document.getElementById('form-author').value = item.author || 'Admin';
+        document.getElementById('form-blog-status').value = item.status || 'draft';
         document.getElementById('form-featured').checked = item.featured === 1;
         document.getElementById('form-cover-image').value = item.cover_image || '';
         summaryInput.value = item.excerpt || '';
         document.getElementById('form-blog-content').value = item.content || '';
       } else {
         document.getElementById('form-author').value = 'Admin';
+        document.getElementById('form-blog-status').value = 'draft';
         const draft = localStorage.getItem('nefi_blog_draft');
         if (draft) {
           document.getElementById('autosave-recovery-banner').style.display = 'flex';
@@ -1119,6 +1312,7 @@
       payload = {
         title,
         author: document.getElementById('form-author').value,
+        status: document.getElementById('form-blog-status').value,
         featured: document.getElementById('form-featured').checked ? 1 : 0,
         cover_image: document.getElementById('form-cover-image').value || null,
         excerpt: summary,

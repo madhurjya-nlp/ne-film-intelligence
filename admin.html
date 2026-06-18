@@ -528,9 +528,11 @@
           <button class="admin-nav-btn" data-tab="opportunities" role="tab" aria-selected="false">💵 Scholarships & Grants</button>
           <button class="admin-nav-btn" data-tab="events" role="tab" aria-selected="false">🎬 Labs & Festivals</button>
           <button class="admin-nav-btn" data-tab="submissions" role="tab" aria-selected="false">📩 Submissions</button>
+          <button class="admin-nav-btn" data-tab="contributor-submissions" role="tab" aria-selected="false">📩 Contributor Submissions</button>
           <button class="admin-nav-btn" data-tab="blog" role="tab" aria-selected="false">✍️ Blog Articles</button>
           <button class="admin-nav-btn" data-tab="institutes" role="tab" aria-selected="false">🏫 Institutes</button>
           <button class="admin-nav-btn" data-tab="sources" role="tab" aria-selected="false">📡 Sources</button>
+          <button class="admin-nav-btn" data-tab="candidates" role="tab" aria-selected="false">🔍 Discovery Candidates</button>
           <button class="admin-nav-btn" data-tab="sync-history" role="tab" aria-selected="false">📋 Sync History</button>
           <button class="admin-nav-btn" data-tab="discoveries" role="tab" aria-selected="false">🔍 Pending Discoveries</button>
           <button class="admin-nav-btn" data-tab="roadmaps" role="tab" aria-selected="false">🗺️ Roadmaps</button>
@@ -672,13 +674,22 @@
           </select>
         </div>
 
-        <!-- Blog Meta (Author & Featured) Container -->
+        <!-- Blog Meta (Author, Status & Featured) Container -->
         <div style="display: none; grid-template-columns: 1fr 1fr; gap: 12px;" id="form-blog-meta-container">
           <div class="form-group">
             <label for="form-author">Author *</label>
             <input type="text" id="form-author" class="form-control" placeholder="e.g. Madhurjya">
           </div>
-          <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px; margin-top: 24px;">
+          <div class="form-group">
+            <label for="form-blog-status">Status *</label>
+            <select id="form-blog-status" class="form-control">
+              <option value="draft">Draft</option>
+              <option value="review">Review</option>
+              <option value="published">Published</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+          <div class="form-group" style="grid-column: span 2; flex-direction: row; align-items: center; gap: 8px;">
             <input type="checkbox" id="form-featured" style="width: 20px; height: 20px; cursor: pointer;">
             <label for="form-featured" style="margin-bottom: 0; cursor: pointer; text-transform: none; font-size: 11px;">Featured Article</label>
           </div>

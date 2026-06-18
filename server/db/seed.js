@@ -296,6 +296,18 @@ NE Relevance: ${e.ne_relevance || ''}
   } catch (err) {
     console.error('[Seeding] Failed to run blog seed during database seed:', err);
   }
+  try {
+    const { seedTaxonomyAndSources } = require('./seed-taxonomy-sources');
+    seedTaxonomyAndSources();
+  } catch (err) {
+    console.error('[Seeding] Failed to run taxonomy seed during database seed:', err);
+  }
+  try {
+    const { seedCoverageData } = require('./seed-coverage-data');
+    seedCoverageData();
+  } catch (err) {
+    console.error('[Seeding] Failed to run coverage seed during database seed:', err);
+  }
 }
 
 // Check if we are running this script directly

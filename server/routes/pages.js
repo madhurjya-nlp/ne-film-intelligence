@@ -20,6 +20,8 @@ const LIST_PAGES = [
   ['/relationships', 'pages/relationships.html'],
   ['/search', 'pages/search.html'],
   ['/blog', 'pages/blog.html'],
+  ['/contribute', 'pages/contribute.html'],
+  ['/admin/coverage', 'pages/admin-coverage.html'],
 ];
 
 LIST_PAGES.forEach(([route, file]) => {
