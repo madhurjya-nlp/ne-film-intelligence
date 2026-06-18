@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events & Networking — The Film Path</title>
+  <meta name="description" content="Film labs, co-production markets, pitch forums, online filmmaker communities, and India-specific events for independent filmmakers from Northeast India.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+.event-type { font-family: var(--f-display); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); padding: 32px 0 16px; border-bottom: 1px solid var(--rule); margin-bottom: 0; }
+.event-type em { font-style: normal; color: var(--sky); }
+.deadline-countdown { font-family: var(--f-mono); font-size: 8px; color: var(--mark); }
+.festival-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.festival-item { background: var(--card); padding: 20px; border-left: 3px solid var(--rule); transition: background var(--dur) var(--ease), border-left-color var(--dur) var(--ease); }
+.festival-item:hover { background: var(--card-hover); border-left-color: var(--celluloid); }
+.fest-name { font-family: var(--f-display); font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.fest-loc { font-family: var(--f-mono); font-size: 8px; color: var(--text-muted); margin-bottom: 6px; }
+.fest-desc { font-size: 12px; color: var(--archive); line-height: 1.6; }
+.fest-date { font-family: var(--f-mono); font-size: 8px; color: var(--text-dim); margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__belt">
+    <span class="ticker__item"><b>40+</b> Events & Labs</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>15</b> International Labs</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>10</b> India-Specific</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Online & In-Person</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Free Entry Options</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">NE India Home Ground</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>40+</b> Events & Labs</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>15</b> International Labs</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>10</b> India-Specific</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Online & In-Person</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Free Entry Options</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">NE India Home Ground</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+  </div>
+</div>
+
+<header class="site-header">
+  <a href="index.html" class="header-wordmark">The&nbsp;<span>Film</span>&nbsp;Path</a>
+  <nav aria-label="Primary navigation">
+    <ul class="header-nav">
+      <li><a href="programs.html">Programs</a></li>
+      <li><a href="grants.html">Grants</a></li>
+      <li><a href="books.html">Books</a></li>
+      <li><a href="events.html" class="active">Events</a></li>
+    </ul>
+  </nav>
+  <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  <div class="header-meta">v2.0 &nbsp;·&nbsp; <span id="header-date">2026-06-18</span></div>
+</header>
+
+<nav class="mobile-nav" aria-label="Mobile navigation">
+  <a href="index.html">Home</a>
+  <a href="programs.html">Programs</a>
+  <a href="grants.html">Grants & Funds</a>
+  <a href="books.html">Books & Library</a>
+  <a href="events.html">Events & Networking</a>
+</nav>
+
+<section class="page-hero page-content">
+  <div class="container container--narrow">
+    <p class="page-hero__breadcrumb"><a href="index.html">Home</a> <span>/</span> <span>Events & Networking</span></p>
+    <h1 class="page-hero__title">Events &amp;<br><em>Networking</em></h1>
+    <p class="page-hero__sub">Film labs, co-production markets, pitch forums, online filmmaker communities, and India-specific events — curated for independent filmmakers building international careers from Northeast India.</p>
+    <div class="page-hero__stats">
+      <div class="page-hero__stat"><span class="page-hero__stat-n">40+</span><span class="page-hero__stat-l">Events Listed</span></div>
+      <div class="page-hero__stat"><span class="page-hero__stat-n">15</span><span class="page-hero__stat-l">Intl. Labs</span></div>
+      <div class="page-hero__stat"><span class="page-hero__stat-n">10</span><span class="page-hero__stat-l">India Events</span></div>
+      <div class="page-hero__stat"><span class="page-hero__stat-n">₹0</span><span class="page-hero__stat-l">Many Free</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INTERNATIONAL LABS ════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="event-type reveal">🎓 <em>International Film Labs & Workshops</em></h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Application-based programs — often free or heavily subsidized — that provide mentorship, script development, networking, and sometimes production grants. <strong style="color:var(--text)">The single most valuable category</strong> for an emerging NE India filmmaker seeking international exposure.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://www.berlinale-talents.de" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
+        <span class="card__tag card__tag--yellow">Free if selected</span>
+        <h3 class="card__title">Berlinale Talents</h3>
+        <div class="card__meta">Berlin · Feb (during Berlinale) · 6-day intensive</div>
+        <div class="card__body">Talent development lab. No participation fee. Solidarity pricing for application fee (~€15-25). Open to 15+ disciplines. Strong alumni network. Access to EFM Inclusion Initiative for Global South badges.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Applications Jul-Sep</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.torinofilmlab.it" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
+        <span class="card__tag card__tag--yellow">Scholarships available</span>
+        <h3 class="card__title">TorinoFilmLab (TFL)</h3>
+        <div class="card__meta">Italy · Year-round · ScriptLab, FeatureLab</div>
+        <div class="card__body">One of the most accessible top-tier labs. Scholarships for underrepresented regions (India qualifies). ScriptLab: bring only an idea. FeatureLab: have a producer attached. TFL Co-Production Fund offers €50K grants.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Applications Oct-Dec</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://apply.sundance.org" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
+        <span class="card__tag card__tag--green">Free · Travel covered</span>
+        <h3 class="card__title">Sundance Screenwriters Lab</h3>
+        <div class="card__meta">Utah, USA · Summer · 1st/2nd-time writers</div>
+        <div class="card__body">Sundance Institute's flagship. Open internationally. Prioritizes underrepresented communities. Screenwriters Intensive specifically seeks diversity — emphasize your NE Indian identity. Free for selected participants (travel covered).</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Applications Apr-May</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://labs.jsfs.co.il" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
+        <span class="card__tag card__tag--green">Free for selected</span>
+        <h3 class="card__title">Jerusalem Sam Spiegel Lab</h3>
+        <div class="card__meta">Israel · 7-8 month script development + pitching</div>
+        <div class="card__body">Fully funded development lab for 1st/2nd narrative feature. 12 projects selected annually. Mix of in-person and online. Production grants awarded to winners. Intimate size = intensive mentorship.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Applications autumn</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.biff.kr" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
+        <span class="card__tag card__tag--green">Fully sponsored by CHANEL</span>
+        <h3 class="card__title">Asian Film Academy (BIFF)</h3>
+        <div class="card__meta">Busan, South Korea · Oct · Fully funded</div>
+        <div class="card__body">For emerging Asian directors developing first feature. India explicitly eligible. Projects must have "Asian elements" — NE Indian cultural themes are a strong fit. Fully sponsored, pre-production online + main program in Busan.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Applications ~May</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.tiff.net/industry" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
+        <h3 class="card__title">TIFF Talent Development</h3>
+        <div class="card__meta">Toronto · Sep · Directors' Lab, Writers' Lab</div>
+        <div class="card__body">Directors' Lab and Writers' Lab open internationally. No cost for selected participants. TIFF: The Market (2026 new) for financing partnerships. Need at least 2 festival-screened shorts for Directors' Lab.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Applications Feb-Apr</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://iffr.com/en/iffr-pro" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
+        <h3 class="card__title">Rotterdam Lab / Creators Lab</h3>
+        <div class="card__meta">Netherlands · Jan-Feb · Free for selected</div>
+        <div class="card__body">Producer training + new Creators Lab for writers/directors (2026). Primarily nomination-based through NFDC — contact them. Some open-call diversity spots. IFFR has strong affinity for Asian independent cinema.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Nominations via NFDC</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.festival-cannes.com/en/" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
+        <span class="card__tag card__tag--green">Free · Monthly grant</span>
+        <h3 class="card__title">Cannes Cinéfondation Résidence</h3>
+        <div class="card__meta">Paris · 4.5-month screenwriting residency</div>
+        <div class="card__body">Fully funded Paris residency. Monthly grant provided. Under 35 years old. Must have short/feature screened at Category A festival (Cannes, Berlin, Venice, Sundance etc.). The key barrier — prioritize getting shorts into A-list festivals.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Age limit: 35</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.eictv.org" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
+        <span class="card__tag card__tag--yellow">Workshops €500-1,200</span>
+        <h3 class="card__title">EICTV Cuba — Online Workshops</h3>
+        <div class="card__meta">Cuba · Online · World-renowned film school</div>
+        <div class="card__body">Founded by Gabriel García Márquez. Online workshops €500-1,200 (~₹42K-1L) — within budget and carry enormous prestige. "Learning by doing" philosophy. Spanish recommended for most programs.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Within budget</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CO-PRODUCTION MARKETS ═════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="event-type reveal">🤝 <em>Co-Production Markets & Forums</em></h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Essential for turning a developed project into a produced film. Connect with international buyers, producers, and distributors.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://filmbazaarindia.com" target="_blank" rel="noopener" class="card" data-category="markets" data-searchable>
+        <span class="card__tag card__tag--green">Essential for Indian filmmakers</span>
+        <h3 class="card__title">WAVES Film Bazaar (NFDC)</h3>
+        <div class="card__meta">Goa · Nov 20-28 · India's premier film market</div>
+        <div class="card__body"><strong>ESSENTIAL.</strong> India's premier co-production market. NE Indian stories with South Asian themes are exactly what this market looks for. Accessible location, affordable for Indian filmmakers. Submit to Co-Production Market when you have a strong project package.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Submissions mid-2026</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://apm.acfm.kr" target="_blank" rel="noopener" class="card" data-category="markets" data-searchable>
+        <h3 class="card__title">Asian Project Market (BIFF)</h3>
+        <div class="card__meta">Busan, Korea · Oct 10-13 · Asia's leading co-production platform</div>
+        <div class="card__body">Very high relevance. NE Indian stories have strong appeal in Asian independent film ecosystem. Free for selected projects. One-on-one meetings with investors, distributors. Apply with feature project + producer attached.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Applications Apr-May</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.3continents.com/en/produire-au-sud/pas-a-nantes/" target="_blank" rel="noopener" class="card" data-category="markets" data-searchable>
+        <span class="card__tag card__tag--green">Free for selected</span>
+        <h3 class="card__title">Produire au Sud (Nantes)</h3>
+        <div class="card__meta">France · Nov · Co-production training</div>
+        <div class="card__body">Explicitly for African, Asian, Latin American filmmakers. Free. 6-8 teams selected. Training in international co-production. Small cohort = intensive mentorship. One of the most accessible pathways to learn European co-production.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Applications summer</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://efm-berlinale.de" target="_blank" rel="noopener" class="card" data-category="markets" data-searchable>
+        <span class="card__tag card__tag--green">Free Inclusion Initiative</span>
+        <h3 class="card__title">EFM (Berlinale) Market Badge</h3>
+        <div class="card__meta">Berlin · Feb · Major European film market</div>
+        <div class="card__body">EFM Inclusion Initiative provides <strong>free physical badges</strong> for Global South professionals. Online Market Badge (€120) also available for remote participation. Combine with Berlinale Talents application for maximum impact.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Apply early for free badge</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://professionals.idfa.nl" target="_blank" rel="noopener" class="card" data-category="markets" data-searchable>
+        <h3 class="card__title">IDFA Forum</h3>
+        <div class="card__meta">Amsterdam · Nov 15-18 · Documentary co-financing</div>
+        <div class="card__body">World's most important documentary co-financing market. <strong>Applications June 1 - July 23, 2026 — OPEN NOW.</strong> Feature-length documentaries. NE Indian stories (indigenous cultures, ecological challenges) resonate strongly with European funders.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>⚠️ Deadline July 23</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ONLINE NETWORKING ═════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="event-type reveal">💻 <em>Online Networking Communities</em></h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Accessible from anywhere in Northeast India with an internet connection. <strong style="color:var(--text)">The most immediately actionable category.</strong></p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://www.stage32.com" target="_blank" rel="noopener" class="card" data-category="online" data-searchable>
+        <span class="card__tag card__tag--green">Free basic membership</span>
+        <h3 class="card__title">Stage 32</h3>
+        <div class="card__meta">"LinkedIn for filmmakers" · 1M+ members</div>
+        <div class="card__body">Free to join and network. Educational webinars, pitch sessions to executives, script services. Completely accessible from NE India. The "Happy Writers" pitch sessions let you pitch to producers from anywhere.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Start immediately</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://collab.sundance.org" target="_blank" rel="noopener" class="card" data-category="online" data-searchable>
+        <span class="card__tag card__tag--green">Varies (some free)</span>
+        <h3 class="card__title">Sundance Collab</h3>
+        <div class="card__meta">Year-round online workshops & masterclasses</div>
+        <div class="card__body">Year-round access to Sundance-quality education. $30 master classes, $350-750 courses. Need-based scholarships available. Direct connection to Sundance ecosystem — use as entry point for Sundance Labs applications.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Scholarships available</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.blcklst.com" target="_blank" rel="noopener" class="card" data-category="online" data-searchable>
+        <h3 class="card__title">The Black List</h3>
+        <div class="card__meta">Screenplay hosting + evaluation · $30/mo</div>
+        <div class="card__body">Gold standard for screenplay exposure. Accessible from anywhere. Multiple scripts discovered through the platform. Don't host until your script is competition-ready. Budget for 2-3 months of hosting + evaluations.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>$30/mo + $75 eval</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <div class="card" data-category="online" data-searchable>
+        <span class="card__tag card__tag--green">Free</span>
+        <h3 class="card__title">Discord Filmmaker Communities</h3>
+        <div class="card__meta">Real-time chat · Photography & Filmmaking, Script Hive</div>
+        <div class="card__body">Free, immediate access, global peer network. Script Hive is excellent for screenwriters (table reads, feedback channels). Find via Hive Index or Discadia. Join 2-3 focused communities and participate actively.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Start immediately · ₹0</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INDIA EVENTS ═════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="event-type reveal">🇮🇳 <em>India-Specific Events</em></h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">The most geographically and financially accessible opportunities for an NE India filmmaker.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://diff.co.in" target="_blank" rel="noopener" class="card" data-category="india" data-searchable>
+        <span class="card__tag card__tag--yellow">⚠️ Deadline Aug 2</span>
+        <h3 class="card__title">Dharamshala Intl. Film Festival</h3>
+        <div class="card__meta">McLeod Ganj · Oct 29 - Nov 1 · Free submissions via FilmFreeway</div>
+        <div class="card__body">DIFF Film Fellows Programme nurtures emerging talent from Himalayan regions. NE India may qualify. Online programme Nov 2-9 accessible from anywhere. Submit films by August 2. Founded by Neeraj Ghaywan and Ritu Sarin — strong indie film ethos.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Submit NOW</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.mumbaifilmfestival.com" target="_blank" rel="noopener" class="card" data-category="india" data-searchable>
+        <h3 class="card__title">MAMI Mumbai Film Festival</h3>
+        <div class="card__meta">Mumbai · Oct · Year Round Programme</div>
+        <div class="card__body">MAMI Select: Filmed on iPhone program for emerging filmmakers across India (equipment + mentorship). Year Round Programme with continuous engagement. Apply for MAMI Select as NE Indian filmmaker.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Continuous engagement</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.docedge.in" target="_blank" rel="noopener" class="card" data-category="india" data-searchable>
+        <h3 class="card__title">DocedgeKolkata</h3>
+        <div class="card__meta">Kolkata · Mar · Documentary pitching forum</div>
+        <div class="card__body">Closest major documentary platform geographically. Incubation + pitching + meeting commissioning editors. Call for projects typically Nov-Dec, Forum in March. Perfect for documentary projects from NE India.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Call for projects Nov-Dec</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://signsfestival.in" target="_blank" rel="noopener" class="card" data-category="india" data-searchable>
+        <h3 class="card__title">SiGNS Film Festival, Kerala</h3>
+        <div class="card__meta">Kerala · Feb · National shorts & docs</div>
+        <div class="card__body">National documentary and short film festival. John Abraham National Awards. Perfect for short film and documentary submissions. Winning boosts profile for lab/market applications.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Submit shorts & docs</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <div class="card" data-category="india" data-searchable>
+        <span class="card__tag card__tag--yellow">Home Ground</span>
+        <h3 class="card__title">Guwahati Film Festivals</h3>
+        <div class="card__meta">Assam · Jan-Mar · Multiple festivals</div>
+        <div class="card__body"><strong>ESSENTIAL for NE India networking.</strong> Guwahati Asian Film Festival (Jan), International Guwahati Film Festival (Feb), NE India Film Festival (Mar). Attend ALL of these — they form the foundation of your professional network.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Jan-Mar annually</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </div>
+      <a href="https://zirofestival.com" target="_blank" rel="noopener" class="card" data-category="india" data-searchable>
+        <h3 class="card__title">Ziro Festival of Music + Film</h3>
+        <div class="card__meta">Arunachal Pradesh · Sep 24-27</div>
+        <div class="card__body">In NE India itself (Arunachal Pradesh). Music festival with growing film component (ZFF-M). NFDC involvement. Perfect for networking with cultural organizations. ILP required.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Sep 24-27, 2026</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PITCH FORUMS ═════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="event-type reveal">🎯 <em>Pitch Forums for Emerging Filmmakers</em></h2>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://www.hotdocs.ca" target="_blank" rel="noopener" class="card" data-category="pitch" data-searchable>
+        <h3 class="card__title">Hot Docs Forum (Toronto)</h3>
+        <div class="card__meta">Canada · Apr-May · Documentary pitch forum</div>
+        <div class="card__body">Top documentary pitch market globally. Requires "trigger financier" commitment. Apply Oct 2026 for 2027. Pitch training provided to selected teams — valuable in itself.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Applications Oct 2026</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://fieldofvision.org" target="_blank" rel="noopener" class="card" data-category="pitch" data-searchable>
+        <h3 class="card__title">Field of Vision</h3>
+        <div class="card__meta">Documentary fund · Rolling submissions</div>
+        <div class="card__body">Accepts cold submissions anytime. No deadlines, no geographic restrictions. Perfect for NE Indian documentary filmmakers with urgent, access-driven stories. Submit when you have a compelling concept.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Submit anytime</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.indianfilmfestival.org" target="_blank" rel="noopener" class="card" data-category="pitch" data-searchable>
+        <h3 class="card__title">IFFLA Launchpad Pitch</h3>
+        <div class="card__meta">Los Angeles · Apr · $10K grant</div>
+        <div class="card__body">Indian Film Festival of Los Angeles. Launchpad Pitch Competition with $10,000 grant. IFFLA Connect pairs projects with industry professionals. Strong for Hollywood/diaspora connections.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>$10K prize</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUICK ACTION PLAN ═════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <div class="section-head">
+      <span class="section-label">Immediate Actions</span>
+      <span class="section-count">What to do now</span>
+    </div>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div style="background:var(--surface);border:1px solid var(--rule);padding:24px;">
+      <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;">
+        <div>
+          <h4 style="color:var(--mark);font-family:var(--f-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">⚠️ Urgent (June-July)</h4>
+          <ul style="list-style:none;font-size:12px;color:var(--archive);line-height:2.2">
+            <li>• <strong style="color:var(--text)">IDFA Forum</strong> — Deadline July 23</li>
+            <li>• <strong style="color:var(--text)">DIFF</strong> — Submit by Aug 2</li>
+            <li>• <strong style="color:var(--text)">Stage 32</strong> — Join free now</li>
+            <li>• <strong style="color:var(--text)">Sundance Collab</strong> — Explore free content</li>
+            <li>• <strong style="color:var(--text)">Field of Vision</strong> — Cold submit anytime</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--celluloid);font-family:var(--f-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">📅 Autumn 2026</h4>
+          <ul style="list-style:none;font-size:12px;color:var(--archive);line-height:2.2">
+            <li>• <strong style="color:var(--text)">Berlinale Talents</strong> — Apply Jul-Sep</li>
+            <li>• <strong style="color:var(--text)">Ziro Festival</strong> — Attend Sep 24-27</li>
+            <li>• <strong style="color:var(--text)">TorinoFilmLab</strong> — ScriptLab apps open</li>
+            <li>• <strong style="color:var(--text)">DocedgeKolkata</strong> — Call for projects</li>
+            <li>• <strong style="color:var(--text)">Film Bazaar</strong> — Register + submit</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--sage);font-family:var(--f-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">✅ Ongoing</h4>
+          <ul style="list-style:none;font-size:12px;color:var(--archive);line-height:2.2">
+            <li>• <strong style="color:var(--text)">Sundance Labs</strong> — Monitor Apr-May apps</li>
+            <li>• <strong style="color:var(--text)">Hot Docs Forum</strong> — Apply Oct 2026</li>
+            <li>• <strong style="color:var(--text)">Asian Film Academy</strong> — Watch May deadline</li>
+            <li>• <strong style="color:var(--text)">EFM Inclusion Initiative</strong> — Free badge</li>
+            <li>• <strong style="color:var(--text)">Discord communities</strong> — Join today</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="ft-logo">The <span>Film</span> Path</div>
+        <div class="ft-tagline">A research atlas for filmmakers from Northeast India</div>
+      </div>
+      <div class="ft-center">
+        <div class="ft-ver">v2.0.0 &nbsp;·&nbsp; Build 2026-06-18</div>
+        <div class="ft-ver ft-ver-highlight">Personal Research Use</div>
+      </div>
+      <div class="ft-right">
+        <div class="ft-updated" id="footer-ts">Last updated: 2026-06-18</div>
+        <nav class="ft-links" aria-label="Footer links">
+          <a href="index.html">Home</a>
+          <a href="programs.html">Programs</a>
+          <a href="grants.html">Grants</a>
+          <a href="books.html">Books</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

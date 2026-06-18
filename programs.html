@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programs & Universities — The Film Path</title>
+  <meta name="description" content="Online diplomas, masters, and certificates from underrated international universities — filtered for ₹2-3L budget.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+
+  <style>
+.page-programs .hero__h1 { max-width: 700px; }
+.strat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-grid); background: var(--rule); border: 1px solid var(--rule); }
+.strat-item { background: var(--card); padding: 24px; border-top: 2px solid var(--rule); transition: background var(--dur) var(--ease), border-top-color var(--dur) var(--ease); }
+.strat-item:hover { background: var(--card-hover); border-top-color: var(--celluloid); }
+.strat-tier { font-family: var(--f-mono); font-size: 8px; letter-spacing: 0.14em; color: var(--celluloid); margin-bottom: 8px; text-transform: uppercase; }
+.strat-title { font-family: var(--f-display); font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.strat-cost { font-family: var(--f-mono); font-size: 9px; color: var(--sage); margin-bottom: 10px; }
+.strat-desc { font-size: 12px; color: var(--archive); line-height: 1.65; }
+.spotlight-card { background: var(--celluloid-dim); border-left: 3px solid var(--celluloid); padding: 28px; margin-bottom: 1px; }
+.spotlight-card .card__title { color: var(--celluloid); }
+.region-label { font-family: var(--f-display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); padding: 32px 0 16px; border-bottom: 1px solid var(--rule); margin-bottom: 0; }
+.region-label em { font-style: normal; color: var(--celluloid); }
+.st-glow { background: var(--sage-dim); border-left-color: var(--sage); }
+@media (max-width: 768px) { .strat-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="page-programs">
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__belt">
+    <span class="ticker__item"><b>80+</b> Programs Listed</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>6</b> Continents Mapped</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>20+</b> Countries Researched</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Budget: ₹2-3L Range</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">ST Scholarship Paths Included</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Erasmus Mundus Fully Funded</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Govt Partnerships: Google · Adobe · Autodesk</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>80+</b> Programs Listed</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>6</b> Continents Mapped</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item"><b>20+</b> Countries Researched</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Budget: ₹2-3L Range</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">ST Scholarship Paths Included</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Erasmus Mundus Fully Funded</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Govt Partnerships: Google · Adobe · Autodesk</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+  </div>
+</div>
+
+<header class="site-header">
+  <a href="index.html" class="header-wordmark">The&nbsp;<span>Film</span>&nbsp;Path</a>
+  <nav aria-label="Primary navigation">
+    <ul class="header-nav">
+      <li><a href="programs.html" class="active">Programs</a></li>
+      <li><a href="grants.html">Grants</a></li>
+      <li><a href="books.html">Books</a></li>
+      <li><a href="events.html">Events</a></li>
+    </ul>
+  </nav>
+  <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  <div class="header-meta">v2.0 &nbsp;·&nbsp; <span id="header-date">2026-06-18</span></div>
+</header>
+
+<nav class="mobile-nav" aria-label="Mobile navigation">
+  <a href="index.html">Home</a>
+  <a href="programs.html">Programs</a>
+  <a href="grants.html">Grants & Funds</a>
+  <a href="books.html">Books & Library</a>
+  <a href="events.html">Events & Networking</a>
+</nav>
+
+<section class="page-hero page-content">
+  <div class="container container--narrow">
+    <p class="page-hero__breadcrumb"><a href="index.html">Home</a> <span>/</span> <span>Programs & Universities</span></p>
+    <h1 class="page-hero__title">Programs &amp;<br><em>Universities</em></h1>
+    <p class="page-hero__sub">Online diplomas, masters, and certificates from underrated international universities across 20+ countries — filtered for ₹2-3L budget. Estonia, Portugal, Czech Republic, Philippines, South Korea, Mexico, and more. Government-partnered courses with Google, Adobe, and tech companies included.</p>
+    <div class="page-hero__stats">
+      <div class="page-hero__stat"><span class="page-hero__stat-n">80+</span><span class="page-hero__stat-l">Programs</span></div>
+      <div class="page-hero__stat"><span class="page-hero__stat-n">20+</span><span class="page-hero__stat-l">Countries</span></div>
+      <div class="page-hero__stat"><span class="page-hero__stat-n">6</span><span class="page-hero__stat-l">Continents</span></div>
+      <div class="page-hero__stat"><span class="page-hero__stat-n">₹0-3L</span><span class="page-hero__stat-l">Budget Range</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STRATEGY ═══════════════════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <div class="section-head">
+      <span class="section-label">4-Tier Strategy</span>
+      <span class="section-count">Do all simultaneously</span>
+    </div>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="strat-grid reveal">
+      <div class="strat-item">
+        <div class="strat-tier">Tier 1 — Fully Funded</div>
+        <div class="strat-title">Erasmus Mundus + NOS Scholarship</div>
+        <div class="strat-cost">₹0 (fully funded)</div>
+        <div class="strat-desc">Apply Oct-Jan for 2027 intake. As an ST candidate from Assam, NOS covers tuition, maintenance ($15,400/yr), visa, airfare. Erasmus Mundus covers everything + ₹1.18L/month stipend.</div>
+      </div>
+      <div class="strat-item">
+        <div class="strat-tier">Tier 2 — Affordable Degree</div>
+        <div class="strat-title">Online MA / Diploma</div>
+        <div class="strat-cost">₹50K-3L</div>
+        <div class="strat-desc">Enroll in affordable online programs like Bir Tikendrajit University MA (₹46K total) or stack international certificates. Formal degree foundation at minimal cost.</div>
+      </div>
+      <div class="strat-item">
+        <div class="strat-tier">Tier 3 — Professional Certs</div>
+        <div class="strat-title">Tech Partnership Certificates</div>
+        <div class="strat-cost">₹0-15K</div>
+        <div class="strat-desc">Stack Google Skillshop YouTube certifications, Adobe Creative Cloud (free for Indian students), Coursera specializations (use Financial Aid), FutureLearn BFI/NFTS courses.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ERASMUS MUNDUS ═══════════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <div class="section-head">
+      <span class="section-label">Erasmus Mundus</span>
+      <span class="section-count">Fully Funded</span>
+    </div>
+    <p class="mb-3" style="font-size:13px;color:var(--archive);line-height:1.7">Erasmus Mundus Joint Masters are <strong style="color:var(--text)">THE golden ticket</strong>. Indian students are among the top recipients. Covers everything: tuition, ₹1.18L/month living allowance, travel, visa, insurance. <strong style="color:var(--text)">No bond required.</strong> Apply Oct 2026 for Sep 2027 intake. You can apply to up to 3 programs simultaneously.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://www.docnomads.eu" target="_blank" rel="noopener" class="card spotlight-card" data-category="europe" data-searchable>
+        <span class="card__tag card__tag--yellow">DocNomads</span>
+        <h3 class="card__title">Joint Master in Documentary Film Directing</h3>
+        <div class="card__meta">Portugal → Lithuania → Belgium · 2 years · English</div>
+        <div class="card__body">THE premier documentary filmmaking program in Europe. Study across 3 countries — Universidade Lusófona (Portugal), Lithuanian Academy of Music & Theatre, LUCA School of Arts (Belgium). Perfect for someone wanting to tell stories from Northeast India on a global stage.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b> with scholarship · Self-funded: €15K</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://kinoeyes.eu" target="_blank" rel="noopener" class="card spotlight-card" data-category="europe" data-searchable>
+        <span class="card__tag card__tag--yellow">KinoEyes</span>
+        <h3 class="card__title">Joint MA in Fiction Filmmaking</h3>
+        <div class="card__meta">Portugal · UK · Estonia · Ireland · 2 years · English</div>
+        <div class="card__body">Intensive fiction filmmaking across 4 countries. Consortium: Universidade Lusófona, Edinburgh Napier, Tallinn University/BFM, IADT (Ireland). Access to Baltic Film & Media School and Portuguese cinema industry.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b> with scholarship</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://filmmemory.eu" target="_blank" rel="noopener" class="card spotlight-card" data-category="europe" data-searchable>
+        <span class="card__tag card__tag--yellow">FilmMemory</span>
+        <h3 class="card__title">MA in European Film Heritage</h3>
+        <div class="card__meta">Belgium · Portugal · Ireland · Estonia · 2 years</div>
+        <div class="card__body">Focus on film history, archives, heritage. Connects you to Baltic (Estonia) and Portuguese film ecosystems. Strong for film criticism and curation careers. Theory-heavy approach.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b> with scholarship</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://mediaartscultures.eu" target="_blank" rel="noopener" class="card spotlight-card" data-category="europe" data-searchable>
+        <span class="card__tag card__tag--yellow">MediaAC</span>
+        <h3 class="card__title">MA in Media Arts Cultures</h3>
+        <div class="card__meta">Austria · Denmark · Poland · Singapore · 2 years</div>
+        <div class="card__body">Bridges media art + curation + technology. Poland connection aligns with Central European cinema scene. Singapore semester provides Asian context.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b> with scholarship</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://resound-master.eu" target="_blank" rel="noopener" class="card spotlight-card" data-category="europe" data-searchable>
+        <span class="card__tag card__tag--yellow">ReSound</span>
+        <h3 class="card__title">MA in Sound Design for Media Arts</h3>
+        <div class="card__meta">Ireland · Portugal · Lithuania · 2 years</div>
+        <div class="card__body">Sound design is chronically undersupplied in Indian cinema. Enormous career potential. Lithuania connection brings Baltic cinema network access. Perfect specialization for Indian independent film.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b> with scholarship</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GOVT SCHOLARSHIPS ═════════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <div class="section-head">
+      <span class="section-label">Government Scholarship</span>
+      <span class="section-count">The biggest loophole</span>
+    </div>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <div class="card st-glow" data-category="india" data-searchable>
+        <span class="card__tag card__tag--green">APPLY NOW · Deadline June 30</span>
+        <h3 class="card__title">National Overseas Scholarship for ST</h3>
+        <div class="card__meta">Ministry of Tribal Affairs · Govt. of India</div>
+        <div class="card__body">
+          <strong>Your single most powerful tool.</strong> As an ST candidate from Assam, you are eligible for full government funding to study abroad.<br><br>
+          <strong>Covers:</strong> Tuition (actual) + Maintenance ($15,400/yr) + Contingency ($1,532) + Visa, medical insurance, airfare<br>
+          <strong>Eligibility:</strong> Max age 32 (you're 25 ✓) · Family income ≤ ₹6L/yr · University must be in QS Top 1000<br>
+          <strong>Min marks:</strong> 55% in Bachelor's · <strong>Slots:</strong> 20 awards/yr (17 ST + 3 PVTG)<br>
+          <strong>Bond:</strong> None after graduation
+        </div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b> fully funded</span>
+          <a href="https://overseas.tribal.gov.in/" target="_blank" rel="noopener" class="card__arrow" aria-hidden="true">→</a>
+        </div>
+      </div>
+      <div class="card" data-category="india" data-searchable>
+        <span class="card__tag card__tag--yellow">Ongoing</span>
+        <h3 class="card__title">Global Korea Scholarship (GKS)</h3>
+        <div class="card__meta">Government of South Korea</div>
+        <div class="card__body">Covers EVERYTHING: tuition, stipend, airfare, settlement allowance, Korean language training. India is eligible. Programs available in film/media at Chung-Ang University, K-Arts, and others. Note: Korean proficiency often required.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b> fully funded</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </div>
+      <div class="card" data-category="india" data-searchable>
+        <span class="card__tag card__tag--yellow">Ongoing</span>
+        <h3 class="card__title">Taiwan Scholarship (MOE/ICDF)</h3>
+        <div class="card__meta">Government of Taiwan</div>
+        <div class="card__body">Generous scholarships covering tuition and living costs for international students. Taipei National University of the Arts offers English-taught MA in Creative Industries. Strong India-Taiwan relations.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b> fully funded</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </div>
+      <div class="card" data-category="india" data-searchable>
+        <span class="card__tag card__tag--blue">Post-Matric</span>
+        <h3 class="card__title">Post-Matric Scholarship for ST</h3>
+        <div class="card__meta">Ministry of Tribal Affairs</div>
+        <div class="card__body">Covers tuition fees + non-refundable fees + maintenance allowance for ST students pursuing UG, PG, and diploma courses. Income limit typically ₹2.5L/yr. Apply through National Scholarship Portal.</div>
+        <div class="card__foot">
+          <span class="card__detail">Via scholarships.gov.in</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REGION: BALTIC STATES ════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="region-label reveal">🇪🇪 <em>Baltic States</em> — Estonia · Latvia · Lithuania</h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Strong film traditions, part of the Nordic-Baltic film network, affordable education (€2,000-8,000/yr for non-EU), English-taught programs, and directly connected to Erasmus Mundus film consortia.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://studyinestonia.ee" target="_blank" rel="noopener" class="card" data-category="europe" data-searchable>
+        <h3 class="card__title">Tallinn University (BFM)</h3>
+        <div class="card__meta">MA in Documentary Film / Cross-Media Production</div>
+        <div class="card__body">BFM is one of Europe's most respected film schools. English-taught. Tuition: ~€2,500-4,000/yr. Check for hybrid thesis tracks. Estonian government scholarships available via DreamApply platform.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>~₹2.3-3.8L/yr</b> · Scholarships available</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.studyinlatvia.lv" target="_blank" rel="noopener" class="card" data-category="europe" data-searchable>
+        <h3 class="card__title">Latvian Academy of Culture</h3>
+        <div class="card__meta">MA in Film & Audiovisual Arts</div>
+        <div class="card__body">National Film School, deeply integrated into Baltic/Nordic film network. Latvian State Scholarships available for international students (can cover tuition + living). English-taught.</div>
+        <div class="card__foot">
+          <span class="card__detail">State scholarships available</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://studyinlithuania.lt" target="_blank" rel="noopener" class="card" data-category="europe" data-searchable>
+        <h3 class="card__title">Lithuanian Academy of Music & Theatre</h3>
+        <div class="card__meta">MA in Film · National Film School</div>
+        <div class="card__body">Part of FILMEU European University Alliance and the DocNomads consortium. Practical filmmaking focus. Affordable tuition for non-EU students.</div>
+        <div class="card__foot">
+          <span class="card__detail">Part of Erasmus network</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REGION: CAUCASUS ════════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="region-label reveal">🇬🇪 <em>Caucasus</em> — Georgia</h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Extremely affordable education ($1,500-4,500/yr), vibrant film culture, English programs available, and growing indie cinema scene. On-campus only but extraordinarily cheap.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://gipa.ge" target="_blank" rel="noopener" class="card" data-category="asia" data-searchable>
+        <span class="card__tag card__tag--yellow">~$3,000-4,500/yr</span>
+        <h3 class="card__title">GIPA — MA in Multimedia Journalism</h3>
+        <div class="card__meta">Georgian Institute of Public Affairs · Tbilisi</div>
+        <div class="card__body">English-taught, prestigious, practical program. On-campus in Tbilisi. Extremely affordable compared to European alternatives. Georgia's film culture is vibrant and internationally connected.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>~₹2.5-3.8L/yr</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://ug.edu.ge" target="_blank" rel="noopener" class="card" data-category="asia" data-searchable>
+        <span class="card__tag card__tag--yellow">~$2,500-4,000/yr</span>
+        <h3 class="card__title">University of Georgia — MA in Filmmaking</h3>
+        <div class="card__meta">Georgian-American Film Academy</div>
+        <div class="card__body">Intensive, project-based program that mirrors NYFA standards. On-campus in Tbilisi. English-taught. If you can travel, total 2-year cost (tuition + living) could be under ₹5-6L.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>~₹2.1-3.4L/yr</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REGION: IBERIA ══════════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="region-label reveal">🇵🇹 <em>Iberian Peninsula</em> — Portugal · Spain</h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Portugal is THE hub for Erasmus Mundus film programs (DocNomads, KinoEyes, FilmMemory all include Portuguese universities). Spain has affordable online options through Campus Universitario Europeo and ESDESIGN Barcelona.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://www.ulusofona.pt" target="_blank" rel="noopener" class="card" data-category="europe" data-searchable>
+        <h3 class="card__title">Universidade Lusófona</h3>
+        <div class="card__meta">MA in Film (various specializations) · Lisbon</div>
+        <div class="card__body">Major hub for KinoEyes & DocNomads consortia. On-campus programs at €500-5,000/yr. Portugal offers a vibrant film culture with strong ties to Lusophone Africa and Brazil.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>€500-5,000/yr</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.cue.edu" target="_blank" rel="noopener" class="card" data-category="europe" data-searchable>
+        <span class="card__tag card__tag--blue">Online Available</span>
+        <h3 class="card__title">CUE — Prof. Master in Cinematographic Direction</h3>
+        <div class="card__meta">Campus Universitario Europeo · Spain</div>
+        <div class="card__body">Online available professional master's program. Check current pricing. Spain's film industry connections through San Sebastián and Sitges festivals provide networking opportunities.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>Online</b> · Verify current fees</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REGION: CENTRAL EUROPE ════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="region-label reveal">🇨🇿 <em>Central Europe</em> — Czech · Poland · Hungary · Romania</h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Home to legendary film schools (FAMU, Łódź). Romania's Sapientia has <strong style="color:var(--celluloid)">possibly the cheapest film MA in Europe at €550/year.</strong></p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <div class="card st-glow" data-category="europe" data-searchable>
+        <span class="card__tag card__tag--green">€550/yr — ~₹47K!</span>
+        <h3 class="card__title">Sapientia Hungarian University</h3>
+        <div class="card__meta">MA in Film Studies · Romania · 2 years</div>
+        <div class="card__body">Joint with ELTE Budapest. <strong>€550/year (~₹47,000/yr!)</strong> — incredibly cheap. 10 tuition-free spots available. Admission by oral exam. On-campus but worth contacting about research-based remote thesis options.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹47K/yr</b> · 10 free spots</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </div>
+      <a href="https://www.famu.cz" target="_blank" rel="noopener" class="card" data-category="europe" data-searchable>
+        <h3 class="card__title">FAMU — Academy of Performing Arts</h3>
+        <div class="card__meta">MA in Film & TV · Czech Republic</div>
+        <div class="card__body">World-famous film school. On-campus only. English-taught programs. Tuition: €4,000-8,000/yr. Prague is a major European film hub with strong indie scene.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>€4,000-8,000/yr</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.filmschool.lodz.pl" target="_blank" rel="noopener" class="card" data-category="europe" data-searchable>
+        <h3 class="card__title">Łódź Film School</h3>
+        <div class="card__meta">Various MA programs · Poland</div>
+        <div class="card__body">One of the world's oldest and most prestigious film schools. On-campus. Low tuition by European standards. Strong alumni network including Wajda, Kieślowski, Polanski.</div>
+        <div class="card__foot">
+          <span class="card__detail">Low tuition · On-campus</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REGION: SOUTHEAST ASIA ════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="region-label reveal">🇵🇭 <em>Southeast Asia</em> — Malaysia · Thailand · Philippines</h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Close cultural ties with India, affordable, growing media industries. Asia e University (Malaysia) is specifically designed for distance learning.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://www.aeu.edu.my" target="_blank" rel="noopener" class="card" data-category="asia" data-searchable>
+        <span class="card__tag card__tag--blue">Online Available</span>
+        <h3 class="card__title">Asia e University (AeU)</h3>
+        <div class="card__meta">MSc in Multimedia · Malaysia · Online/ODL</div>
+        <div class="card__body">~₹5-7 lakh total for the full program. Flexible online distance learning. Malaysia has strong India ties. Contact for current media program availability. Most promising online option in this region.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>~₹5-7L total</b> · Online</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.rsu.ac.th" target="_blank" rel="noopener" class="card" data-category="asia" data-searchable>
+        <h3 class="card__title">Rangsit University</h3>
+        <div class="card__meta">MA in Communication Arts (Film & Series) · Thailand</div>
+        <div class="card__body">Affordable program. Check for international/flexible tracks. Thailand's film industry is growing rapidly with strong festival network (Busan, Bangkok). Close geographic proximity to NE India.</div>
+        <div class="card__foot">
+          <span class="card__detail">Check for international tracks</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.psb-academy.edu.sg" target="_blank" rel="noopener" class="card" data-category="asia" data-searchable>
+        <h3 class="card__title">PSB Academy</h3>
+        <div class="card__meta">Diplomas in Media/Film Production · Singapore</div>
+        <div class="card__body">Professional certificates with practical focus. Singapore is a major media hub in Asia with strong industry connections. Professional diploma programs are more affordable than full degrees.</div>
+        <div class="card__foot">
+          <span class="card__detail">Professional diplomas</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REGION: AFRICA ════════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="region-label reveal">🇿🇦 <em>Africa</em> — South Africa · Kenya · Pan-African</h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Emerging cinema powerhouse. Digital Film School Africa offers a <strong style="color:var(--celluloid)">completely free, full filmmaking curriculum</strong> via the atingi platform — supported by WELTFILME & German BMZ.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <div class="card st-glow" data-category="africa" data-searchable>
+        <span class="card__tag card__tag--green">COMPLETELY FREE</span>
+        <h3 class="card__title">Digital Film School Africa</h3>
+        <div class="card__meta">Full filmmaking curriculum · Pan-African (atingi platform)</div>
+        <div class="card__body">Tuition-free, online, certificates included. Covers cinematography, editing, sound, documentary, producing. Supported by WELTFILME & German BMZ. <strong>A hidden gem.</strong> Register at digitalfilmschool.africa.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b> · Certificates included</span>
+          <a href="https://digitalfilmschool.africa" target="_blank" rel="noopener" class="card__arrow" aria-hidden="true">→</a>
+        </div>
+      </div>
+      <a href="https://www.getsmarter.com" target="_blank" rel="noopener" class="card" data-category="africa" data-searchable>
+        <h3 class="card__title">University of Cape Town — GetSmarter</h3>
+        <div class="card__meta">Online short courses in Film & TV · South Africa</div>
+        <div class="card__body">GetSmarter certificates are highly recognized. UCT offers MA in Film & TV Studies as well. Online short courses are affordable and provide recognized credentials from a top African university.</div>
+        <div class="card__foot">
+          <span class="card__detail">Highly recognized certs</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REGION: CUBA ══════════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="region-label reveal">🇨🇺 <em>Cuba</em> — EICTV</h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">World-renowned "learning by doing" philosophy. Founded by Gabriel García Márquez. Online workshops (€500-1,200 = ₹42,000-1L) are within budget and carry enormous prestige in global independent cinema circles.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://www.eictv.org" target="_blank" rel="noopener" class="card" data-category="americas" data-searchable>
+        <span class="card__tag card__tag--yellow">Online Workshops Available</span>
+        <h3 class="card__title">EICTV — Escuela Internacional de Cine y TV</h3>
+        <div class="card__meta">Online workshops · 3-year Regular Course · Cuba</div>
+        <div class="card__body">Legendary film school. Online workshops: €500-1,200 (~₹42K-1L) — within budget. Multicultural, prestigious alumni network. The 3-year regular course is the gold standard for Latin American film education. Spanish required for most programs.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>€500-1,200</b> workshops</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INDIA: AFFORDABLE ONLINE ═══════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="region-label reveal">🇮🇳 <em>India</em> — Affordable Online Degrees</h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">The most accessible and budget-friendly options for immediate enrollment.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <div class="card st-glow" data-category="india" data-searchable>
+        <span class="card__tag card__tag--green">₹46K TOTAL · Best Value</span>
+        <h3 class="card__title">Bir Tikendrajit University — MA Film & TV</h3>
+        <div class="card__meta">Manipur, Northeast India · 2 years · Online/Distance</div>
+        <div class="card__body"><strong>Your best-value formal degree option.</strong> ~₹11,500/semester (~₹46,000 total) — leaves ₹1.5-2.5L budget for international certificates and workshops. From your own region (Northeast India). Flexible for working professionals. Build this as your academic foundation while pursuing international certificates.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹46K total</b> · Online</span>
+          <a href="https://www.birtikendrajituniversity.ac.in/" target="_blank" rel="noopener" class="card__arrow" aria-hidden="true">→</a>
+        </div>
+      </div>
+      <div class="card" data-category="india" data-searchable>
+        <span class="card__tag card__tag--yellow">Over budget but strategic</span>
+        <h3 class="card__title">Falmouth University — MA Film & TV (Online)</h3>
+        <div class="card__meta">UK · 2 years part-time · Fully online</div>
+        <div class="card__body">One of the most respected online film MAs globally. ~£10K+ (~₹10.5L+). Over budget but BAFTA Scholarship eligible and ScreenSkills quality mark. Becomes affordable with NOS Scholarship (QS-ranked university).</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>~₹10.5L+</b> · NOS eligible</span>
+          <a href="https://www.falmouth.ac.uk" target="_blank" rel="noopener" class="card__arrow" aria-hidden="true">→</a>
+        </div>
+      </div>
+      <div class="card" data-category="india" data-searchable>
+        <span class="card__tag card__tag--yellow">Over budget</span>
+        <h3 class="card__title">Univ. of Hertfordshire — MA Global Film & TV</h3>
+        <div class="card__meta">UK · 2 years part-time · Distance learning</div>
+        <div class="card__body">£11,310 (~₹11.9L) — over budget but "Global" perspective well-suited for international students. Flexible payment options. NOS scholarship eligible if pursuing through the QS-ranked route.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>~₹11.9L</b> · NOS eligible</span>
+          <a href="https://www.herts.ac.uk" target="_blank" rel="noopener" class="card__arrow" aria-hidden="true">→</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ UK ONLINE MAs ═════════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <h2 class="region-label reveal">🇬🇧 <em>UK Online</em> — Premium Programs (Scholarship Needed)</h2>
+    <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">These programs are over your ₹2-3L budget but become affordable with the NOS Scholarship since these universities are QS-ranked.</p>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <a href="https://aub.ac.uk" target="_blank" rel="noopener" class="card" data-category="europe" data-searchable>
+        <h3 class="card__title">Arts University Bournemouth</h3>
+        <div class="card__meta">MA Film Practice (Online) · 2 years part-time</div>
+        <div class="card__body">£9,975 (~₹10.5L). Prestigious UK arts university, globally recognized MA. ScreenSkills endorsed. Over budget but potentially reachable with NOS scholarship.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>£9,975</b> · ScreenSkills endorsed</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DOCUMENTARY-SPECIFIC ══════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <div class="section-head">
+      <span class="section-label">Documentary-Specific</span>
+      <span class="section-count">Within budget</span>
+    </div>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <div class="card st-glow" data-category="online" data-searchable>
+        <span class="card__tag card__tag--green">FREE</span>
+        <h3 class="card__title">Documentary Film Curriculum</h3>
+        <div class="card__meta">Digital Film School Africa · atingi platform</div>
+        <div class="card__body">Full documentary production training. FREE. Certificates included. Covers the complete documentary process from research to distribution.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b></span>
+          <a href="https://digitalfilmschool.africa" target="_blank" rel="noopener" class="card__arrow" aria-hidden="true">→</a>
+        </div>
+      </div>
+      <a href="https://www.sundance.org/collab" target="_blank" rel="noopener" class="card" data-category="online" data-searchable>
+        <h3 class="card__title">Sundance Collab Documentary Courses</h3>
+        <div class="card__meta">Sundance Institute · Online</div>
+        <div class="card__body">$350-750 (~₹29K-63K) per course. Includes "Developing Your Story," "Core Elements," "Workshopping Your Film." Need-based scholarships available. Direct connection to Sundance ecosystem.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>$350-750</b> · Scholarships avail.</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+      <a href="https://www.coursera.org" target="_blank" rel="noopener" class="card" data-category="online" data-searchable>
+        <h3 class="card__title">Documentary Filmmaking (Coursera)</h3>
+        <div class="card__meta">Various universities · Online self-paced</div>
+        <div class="card__body">"Create & Finance a Short Documentary Film" specialization. $39-79/month. Can audit free. Apply Coursera Financial Aid for free certificates.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>$39-79/mo</b> · Free audit</span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TECH PARTNERSHIPS ═════════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <div class="section-head">
+      <span class="section-label">Tech Company Partnerships</span>
+      <span class="section-count">Free certificates</span>
+    </div>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="card-grid reveal">
+      <div class="card st-glow" data-category="online" data-searchable>
+        <span class="card__tag card__tag--green">FREE</span>
+        <h3 class="card__title">Google Skillshop — YouTube Certifications</h3>
+        <div class="card__meta">Google · skillshop.exceedlms.com</div>
+        <div class="card__body">YouTube Music Cert, Content Ownership, Asset Monetization. Essential for content creators. Completely free.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </div>
+      <div class="card st-glow" data-category="online" data-searchable>
+        <span class="card__tag card__tag--green">FREE for Indian Students</span>
+        <h3 class="card__title">Adobe Creative Cloud</h3>
+        <div class="card__meta">Adobe · Free for accredited Indian institutions</div>
+        <div class="card__body">Free access to Photoshop, Acrobat, Firefly AI for students at accredited Indian institutions. Email hedindiaedu@adobe.com to request access through your college.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </div>
+      <div class="card st-glow" data-category="online" data-searchable>
+        <span class="card__tag card__tag--green">FREE Educational License</span>
+        <h3 class="card__title">Autodesk Educational Access</h3>
+        <div class="card__meta">Autodesk · Free for students</div>
+        <div class="card__body">Free educational licenses for Maya, 3ds Max, and other tools used in animation, VFX, and film production. Essential for any filmmaker working with visual effects.</div>
+        <div class="card__foot">
+          <span class="card__detail"><b>₹0</b></span>
+          <span class="card__arrow" aria-hidden="true">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APPLICATION TIMELINE ══════════════════ -->
+<section class="section">
+  <div class="container container--narrow">
+    <div class="section-head">
+      <span class="section-label">Application Timeline</span>
+      <span class="section-count">12-month roadmap</span>
+    </div>
+  </div>
+  <div class="container container--narrow" style="padding-top:0">
+    <div class="accordion reveal">
+      <div class="accordion__item open">
+        <div class="accordion__trigger">
+          <span class="accordion__trigger-title">Immediate Actions — June-August 2026</span>
+          <span class="accordion__trigger-icon">+</span>
+        </div>
+        <div class="accordion__content">
+          <ul style="list-style:none;font-size:13px;color:var(--text-secondary);line-height:2">
+            <li>✓ Register on Sundance Collab (free community)</li>
+            <li>✓ Enroll in Digital Film School Africa (free courses on atingi.org)</li>
+            <li>✓ Start FutureLearn BFI/NFTS courses (free audit)</li>
+            <li>✓ Complete OpenLearn "Business of Film" (free)</li>
+            <li>✓ Download DaVinci Resolve + Blender (free)</li>
+            <li>✓ Get Google Skillshop YouTube certifications (free)</li>
+            <li>✓ Apply to Bir Tikendrajit University MA Film & TV (₹46K total)</li>
+            <li>✓ Start building portfolio — shoot 2-3 short films</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion__item">
+        <div class="accordion__trigger">
+          <span class="accordion__trigger-title">Sep-Oct 2026 — Preparation Phase</span>
+          <span class="accordion__trigger-icon">+</span>
+        </div>
+        <div class="accordion__content">
+          <ul style="list-style:none;font-size:13px;color:var(--text-secondary);line-height:2">
+            <li>✓ Begin Erasmus Mundus applications (opens Oct 2026)</li>
+            <li>✓ Prepare NOS scholarship documents</li>
+            <li>✓ Take IELTS (target 6.5-7.0)</li>
+            <li>✓ Build showreel/portfolio</li>
+            <li>✓ Write motivation letters for each program</li>
+            <li>✓ Obtain recommendation letters</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion__item">
+        <div class="accordion__trigger">
+          <span class="accordion__trigger-title">Oct 2026 – Jan 2027 — Submission Phase</span>
+          <span class="accordion__trigger-icon">+</span>
+        </div>
+        <div class="accordion__content">
+          <ul style="list-style:none;font-size:13px;color:var(--text-secondary);line-height:2">
+            <li>✓ Submit Erasmus Mundus applications (DocNomads, KinoEyes, + 1 more)</li>
+            <li>✓ Submit NOS scholarship application</li>
+            <li>✓ Apply to Sapientia Romania (€550/yr) as affordable backup</li>
+            <li>✓ Apply to EICTV Cuba online workshops</li>
+            <li>✓ Complete Coursera specializations (use Financial Aid)</li>
+            <li>✓ Submit films to international festivals</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion__item">
+        <div class="accordion__trigger">
+          <span class="accordion__trigger-title">Feb-Apr 2027 — Follow-ups</span>
+          <span class="accordion__trigger-icon">+</span>
+        </div>
+        <div class="accordion__content">
+          <ul style="list-style:none;font-size:13px;color:var(--text-secondary);line-height:2">
+            <li>✓ Follow up on Erasmus Mundus results</li>
+            <li>✓ Submit self-funded applications if needed</li>
+            <li>✓ Apply for Global Korea Scholarship (GKS) if interested</li>
+            <li>✓ Apply for Taiwan Scholarship (MOE/ICDF)</li>
+            <li>✓ Continue building portfolio and festival submissions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="ft-logo">The <span>Film</span> Path</div>
+        <div class="ft-tagline">A research atlas for filmmakers from Northeast India</div>
+      </div>
+      <div class="ft-center">
+        <div class="ft-ver">v2.0.0 &nbsp;·&nbsp; Build 2026-06-18</div>
+        <div class="ft-ver ft-ver-highlight">Personal Research Use</div>
+      </div>
+      <div class="ft-right">
+        <div class="ft-updated" id="footer-ts">Last updated: 2026-06-18</div>
+        <nav class="ft-links" aria-label="Footer links">
+          <a href="index.html">Home</a>
+          <a href="grants.html">Grants</a>
+          <a href="books.html">Books</a>
+          <a href="events.html">Events</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
