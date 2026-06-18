@@ -14,10 +14,12 @@
 | **Primary Interest** | Online degrees, colleges, institutions (programs-first) — low/no-cost options (0-3L priority); grants/books/events are secondary reference |
 | **Identity Context** | ST (Scheduled Tribe) candidate, Assamese, 25 years old, solo founder |
 | **Current Phase** | Phase 5.1: Motion System, UX Polish, Research Expansion & Monetization Foundation |
-| **Last Agent Action** | 2026-06-18 — Phase 5.1 complete: NEFI rebrand, motion/sound/typography, books schema, category sources; 53/53 tests pass |
-| **Next Priority** | Phase 5.2: seed books DB, production deploy, PWA, verified stamp in admin |
-| **Guide Version** | v5 + data seam v3 (SQLite Synced) + ingestion v1 + intelligence v1 |
-| **Live URL** | https://effortless-speculoos-0dde1a.netlify.app |
+| **Last Agent Action** | 2026-06-18 — Pushed v5.1 to GitHub; clarified deploy model (Netlify static vs localhost DB) |
+| **Next Priority** | Connect Netlify to GitHub for auto-deploy; Phase 5.2 Render/production for live DB |
+| **Guide Version** | v5.1 + data seam v3 (SQLite Synced) + ingestion v1 + intelligence v1 |
+| **GitHub** | https://github.com/madhurjya-nlp/ne-film-intelligence |
+| **Live URL (static)** | https://effortless-speculoos-0dde1a.netlify.app (older deploy — not auto-synced with GitHub yet) |
+| **Live URL (full DB)** | http://localhost:3000 — requires `npm start` in project folder |
 
 ---
 
@@ -31,6 +33,50 @@
 * Static site data is generated from database state.
 * Drift must be checked before implementation.
 * No feature is considered complete until memory is updated.
+
+---
+
+## Session Update — GitHub, Deploy & Database Clarification
+
+**Date:** 2026-06-18  
+**Version:** 5.1.0  
+
+**Summary:** Pushed full project to GitHub under `madhurjya-nlp`. Clarified for owner (non-coder): two content layers and two hosting modes.
+
+**GitHub:**
+- Repo: https://github.com/madhurjya-nlp/ne-film-intelligence
+- Branch: `main`
+- Remote: `origin` → `https://github.com/madhurjya-nlp/ne-film-intelligence.git`
+- Latest commit: `NE Film Intelligence v5.1 - full platform release`
+- `.gitignore` excludes `node_modules/`, `database.sqlite`
+
+**Deployment Model (owner-facing):**
+| Mode | URL | What works |
+|---|---|---|
+| **Netlify (static)** | effortless-speculoos-0dde1a.netlify.app | programs.html, grants, books, events — deep research JS data |
+| **localhost + npm start** | http://localhost:3000 | Everything above + live DB explorer, `/api/public/*`, admin |
+| **GitHub push alone** | — | Does NOT auto-update Netlify unless Netlify is linked to repo |
+
+**Local Database State (verified 2026-06-18):**
+- Published programs: 8 | opportunities: 8 | events: 6
+- Intelligence countries: 6 | roadmaps: 24 | relationships: 31
+- API `/api/public/home` returns `featured_programs` (Germany MA, MGR Chennai, NOS, etc.)
+- "Start the server" UI message = browser not reaching `localhost:3000` (Netlify, file://, or server stopped) — NOT empty database
+
+**Programs-First UX (prior session, now in memory):**
+- Nav order: Programs → Explore → Countries first
+- `programs.html` live DB section via `programs-live.js`
+- `/explore` defaults to `type=program`
+- Unified `pub-header` / `pub-footer` on all public pages
+- Grants demoted to reference banner
+
+**Render / Production Notes:**
+- Render free tier: spins down after 15min idle; SQLite ephemeral on free — not for persistent DB
+- Recommendation: Netlify for public static site; `npm start` locally for full DB until paid host
+
+**Follow-Up:**
+- Owner to connect Netlify → GitHub repo for auto-deploy on push
+- Phase 5.2: seed books table, Render deploy, fix misleading empty-state copy when server is running
 
 ---
 
