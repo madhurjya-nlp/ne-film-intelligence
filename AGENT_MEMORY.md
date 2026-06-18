@@ -14,7 +14,7 @@
 | **Primary Interest** | Online degrees, colleges, institutions (programs-first) — low/no-cost options (0-3L priority); grants/books/events are secondary reference |
 | **Identity Context** | ST (Scheduled Tribe) candidate, Assamese, 25 years old, solo founder |
 | **Current Phase** | Phase 5.1: Motion System, UX Polish, Research Expansion & Monetization Foundation |
-| **Last Agent Action** | 2026-06-18 — Pushed v5.1 to GitHub; clarified deploy model (Netlify static vs localhost DB) |
+| **Last Agent Action** | 2026-06-18 — Instruction Agent skill + CLI hooks for memory sync and GitHub auto-push |
 | **Next Priority** | Connect Netlify to GitHub for auto-deploy; Phase 5.2 Render/production for live DB |
 | **Guide Version** | v5.1 + data seam v3 (SQLite Synced) + ingestion v1 + intelligence v1 |
 | **GitHub** | https://github.com/madhurjya-nlp/ne-film-intelligence |
@@ -33,6 +33,36 @@
 * Static site data is generated from database state.
 * Drift must be checked before implementation.
 * No feature is considered complete until memory is updated.
+
+---
+
+## Session Update — Instruction Agent (memory + GitHub protocol)
+
+**Date:** 2026-06-18  
+**Version:** 5.1.0  
+
+**Summary:** Added Instruction Agent — mandatory protocol for every CLI agent and assistant to update `AGENT_MEMORY.md` after each prompt, log database touches, and auto-push to GitHub after major changes.
+
+**Files added/changed:**
+- `.grok/skills/instruction-agent/SKILL.md` — full protocol (session start/end, db-touch, push-if-major)
+- `.agents/skills/instruction-agent/SKILL.md` — Cursor/CLI pointer to full skill
+- `.cursor/rules/instruction-agent.mdc` — alwaysApply rule for Cursor agents
+- `scripts/instruction-agent.js` — CLI: `session-start`, `session-end`, `db-touch`, `push-if-major`
+- `package.json` — `agent:start`, `agent:end`, `agent:push`, `agent:db-touch` scripts
+- `AGENT_INSTRUCTIONS.md` — auto-activation block + end-of-prompt checklist; project identity → NEFI
+- `.gitignore` — excludes `scripts/.instruction-agent-log.json`
+
+**How agents use it:**
+| Trigger | Command |
+|---|---|
+| Session start | `npm run agent:start` |
+| After every prompt | Update memory → `npm run agent:end -- --summary "..."` |
+| Database/schema touch | `npm run agent:db-touch -- --actor "<agent>" --action "<what>"` |
+| Major changes | `npm run agent:push` (5+ files, schema, tests, version, memory update) |
+
+**Major-change push rules:** Never commits `database.sqlite` or `node_modules/`. Target: `origin/main` → `madhurjya-nlp/ne-film-intelligence`.
+
+**Follow-Up:** Optionally wrap `seed`/`migrate`/`ingest` npm scripts to auto-call `db-touch`.
 
 ---
 

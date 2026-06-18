@@ -1,19 +1,21 @@
-# 🎬 MEDIA GUIDE PROJECT — AGENT INSTRUCTIONS
+# NE Film Intelligence (NEFI) — AGENT INSTRUCTIONS
 <!-- ============================================================
-  AUTO-ACTIVATION PROTOCOL
-  If you are an AI assistant, CLI agent, or AI coding tool reading this file:
+  INSTRUCTION AGENT — AUTO-ACTIVATION (all CLI agents & assistants)
   ─────────────────────────────────────────────────────────────
-  1. READ this entire file before touching anything else.
-  2. EXECUTE the IMMEDIATE ACTIONS section below — in order.
-  3. UPDATE AGENT_MEMORY.md: log your session start date/time and intent.
-  4. THEN proceed with the user's request.
+  1. LOAD skill: .grok/skills/instruction-agent/SKILL.md (or /instruction-agent)
+  2. RUN: npm run agent:start
+  3. READ AGENT_MEMORY.md in full — drift check before any work
+  4. AFTER EVERY PROMPT: update AGENT_MEMORY.md → npm run agent:end → npm run agent:push (if major)
+  5. AFTER DATABASE TOUCH: npm run agent:db-touch -- --actor "<you>" --action "<what>"
   
-  This is your operating manual for this project. Non-negotiable.
+  Database paths that trigger instruction agent:
+  server/db/, server/services/, server/ingestion/, data/*.js, admin DB APIs
+  
+  GitHub auto-push: https://github.com/madhurjya-nlp/ne-film-intelligence (main)
+  Never push: database.sqlite, node_modules/
   ─────────────────────────────────────────────────────────────
-  For Claude Code: rename this file to CLAUDE.md (or symlink it).
-  For Cursor:      add this to .cursor/rules or reference it in .cursorrules.
-  For Aider:       pass --read AGENT_INSTRUCTIONS.md at startup.
-  For Cody/Copilot: include in your context window at session start.
+  For Cursor: .cursor/rules/instruction-agent.mdc (alwaysApply)
+  For Grok:   .grok/skills/instruction-agent/SKILL.md
 ============================================================ -->
 
 ---
@@ -21,28 +23,31 @@
 ## ⚡ IMMEDIATE ACTIONS (Run Every Session)
 
 ```
-SESSION START CHECKLIST — complete in order:
+INSTRUCTION AGENT — SESSION START (npm run agent:start):
 
-[ ] 1. Write current timestamp to AGENT_MEMORY.md under "## Session Log"
-[ ] 2. Read AGENT_MEMORY.md in full — understand current project state
-[ ] 3. Scan RESEARCH_PLAN.md — identify the next pending task
-[ ] 4. Check if any section in guide/media_programs_v4.html has a
-       <!-- NEEDS-UPDATE --> comment — if yes, queue for this session
-[ ] 5. Verify: do all external links in the section you're editing
-       return HTTP 200? If dead, flag in AGENT_MEMORY.md under "Dead Links"
-[ ] 6. Confirm date/time in footer of index.html and guide/*.html is current
+[ ] 1. Read AGENT_MEMORY.md in full — drift check vs package.json version
+[ ] 2. Log session start in AGENT_MEMORY.md Session Log
+[ ] 3. Scan RESEARCH_PLAN.md — identify next pending task
+[ ] 4. If touching database/server → plan db-touch + memory update at end
+
+INSTRUCTION AGENT — END OF EVERY PROMPT (before final response):
+
+[ ] 5. Append Session Update to AGENT_MEMORY.md (summary, files, follow-up)
+[ ] 6. npm run agent:end -- --summary "what you did this turn"
+[ ] 7. If MAJOR_CHANGES → npm run agent:push (GitHub main)
+[ ] 8. After DB work → npm run agent:db-touch was run + findings in memory
 ```
 
 ---
 
 ## 🎯 Project Identity
 
-**Project name:** The Film Path — Media & Cinema Education Research Hub  
+**Project name:** NE Film Intelligence (NEFI) — formerly CineEduAssan  
 **Owner:** Madhurjya (filmmaker, documentary maker, founder; North Lakhimpur, Assam, NE India)  
-**Purpose:** Personal research navigator for film/media/content education — NOT a job board.  
+**Purpose:** Programs-first research navigator for film/media education — colleges, online degrees, institutions.  
 **Audience:** Solo filmmaker from NE India with ST (Scheduled Tribe) status, low budget.  
-**Primary goal:** Find low-cost, no-cost, and scholarship-eligible paths into formal film/media education globally.  
-**Secondary goal:** Understand the commercial architecture of media (production, distribution, streaming, IP).
+**Primary goal:** Find low-cost, no-cost, and scholarship-eligible programs and institutions globally.  
+**Secondary goal:** Grants, books, events, and country intelligence as reference layers (not primary UX).
 
 ---
 
@@ -288,16 +293,17 @@ These enable the filterable/searchable UI to work properly.
 ## 📋 Session End Checklist
 
 ```
-[ ] Updated AGENT_MEMORY.md with: what was done, what was found, what's next
-[ ] Verified all new links added return 200
-[ ] Updated "Last Updated" timestamps in any files modified
-[ ] Marked completed items in RESEARCH_PLAN.md
-[ ] Committed with a descriptive message (if using git)
-[ ] Left <!-- TODO: --> comments for the next agent on anything incomplete
+[ ] AGENT_MEMORY.md updated (instruction agent — non-negotiable)
+[ ] npm run agent:end -- --summary "..."
+[ ] npm run agent:push if major changes (5+ files, schema, tests, version)
+[ ] npm run agent:db-touch if database was accessed
+[ ] Verified new links return 200
+[ ] Marked RESEARCH_PLAN.md items complete
 ```
 
 ---
 
-*This file was last modified: 2026-06-18*  
-*Project version: 1.0.0*  
+*Last modified: 2026-06-18*  
+*Project: NE Film Intelligence v5.1.0*  
+*Instruction Agent: `.grok/skills/instruction-agent/SKILL.md`*  
 *Owner: Madhurjya | North Lakhimpur, Assam*

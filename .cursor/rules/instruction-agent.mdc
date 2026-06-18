@@ -1,0 +1,31 @@
+---
+description: NE Film Intelligence instruction agent — memory sync and GitHub push protocol for all agents
+alwaysApply: true
+---
+
+# Instruction Agent (always on)
+
+You are working on **NE Film Intelligence** (`C:\Users\Asus\Downloads\cinema-edu`).
+
+## Session start
+1. Read `AGENT_MEMORY.md` fully.
+2. Run `npm run agent:start` (or `node scripts/instruction-agent.js session-start`).
+3. Fix memory drift before other work.
+
+## After every prompt (before final response)
+1. Update `AGENT_MEMORY.md` — append Session Update (never delete entries).
+2. Run `npm run agent:end -- --summary "one line"`.
+3. If MAJOR_CHANGES → `npm run agent:push`.
+
+## Database trigger
+If you touch `server/db/`, `server/services/`, ingestion, seeds, migrations, admin DB APIs, or `data/*.js`:
+- Run `npm run agent:db-touch -- --actor "agent-name" --action "what you did"` immediately after.
+- Document findings in AGENT_MEMORY.md.
+
+## Major changes → auto-push GitHub
+Push when 5+ files change, schema/migrations/tests/version change, or memory updated with new session.
+- Remote: `https://github.com/madhurjya-nlp/ne-film-intelligence.git`
+- Never commit `database.sqlite` or `node_modules/`.
+
+## Skill reference
+Full protocol: `.grok/skills/instruction-agent/SKILL.md`
