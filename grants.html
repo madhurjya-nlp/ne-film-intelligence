@@ -3,72 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grants & Funds — The Film Path</title>
+  <title>Grants & Funds — NE Film Intelligence (NEFI)</title>
   <meta name="description" content="Production grants, development funds, travel awards, and ST-specific scholarships for filmmakers from Northeast India.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css">
-  <style>
-.urgent-badge { background: var(--mark-dim); color: var(--mark); padding: 2px 8px; font-family: var(--f-mono); font-size: 7px; letter-spacing: 0.12em; margin-left: 8px; }
-.calendar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.cal-item { background: var(--card); padding: 20px; border-left: 3px solid var(--rule); transition: background var(--dur) var(--ease), border-left-color var(--dur) var(--ease); }
-.cal-item:hover { background: var(--card-hover); border-left-color: var(--celluloid); }
-.cal-mo { font-family: var(--f-mono); font-size: 9px; color: var(--text-muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
-.cal-name { font-family: var(--f-display); font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.cal-amt { font-family: var(--f-mono); font-size: 8px; color: var(--sage); }
-.cal-date { font-family: var(--f-mono); font-size: 8px; color: var(--mark); margin-top: 8px; }
-.top10 { counter-reset: rank; }
-.top10-item { counter-increment: rank; padding: 18px 24px; border-bottom: 1px solid var(--rule); display: flex; align-items: flex-start; gap: 16px; transition: background var(--dur) var(--ease); }
-.top10-item:hover { background: var(--card-hover); }
-.top10-item::before { content: counter(rank); font-family: var(--f-display); font-size: 28px; font-weight: 700; color: var(--celluloid); line-height: 1; min-width: 32px; }
-.top10-content { flex: 1; }
-.top10-title { font-family: var(--f-display); font-size: 15px; font-weight: 600; color: var(--text); }
-.top10-meta { font-family: var(--f-mono); font-size: 8px; color: var(--text-muted); margin: 4px 0 6px; }
-.top10-desc { font-size: 12px; color: var(--archive); line-height: 1.6; }
-.top10-amt { font-family: var(--f-mono); font-size: 10px; color: var(--sage); white-space: nowrap; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system-v2.css">
 </head>
-<body>
+<body class="public-page" data-pub-header>
 
 <div class="ticker" aria-hidden="true">
   <div class="ticker__belt">
     <span class="ticker__item"><b>50+</b> Grants & Funds</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>10</b> ST-Specific Scholarships</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>15+</b> International Funds</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
-    <span class="ticker__item">₹0-75L Grant Range</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">NE Film Intelligence (NEFI)</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Govt + Tech Partnerships</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">NE India Funds Included</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>50+</b> Grants & Funds</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>10</b> ST-Specific Scholarships</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>15+</b> International Funds</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
-    <span class="ticker__item">₹0-75L Grant Range</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">NE Film Intelligence (NEFI)</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Govt + Tech Partnerships</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">NE India Funds Included</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
   </div>
 </div>
-
-<header class="site-header">
-  <a href="index.html" class="header-wordmark">The&nbsp;<span>Film</span>&nbsp;Path</a>
-  <nav aria-label="Primary navigation">
-    <ul class="header-nav">
-      <li><a href="programs.html">Programs</a></li>
-      <li><a href="grants.html" class="active">Grants</a></li>
-      <li><a href="books.html">Books</a></li>
-      <li><a href="events.html">Events</a></li>
-    </ul>
-  </nav>
-  <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-  <div class="header-meta">v2.0 &nbsp;·&nbsp; <span id="header-date">2026-06-18</span></div>
-</header>
-
-<nav class="mobile-nav" aria-label="Mobile navigation">
-  <a href="index.html">Home</a>
-  <a href="programs.html">Programs</a>
-  <a href="grants.html">Grants & Funds</a>
-  <a href="books.html">Books & Library</a>
-  <a href="events.html">Events & Networking</a>
-</nav>
 
 <section class="page-hero page-content">
   <div class="container container--narrow">
@@ -84,6 +43,12 @@
   </div>
 </section>
 
+<div class="container container--narrow">
+  <div class="ref-banner">
+    Reference library — grants &amp; funds are secondary to <a href="programs.html">programs &amp; institutions</a>, which are the primary database focus.
+  </div>
+</div>
+
 <!-- ═══ TOP 10 ══════════════════════════════ -->
 <section class="section">
   <div class="container container--narrow">
@@ -94,6 +59,7 @@
     <p class="mb-3" style="font-size:13px;color:var(--archive);line-height:1.7">Ranked by relevance to your specific profile: NE India, ST candidate, age 25, documentary/independent cinema, ₹2-3L budget.</p>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="grants-container" class="bento-grid"></div>
     <div class="top10 reveal">
       <div class="top10-item st-glow" style="background:var(--sage-dim);border-left:3px solid var(--sage);padding:18px 24px;display:flex;align-items:flex-start;gap:16px;">
         <span style="font-family:var(--f-display);font-size:28px;font-weight:700;color:var(--sage);line-height:1;min-width:32px;">1</span>
@@ -192,6 +158,7 @@
     </div>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="grants-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <a href="https://www.dohafilm.com/financing/grants" target="_blank" rel="noopener" class="card" data-category="international" data-searchable>
         <span class="card__tag card__tag--red">⚠️ June 22 - July 2</span>
@@ -279,6 +246,7 @@
     </div>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="grants-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card st-glow" data-category="st" data-searchable>
         <span class="card__tag card__tag--red">⚠️ June 30 Deadline</span>
@@ -348,6 +316,7 @@
     </div>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="grants-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <a href="https://alteff.in" target="_blank" rel="noopener" class="card" data-category="emerging" data-searchable>
         <span class="card__tag card__tag--red">⚠️ June 30 · ₹3,500 fee</span>
@@ -417,6 +386,7 @@
     </div>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="grants-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card st-glow" data-category="govt" data-searchable>
         <span class="card__tag card__tag--green">FREE + ₹12K incentive</span>
@@ -460,6 +430,7 @@
     </div>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="grants-container" class="bento-grid"></div>
     <div class="calendar-grid reveal">
       <div class="cal-item" style="border-left-color:var(--mark);">
         <div class="cal-mo">June 22 – July 2</div>
@@ -525,30 +496,9 @@
   </div>
 </section>
 
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="ft-logo">The <span>Film</span> Path</div>
-        <div class="ft-tagline">A research atlas for filmmakers from Northeast India</div>
-      </div>
-      <div class="ft-center">
-        <div class="ft-ver">v2.0.0 &nbsp;·&nbsp; Build 2026-06-18</div>
-        <div class="ft-ver ft-ver-highlight">Personal Research Use</div>
-      </div>
-      <div class="ft-right">
-        <div class="ft-updated" id="footer-ts">Last updated: 2026-06-18</div>
-        <nav class="ft-links" aria-label="Footer links">
-          <a href="index.html">Home</a>
-          <a href="programs.html">Programs</a>
-          <a href="books.html">Books</a>
-          <a href="events.html">Events</a>
-        </nav>
-      </div>
-    </div>
-  </div>
-</footer>
-
+<script src="js/public-api.js"></script>
+<script src="js/public-shell.js"></script>
+<script src="data/grants.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

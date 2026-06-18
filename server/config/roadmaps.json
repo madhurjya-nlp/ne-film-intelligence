@@ -1,0 +1,172 @@
+[
+  {
+    "id": "rm_study_abroad",
+    "slug": "study-abroad",
+    "title": "Study Abroad Pathway",
+    "summary": "From Assam/NE India to international film education — scholarships, visas, and program selection.",
+    "target_audience": "ST candidates from Northeast India seeking affordable international film education",
+    "steps": [
+      {
+        "title": "Assess Your Profile & Budget Band",
+        "summary": "Determine 0-3L, 4-6L, or 7-9L feasibility. Confirm ST certificate, NOS eligibility, portfolio readiness.",
+        "step_order": 1,
+        "milestone_label": "Foundation"
+      },
+      {
+        "title": "Research Programs & Countries",
+        "summary": "Compare Germany (0 tuition), India (MGR/DBHRGFTI), and scholarship-heavy destinations.",
+        "step_order": 2,
+        "milestone_label": "Research",
+        "prerequisite_step_order": 1
+      },
+      {
+        "title": "Apply for Scholarships (NOS / DAAD)",
+        "summary": "NOS deadline typically May-June. DAAD applications parallel with university admission.",
+        "step_order": 3,
+        "milestone_label": "Funding",
+        "prerequisite_step_order": 2
+      },
+      {
+        "title": "Secure Admission & Visa",
+        "summary": "University admission letter → attestation in Guwahati → visa application via VFS.",
+        "step_order": 4,
+        "milestone_label": "Logistics",
+        "prerequisite_step_order": 3
+      }
+    ]
+  },
+  {
+    "id": "rm_film_editor",
+    "slug": "become-film-editor",
+    "title": "Become a Film Editor",
+    "summary": "Training pathways from NE India to professional editing — diplomas, online tools, and festival circuits.",
+    "target_audience": "Aspiring editors with basic computer skills",
+    "steps": [
+      {
+        "title": "Build Foundational Skills",
+        "summary": "Learn Premiere Pro / DaVinci Resolve. Edit short docs from local NE stories.",
+        "step_order": 1,
+        "milestone_label": "Skills"
+      },
+      {
+        "title": "Formal Training (Diploma or Online)",
+        "summary": "MGR Chennai Editing Diploma (~₹15k/yr) or online certifications.",
+        "step_order": 2,
+        "milestone_label": "Education",
+        "prerequisite_step_order": 1
+      },
+      {
+        "title": "Portfolio & Festival Submissions",
+        "summary": "Submit to Tasveer, local NE festivals, build 3-5 strong edited pieces.",
+        "step_order": 3,
+        "milestone_label": "Portfolio",
+        "prerequisite_step_order": 2
+      }
+    ]
+  },
+  {
+    "id": "rm_documentary",
+    "slug": "documentary-filmmaker",
+    "title": "Become a Documentary Filmmaker",
+    "summary": "From NE India stories to international documentary funding and festival premiere.",
+    "target_audience": "Documentary filmmakers with regional/cultural stories",
+    "steps": [
+      {
+        "title": "Develop Cultural Story & Treatment",
+        "summary": "Root story in Assam/NE oral traditions, indigenous representation, ground realities.",
+        "step_order": 1,
+        "milestone_label": "Story"
+      },
+      {
+        "title": "Apply to Development Labs",
+        "summary": "IDFA Bertha Fund, Berlinale Talents, Sundance Documentary Fund.",
+        "step_order": 2,
+        "milestone_label": "Development",
+        "prerequisite_step_order": 1
+      },
+      {
+        "title": "Production Funding & Co-production",
+        "summary": "NFDC Film Bazaar, co-pro markets, broadcast partnerships (Doordarshan, regional).",
+        "step_order": 3,
+        "milestone_label": "Production",
+        "prerequisite_step_order": 2
+      }
+    ]
+  },
+  {
+    "id": "rm_funding",
+    "slug": "film-funding-pathway",
+    "title": "Film Funding Pathway",
+    "summary": "Navigate grants, fellowships, and co-production funding for independent filmmakers.",
+    "target_audience": "Independent filmmakers seeking production funding",
+    "steps": [
+      {
+        "title": "Map Funding by Project Stage",
+        "summary": "Development (labs) → Production (grants) → Distribution (festivals/markets).",
+        "step_order": 1,
+        "milestone_label": "Strategy"
+      },
+      {
+        "title": "ST-Specific & India Grants",
+        "summary": "NOS, NFDC, state film finance, Reborn India Short Film Fund.",
+        "step_order": 2,
+        "milestone_label": "India Funding"
+      },
+      {
+        "title": "International Grants",
+        "summary": "IDFA Bertha, Hubert Bals Fund, Sundance, Asian Cinema Fund.",
+        "step_order": 3,
+        "milestone_label": "Global Funding",
+        "prerequisite_step_order": 2
+      }
+    ]
+  },
+  {
+    "id": "rm_festival",
+    "slug": "festival-strategy",
+    "title": "Festival Strategy Pathway",
+    "summary": "Strategic festival submission and networking for emerging filmmakers.",
+    "target_audience": "Filmmakers ready to premiere work",
+    "steps": [
+      {
+        "title": "Tier Your Festivals",
+        "summary": "A-list (Berlinale, Cannes) → Regional (IFFI, MIFF) → Niche (doc festivals).",
+        "step_order": 1,
+        "milestone_label": "Planning"
+      },
+      {
+        "title": "Submit to Labs & Markets",
+        "summary": "Film Bazaar, Torino, Berlinale Talents for networking beyond competition.",
+        "step_order": 2,
+        "milestone_label": "Networking"
+      }
+    ]
+  },
+  {
+    "id": "rm_low_budget",
+    "slug": "low-budget-filmmaker",
+    "title": "Low Budget Filmmaker Pathway",
+    "summary": "Make films on minimal budget from NE India — 0-3L education + local production strategies.",
+    "target_audience": "Solo creators with limited budget",
+    "steps": [
+      {
+        "title": "Minimize Education Cost",
+        "summary": "DBHRGFTI, MGR Chennai, Germany public MA, online certifications.",
+        "step_order": 1,
+        "milestone_label": "Education"
+      },
+      {
+        "title": "Local Production Networks",
+        "summary": "Guwahati crew, NE co-producers, community screening circuits.",
+        "step_order": 2,
+        "milestone_label": "Production"
+      },
+      {
+        "title": "Micro-Grants & Short Film Funds",
+        "summary": "Reborn India (₹1L), Tasveer, NFDC shorts support.",
+        "step_order": 3,
+        "milestone_label": "Funding"
+      }
+    ]
+  }
+]

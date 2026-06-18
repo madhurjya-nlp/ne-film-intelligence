@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opportunity Calendar — NE Film Intelligence</title>
+  <meta name="description" content="Upcoming deadlines, closing soon opportunities, and festival dates synced from the database.">
+  <link rel="canonical" href="/calendar">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system-v2.css">
+</head>
+<body class="public-page" data-pub-header>
+  <div id="page-root" data-page="calendar"></div>
+  <main class="pub-main">
+    <div class="pub-hero">
+      <p class="nb-eyebrow">Deadline Intelligence</p>
+      <h1>Opportunity Calendar</h1>
+      <p>Track application deadlines, festival dates, and grant windows — synced from programs, opportunities, and events.</p>
+    </div>
+    <div class="pub-view-tabs" role="tablist" aria-label="Calendar views">
+      <button type="button" data-cal-view="upcoming" class="active">Upcoming</button>
+      <button type="button" data-cal-view="closing_soon">Closing Soon</button>
+      <button type="button" data-cal-view="this_month">This Month</button>
+      <button type="button" data-cal-view="recently_added">Recently Added</button>
+      <button type="button" data-cal-view="expired">Expired</button>
+      <button type="button" data-cal-view="all">All</button>
+    </div>
+    <div class="pub-grid" id="content-grid"></div>
+  </main>
+  <script src="/js/public-api.js"></script>
+  <script src="/js/public-shell.js" defer></script>
+  <script src="/js/public-list.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pathway Explorer — NE Film Intelligence</title>
+  <meta name="description" content="Lightweight knowledge graph viewer: understand how countries, programs, scholarships, and visas connect.">
+  <link rel="canonical" href="/relationships">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system-v2.css">
+</head>
+<body class="public-page" data-pub-header>
+  <div id="page-root" data-page="relationships"></div>
+  <main class="pub-main">
+    <div class="pub-hero">
+      <p class="nb-eyebrow">Knowledge Graph</p>
+      <h1>Pathway Explorer</h1>
+      <p>Trace relationships between countries, institutions, programs, scholarships, and opportunities. Click any node to drill deeper.</p>
+    </div>
+    <div id="graph-breadcrumb" style="font-family:var(--f-mono);font-size:11px;color:var(--text-muted);margin-bottom:16px;"></div>
+    <div id="graph-list"></div>
+  </main>
+  <script src="/js/public-api.js"></script>
+  <script src="/js/public-shell.js" defer></script>
+  <script src="/js/public-relationships.js" defer></script>
+</body>
+</html>

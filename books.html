@@ -3,25 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Books & Library — The Film Path</title>
+  <title>Books & Library — NE Film Intelligence (NEFI)</title>
   <meta name="description" content="Essential filmmaking, screenwriting, documentary, design, and cinema theory books — with Z-Library search links and Archive.org direct reads.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css">
-  <style>
-.book-cat { font-family: var(--f-display); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); padding: 32px 0 16px; border-bottom: 1px solid var(--rule); margin-bottom: 0; }
-.book-cat em { font-style: normal; color: var(--violet); }
-.available-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; }
-.dot-green { background: var(--sage); }
-.dot-yellow { background: var(--celluloid); }
-.dot-red { background: var(--mark); }
-.tag-free { color: var(--sage); border-color: var(--sage); background: var(--sage-dim); }
-.tag-zlib { color: var(--violet); border-color: var(--violet); background: var(--violet-dim); }
-.tag-archive { color: var(--sky); border-color: var(--sky); background: var(--sky-dim); }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system-v2.css">
 </head>
-<body>
+<body class="public-page" data-pub-header>
 
 <div class="ticker" aria-hidden="true">
   <div class="ticker__belt">
@@ -30,37 +19,15 @@
     <span class="ticker__item">Z-Library Search Links</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Archive.org Direct Reads</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Free & Open Access</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
-    <span class="ticker__item">Curated for Independent Filmmakers</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">NE Film Intelligence (NEFI)</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>60+</b> Books Listed</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>8</b> Categories</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Z-Library Search Links</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Archive.org Direct Reads</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Free & Open Access</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
-    <span class="ticker__item">Curated for Independent Filmmakers</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">NE Film Intelligence (NEFI)</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
   </div>
 </div>
-
-<header class="site-header">
-  <a href="index.html" class="header-wordmark">The&nbsp;<span>Film</span>&nbsp;Path</a>
-  <nav aria-label="Primary navigation">
-    <ul class="header-nav">
-      <li><a href="programs.html">Programs</a></li>
-      <li><a href="grants.html">Grants</a></li>
-      <li><a href="books.html" class="active">Books</a></li>
-      <li><a href="events.html">Events</a></li>
-    </ul>
-  </nav>
-  <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-  <div class="header-meta">v2.0 &nbsp;·&nbsp; <span id="header-date">2026-06-18</span></div>
-</header>
-
-<nav class="mobile-nav" aria-label="Mobile navigation">
-  <a href="index.html">Home</a>
-  <a href="programs.html">Programs</a>
-  <a href="grants.html">Grants & Funds</a>
-  <a href="books.html">Books & Library</a>
-  <a href="events.html">Events & Networking</a>
-</nav>
 
 <section class="page-hero page-content">
   <div class="container container--narrow">
@@ -102,6 +69,7 @@
     <h2 class="book-cat reveal">🎬 <em>Film Theory & History</em></h2>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="books-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card" data-category="theory" data-searchable>
         <span class="card__tag tag-archive">📖 Archive.org</span>
@@ -183,6 +151,7 @@
     <h2 class="book-cat reveal">✍️ <em>Screenwriting</em></h2>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="books-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card" data-category="screenwriting" data-searchable>
         <span class="card__tag tag-archive">📖 Archive.org</span>
@@ -254,6 +223,7 @@
     <h2 class="book-cat reveal">🎥 <em>Documentary Filmmaking</em></h2>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="books-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card" data-category="documentary" data-searchable>
         <span class="card__tag tag-archive">📖 Archive.org</span>
@@ -295,6 +265,7 @@
     <h2 class="book-cat reveal">📷 <em>Cinematography & Editing</em></h2>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="books-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card" data-category="cinematography" data-searchable>
         <span class="card__tag tag-archive">📖 Archive.org</span>
@@ -326,6 +297,7 @@
     <h2 class="book-cat reveal">🎨 <em>Design & Visual Communication</em></h2>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="books-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card" data-category="design" data-searchable>
         <span class="card__tag tag-archive">📖 Archive.org</span>
@@ -367,6 +339,7 @@
     <h2 class="book-cat reveal">💼 <em>Media Business & Entrepreneurship</em></h2>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="books-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card" data-category="business" data-searchable>
         <span class="card__tag tag-archive">📖 Archive.org</span>
@@ -398,6 +371,7 @@
     <h2 class="book-cat reveal">📱 <em>Content Creation & Digital Media</em></h2>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="books-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card" data-category="content" data-searchable>
         <span class="card__tag tag-archive">📖 Archive.org</span>
@@ -439,6 +413,7 @@
     <h2 class="book-cat reveal">🇮🇳 <em>Indian & Asian Cinema Studies</em></h2>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="books-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <div class="card" data-category="indian-cinema" data-searchable>
         <span class="card__tag tag-archive">📖 Archive.org</span>
@@ -464,30 +439,9 @@
   </div>
 </section>
 
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="ft-logo">The <span>Film</span> Path</div>
-        <div class="ft-tagline">A research atlas for filmmakers from Northeast India</div>
-      </div>
-      <div class="ft-center">
-        <div class="ft-ver">v2.0.0 &nbsp;·&nbsp; Build 2026-06-18</div>
-        <div class="ft-ver ft-ver-highlight">Personal Research Use</div>
-      </div>
-      <div class="ft-right">
-        <div class="ft-updated" id="footer-ts">Last updated: 2026-06-18</div>
-        <nav class="ft-links" aria-label="Footer links">
-          <a href="index.html">Home</a>
-          <a href="programs.html">Programs</a>
-          <a href="grants.html">Grants</a>
-          <a href="events.html">Events</a>
-        </nav>
-      </div>
-    </div>
-  </div>
-</footer>
-
+<script src="js/public-api.js"></script>
+<script src="js/public-shell.js"></script>
+<script src="data/books.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

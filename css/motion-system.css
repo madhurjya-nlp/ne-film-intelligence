@@ -1,0 +1,246 @@
+/* NE Film Intelligence — Editorial Motion System (Phase 5.1) */
+
+/* B1 — Metric card drop */
+@keyframes card-drop {
+  0%   { transform: translateY(-20px); opacity: 0; }
+  70%  { transform: translateY(4px); opacity: 1; }
+  85%  { transform: translateY(-2px); }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.motion-card-drop.is-visible {
+  animation: card-drop 250ms cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+}
+
+/* B2 — Verified stamp slam */
+@keyframes stamp-slam {
+  0%   { transform: scale(1.2) rotate(-8deg); opacity: 0; }
+  60%  { transform: scale(0.95) rotate(-4deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-6deg); opacity: 1; }
+}
+
+.nb-stamp {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: var(--caption);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: var(--s-1) var(--s-3);
+  border: var(--border-sm);
+  background: var(--accent-yellow);
+  color: var(--black);
+  transform: rotate(-6deg);
+}
+
+.nb-stamp.is-slamming {
+  animation: stamp-slam 280ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* B3 — Button press physics */
+.nb-btn, .btn {
+  box-shadow: var(--btn-shadow, 6px 6px 0 var(--black));
+}
+
+.nb-btn:active, .btn:active {
+  transform: translate(var(--btn-press-x, 6px), var(--btn-press-y, 6px));
+  box-shadow: none;
+}
+
+.nb-btn--ghost:active, .btn--ghost:active {
+  transform: translate(4px, 4px);
+}
+
+/* B4 — Search activation */
+.pub-input:focus,
+.nb-input:focus,
+.pub-search-hero .pub-input:focus {
+  border-width: 4px;
+  border-color: var(--black);
+  background: var(--accent-yellow);
+  outline: none;
+  animation: search-click 120ms steps(2, end);
+}
+
+@keyframes search-click {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(1px); }
+  100% { transform: translateY(0); }
+}
+
+/* B5 — Roadmap progress track */
+.roadmap-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: var(--s-6) 0 var(--s-8);
+  overflow-x: auto;
+  padding-bottom: var(--s-2);
+}
+
+.roadmap-track__segment {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.roadmap-track__line {
+  width: 48px;
+  height: 4px;
+  background: var(--paper);
+  border: 2px solid var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+.roadmap-track__line-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent-yellow);
+  transition: width 400ms steps(4, end);
+}
+
+.roadmap-track__line.is-filled .roadmap-track__line-fill {
+  width: 100%;
+}
+
+.roadmap-track__node {
+  width: 16px;
+  height: 16px;
+  border: var(--border-sm);
+  border-radius: 50%;
+  background: var(--white);
+  flex-shrink: 0;
+  transition: background 200ms steps(2, end), transform 200ms ease;
+}
+
+.roadmap-track__node.is-active {
+  background: var(--accent-yellow);
+  transform: scale(1.15);
+}
+
+/* B6 — Report document drop */
+@keyframes doc-drop {
+  0%   { transform: translateY(20px) rotate(-2deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+.motion-doc-drop.is-visible {
+  animation: doc-drop 300ms cubic-bezier(0.25, 0.9, 0.35, 1) forwards;
+}
+
+/* Scroll reveals */
+.motion-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 300ms ease, transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.motion-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Settings panel */
+.nefi-settings {
+  position: fixed;
+  bottom: var(--s-4);
+  left: var(--s-4);
+  z-index: 150;
+  background: var(--white);
+  border: var(--border-sm);
+  box-shadow: var(--shadow-2);
+  padding: var(--s-3) var(--s-4);
+  font-family: var(--f-mono);
+  font-size: var(--caption);
+}
+
+.nefi-settings label {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  cursor: pointer;
+}
+
+.nefi-settings input { accent-color: var(--black); }
+
+/* Overlap prevention */
+.home-hero {
+  min-height: min(85vh, 900px);
+  overflow: visible;
+}
+
+.hero__h1 {
+  font-size: var(--h1);
+  max-width: min(14ch, 100%);
+  word-break: break-word;
+}
+
+.hero__stats {
+  max-width: min(280px, 40vw);
+}
+
+@media (max-width: 1100px) {
+  .hero__stats {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    max-width: 100%;
+    margin-top: var(--s-8);
+    gap: var(--s-3);
+  }
+
+  .hero__stat-row { flex: 1 1 140px; }
+  .home-hero { min-height: auto; padding-bottom: var(--s-12); }
+}
+
+.page-hero__title { font-size: var(--h2); }
+.pub-hero h1 { font-size: var(--h3); }
+
+/* Reduced motion — Section G */
+@media (prefers-reduced-motion: reduce) {
+  .motion-card-drop.is-visible,
+  .nb-stamp.is-slamming,
+  .motion-doc-drop.is-visible,
+  .motion-reveal {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .roadmap-track__line-fill { transition: none; width: 100% !important; }
+}
+
+.book-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-4);
+  margin-top: var(--s-4);
+}
+
+.book-link {
+  font-family: var(--f-mono);
+  font-size: var(--caption);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: var(--s-1) var(--s-3);
+  border: var(--border-sm);
+  background: var(--white);
+  box-shadow: var(--shadow-1);
+}
+
+.book-link--open_access,
+.book-link--archive { background: var(--accent-yellow); }
+
+html.nefi-reduced-motion .motion-card-drop,
+html.nefi-reduced-motion .motion-doc-drop,
+html.nefi-reduced-motion .motion-reveal,
+html.nefi-reduced-motion .nb-stamp {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}

@@ -1,0 +1,99 @@
+[
+  {
+    "id": "ctry_germany",
+    "name": "Germany",
+    "region": "europe",
+    "summary": "Tuition-free public universities for most programs. Strong English-taught film/media MAs. DAAD scholarships available. Top choice for 0-3L pathway with NOS.",
+    "language_notes": "Many MA programs in English. Basic German helpful for daily life.",
+    "cost_profiles": [
+      { "cost_band": "0-3L", "tuition_notes": "€0 tuition at public universities + €100-400/semester admin fee", "living_cost_notes": "€800-1000/month in smaller cities", "currency": "EUR" }
+    ],
+    "visa_notes": [
+      { "visa_type": "Student Visa", "notes": "Blocked account (Sperrkonto) ~€11,208/year required. Admission letter + health insurance needed.", "processing_time": "4-8 weeks", "st_candidate_notes": "NOS can cover tuition + living. Apply via VFS Kolkata after admission." }
+    ],
+    "scholarship_notes": [
+      { "title": "DAAD Scholarships", "notes": "Full/partial funding for Indian students including ST candidates.", "eligibility": "Bachelor's degree, English proficiency, admission to German university" },
+      { "title": "NOS (India)", "notes": "Ministry of Tribal Affairs covers full cost for ST students at approved foreign universities.", "eligibility": "ST certificate, family income limits, age 18-35" }
+    ]
+  },
+  {
+    "id": "ctry_france",
+    "name": "France",
+    "region": "europe",
+    "summary": "La Fémis and other prestigious film schools. Campus France process. Moderate tuition at public universities.",
+    "language_notes": "French B2 often required for national schools. Some English programs at private institutions.",
+    "cost_profiles": [
+      { "cost_band": "4-6L", "tuition_notes": "€200-4000/year public; La Fémis higher", "living_cost_notes": "Paris expensive; regional cities cheaper", "currency": "EUR" }
+    ],
+    "visa_notes": [
+      { "visa_type": "Long-stay Student Visa", "notes": "Campus France registration mandatory before visa.", "processing_time": "3-6 weeks", "st_candidate_notes": "Budget higher than Germany; scholarship critical for NE candidates." }
+    ],
+    "scholarship_notes": [
+      { "title": "Eiffel Excellence Scholarship", "notes": "French government scholarship for Master's level.", "eligibility": "Under 30, strong academic record" }
+    ]
+  },
+  {
+    "id": "ctry_japan",
+    "name": "Japan",
+    "region": "asia",
+    "summary": "Tokyo University of the Arts, film schools in Osaka/Kyoto. MEXT scholarship is primary funding route.",
+    "language_notes": "Japanese N2-N1 for most programs. Some English graduate programs.",
+    "cost_profiles": [
+      { "cost_band": "7-9L", "tuition_notes": "¥535,800/year national universities", "living_cost_notes": "¥100,000-150,000/month Tokyo", "currency": "JPY" }
+    ],
+    "visa_notes": [
+      { "visa_type": "Student Visa", "notes": "COE (Certificate of Eligibility) from school required first.", "processing_time": "1-3 months", "st_candidate_notes": "High cost without MEXT; plan 12+ months ahead." }
+    ],
+    "scholarship_notes": [
+      { "title": "MEXT Scholarship", "notes": "Full ride: tuition + ¥117,000/month stipend + flights.", "eligibility": "Under 35, Bachelor's degree, embassy recommendation" }
+    ]
+  },
+  {
+    "id": "ctry_south_korea",
+    "name": "South Korea",
+    "region": "asia",
+    "summary": "KARTS, Chung-Ang University film programs. Growing Hallyu industry connections. KGSP primary scholarship.",
+    "language_notes": "Korean TOPIK Level 3+ for most programs. English tracks emerging.",
+    "cost_profiles": [
+      { "cost_band": "4-6L", "tuition_notes": "₩4-8M/semester", "living_cost_notes": "₩800,000-1,200,000/month Seoul", "currency": "KRW" }
+    ],
+    "visa_notes": [
+      { "visa_type": "D-2 Student Visa", "notes": "Certificate of Admission + bank balance proof.", "processing_time": "2-4 weeks", "st_candidate_notes": "KGSP covers most costs if selected." }
+    ],
+    "scholarship_notes": [
+      { "title": "KGSP (GKS)", "notes": "Korean Government Scholarship Program — tuition + living + flights.", "eligibility": "Under 40, Bachelor's, embassy/university track" }
+    ]
+  },
+  {
+    "id": "ctry_uk",
+    "name": "United Kingdom",
+    "region": "europe",
+    "summary": "NFTS, LFS, SOAS media programs. High tuition but strong industry links. Chevening primary scholarship.",
+    "language_notes": "English — no language barrier for Assamese speakers.",
+    "cost_profiles": [
+      { "cost_band": "7-9L+", "tuition_notes": "£15,000-35,000/year", "living_cost_notes": "£1,000-1,500/month London", "currency": "GBP" }
+    ],
+    "visa_notes": [
+      { "visa_type": "Student Visa (Tier 4)", "notes": "CAS from university + £1,334/month living funds (London).", "processing_time": "3 weeks", "st_candidate_notes": "Scholarship essential; Chevening or Commonwealth for ST candidates." }
+    ],
+    "scholarship_notes": [
+      { "title": "Chevening Scholarship", "notes": "Full funding for one-year Master's at any UK university.", "eligibility": "2 years work experience, leadership potential, return to India commitment" }
+    ]
+  },
+  {
+    "id": "ctry_canada",
+    "name": "Canada",
+    "region": "north-america",
+    "summary": "Concordia Mel Hoppenheim, UBC, York University film programs. PGWP pathway after graduation.",
+    "language_notes": "English (Quebec also French). IELTS 6.5+ typical.",
+    "cost_profiles": [
+      { "cost_band": "7-9L", "tuition_notes": "CAD $15,000-30,000/year international", "living_cost_notes": "CAD $1,200-1,800/month", "currency": "CAD" }
+    ],
+    "visa_notes": [
+      { "visa_type": "Study Permit", "notes": "GIC $20,635 + tuition proof. PAL required from 2024.", "processing_time": "4-8 weeks", "st_candidate_notes": "PGWP offers 1-3 year work permit post-study — strong ROI pathway." }
+    ],
+    "scholarship_notes": [
+      { "title": "Vanier Canada Graduate Scholarship", "notes": "Doctoral level but reference for funding landscape.", "eligibility": "Research excellence" }
+    ]
+  }
+]

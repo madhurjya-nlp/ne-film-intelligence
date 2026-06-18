@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Moderation Console — NE Film Intelligence (NEFI)</title>
+  <meta name="description" content="Structured research database console for NE Film Intelligence. Manage, verify, and syndicate film/media opportunities for Northeast India.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system-v2.css">
+
+  <style>
+    /* Admin Specific Styling */
+    .admin-container {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 32px;
+      margin-top: 24px;
+    }
+    
+    .admin-sidebar {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      padding: 20px;
+      border-radius: var(--radius);
+      height: fit-content;
+    }
+
+    .admin-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-nav-btn {
+      text-align: left;
+      font-family: var(--f-display);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+      border-left: 2px solid transparent;
+    }
+
+    .admin-nav-btn:hover {
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    .admin-nav-btn.active {
+      background: var(--red-dim);
+      color: var(--red);
+      border-left-color: var(--red);
+    }
+
+    .admin-main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Actions Bar */
+    .console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .console-title h1 {
+      font-family: var(--f-display);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .console-title p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .console-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--rule);
+      background: var(--surface);
+      color: var(--text);
+      transition: all var(--dur) var(--ease);
+    }
+
+    .btn:hover {
+      background: var(--bg-elevated);
+      border-color: var(--text-muted);
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: #FFF;
+      border-color: var(--red);
+    }
+
+    .btn-primary:hover {
+      background: var(--red-accent);
+      border-color: var(--red-accent);
+      color: #FFF;
+    }
+
+    .btn-success {
+      background: #2e7d32;
+      color: #FFF;
+      border-color: #2e7d32;
+    }
+    
+    .btn-success:hover {
+      background: #1b5e20;
+      border-color: #1b5e20;
+      color: #FFF;
+    }
+
+    /* Filter Panel */
+    .filter-panel {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      padding: 16px;
+      border-radius: var(--radius);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-group label {
+      font-size: 10px;
+      font-family: var(--f-mono);
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .filter-control {
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-family: var(--f-body);
+      font-size: 12px;
+      min-width: 150px;
+    }
+
+    .filter-control:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    /* Items List */
+    .items-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .item-card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      padding: 20px;
+      border-radius: var(--radius);
+      position: relative;
+      transition: border-color var(--dur) var(--ease);
+    }
+
+    .item-card.needs-review {
+      border-left: 3px solid var(--gold);
+    }
+
+    .item-card.rejected {
+      border-left: 3px solid var(--red);
+    }
+
+    .item-card.verified {
+      border-left: 3px solid #2e7d32;
+    }
+
+    .item-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .item-card__title {
+      font-family: var(--f-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .item-card__meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--f-mono);
+      margin-bottom: 12px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-family: var(--f-mono);
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+    }
+
+    .status-badge.pending { background: var(--bg-elevated); color: var(--text-secondary); }
+    .status-badge.verified { background: rgba(46, 125, 50, 0.12); color: #2e7d32; }
+    .status-badge.needs_review { background: var(--gold-dim); color: #b58232; }
+    .status-badge.rejected { background: var(--red-dim); color: var(--red); }
+    .status-badge.success { background: rgba(46, 125, 50, 0.12); color: #2e7d32; }
+    .status-badge.failed { background: var(--red-dim); color: var(--red); }
+    .status-badge.partial { background: var(--gold-dim); color: #b58232; }
+    .status-badge.running { background: var(--bg-elevated); color: var(--text-secondary); }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      padding: 16px;
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .metric-card__value {
+      font-family: var(--f-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    .metric-card__label {
+      font-size: 10px;
+      font-family: var(--f-mono);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .graph-edge {
+      font-size: 11px;
+      font-family: var(--f-mono);
+      padding: 6px 10px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+    }
+
+    .trust-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-family: var(--f-mono);
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      background: var(--gold-dim);
+      color: #b58232;
+      font-weight: 600;
+    }
+
+    .item-card__body {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .item-card__details {
+      background: var(--bg-elevated);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      margin-bottom: 16px;
+      border-left: 2px solid var(--gold);
+    }
+
+    .item-card__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--rule-light);
+      padding-top: 12px;
+    }
+
+    .source-tag {
+      font-size: 10px;
+      font-family: var(--f-mono);
+      color: var(--text-muted);
+    }
+
+    .moderation-panel {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* Modal / Form drawer */
+    .mod-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .mod-modal.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      max-width: 600px;
+      width: 100%;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    .modal-header {
+      font-family: var(--f-display);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 12px;
+    }
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-family: var(--f-mono);
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .form-control {
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-family: var(--f-body);
+      font-size: 13px;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text);
+      color: var(--bg);
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-family: var(--f-mono);
+      z-index: 1100;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 300ms var(--ease), opacity 300ms var(--ease);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Empty states */
+    .empty-state {
+      padding: 60px 20px;
+      text-align: center;
+      background: var(--surface);
+      border: 1px dashed var(--rule);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+    }
+
+    .empty-state h3 {
+      font-family: var(--f-display);
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    .empty-state p {
+      font-size: 12px;
+    }
+
+    .loading-state {
+      padding: 40px;
+      text-align: center;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .admin-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="page-admin admin-page public-page" data-pub-header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__belt">
+    <span class="ticker__item"><b>NE Film Intelligence (NEFI)</b> Research Console</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Phase 3 Research Intelligence</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Roadmaps &amp; Pathways</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Deadline Calendar Live</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Knowledge Graph Active</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+  </div>
+</div>
+
+<header class="site-header">
+  <a href="index.html" class="header-wordmark">NE Film Intelligence <span style="font-size:10px;opacity:0.7;">(CEA)</span></a>
+  <nav aria-label="Primary navigation">
+    <ul class="header-nav">
+      <li><a href="programs.html">Programs</a></li>
+      <li><a href="grants.html">Grants</a></li>
+      <li><a href="books.html">Books</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="admin.html" class="active">Admin</a></li>
+    </ul>
+  </nav>
+  <div class="header-meta">v5.0-Brutalist &nbsp;·&nbsp; <span id="header-date">2026-06-18</span></div>
+</header>
+
+<section class="page-hero page-content" style="padding-bottom: 12px;">
+  <div class="container">
+    <p class="page-hero__breadcrumb"><a href="index.html">Home</a> <span>/</span> <span>Database Console</span></p>
+    <div class="console-header">
+      <div class="console-title">
+        <h1>Research <em>Library Console</em></h1>
+        <p>Manage, review, moderate, and syndicate film opportunities directly to the static client guides.</p>
+      </div>
+      <div class="console-actions">
+        <button class="btn btn-success" id="btn-run-sync" title="Fetch and ingest from all active sources">
+          🔄 Run Ingestion Sync
+        </button>
+        <button class="btn btn-primary" id="btn-sync-static" title="Write verified records back to data/*.js static files">
+          ⚡ Syndicate Static DB
+        </button>
+        <button class="btn" id="btn-add-item" style="border-color: var(--red); color: var(--red);">
+          + Add Entry
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="container">
+    <div class="admin-container">
+      
+      <!-- Sidebar Navigation -->
+      <aside class="admin-sidebar">
+        <div class="admin-nav" role="tablist">
+          <button class="admin-nav-btn active" data-tab="research-overview" role="tab" aria-selected="true">📊 Research Overview</button>
+          <button class="admin-nav-btn" data-tab="programs" role="tab" aria-selected="false">🎓 Film Programs</button>
+          <button class="admin-nav-btn" data-tab="opportunities" role="tab" aria-selected="false">💵 Scholarships & Grants</button>
+          <button class="admin-nav-btn" data-tab="events" role="tab" aria-selected="false">🎬 Labs & Festivals</button>
+          <button class="admin-nav-btn" data-tab="submissions" role="tab" aria-selected="false">📩 Submissions</button>
+          <button class="admin-nav-btn" data-tab="institutes" role="tab" aria-selected="false">🏫 Institutes</button>
+          <button class="admin-nav-btn" data-tab="sources" role="tab" aria-selected="false">📡 Sources</button>
+          <button class="admin-nav-btn" data-tab="sync-history" role="tab" aria-selected="false">📋 Sync History</button>
+          <button class="admin-nav-btn" data-tab="discoveries" role="tab" aria-selected="false">🔍 Pending Discoveries</button>
+          <button class="admin-nav-btn" data-tab="roadmaps" role="tab" aria-selected="false">🗺️ Roadmaps</button>
+          <button class="admin-nav-btn" data-tab="reports" role="tab" aria-selected="false">📄 Reports</button>
+          <button class="admin-nav-btn" data-tab="countries" role="tab" aria-selected="false">🌍 Countries</button>
+          <button class="admin-nav-btn" data-tab="knowledge-graph" role="tab" aria-selected="false">🔗 Knowledge Graph</button>
+        </div>
+      </aside>
+
+      <!-- Main Panel -->
+      <main class="admin-main">
+        
+        <!-- Filter Panel -->
+        <div class="filter-panel">
+          <div class="filter-group">
+            <label for="search-box">Search Title / Body</label>
+            <input type="text" id="search-box" placeholder="Keyword..." class="filter-control">
+          </div>
+          
+          <div class="filter-group" id="filter-region-group">
+            <label for="filter-region">Region</label>
+            <select id="filter-region" class="filter-control">
+              <option value="">All Regions</option>
+              <option value="india">India</option>
+              <option value="europe">Europe</option>
+              <option value="asia">Asia</option>
+              <option value="north-america">North America</option>
+              <option value="online">Online</option>
+            </select>
+          </div>
+
+          <div class="filter-group" id="filter-format-group">
+            <label for="filter-format">Format</label>
+            <select id="filter-format" class="filter-control">
+              <option value="">All Formats</option>
+              <option value="online">Online</option>
+              <option value="offline">Offline</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filter-status">Moderation</label>
+            <select id="filter-status" class="filter-control">
+              <option value="">All States</option>
+              <option value="pending">Pending</option>
+              <option value="verified">Verified</option>
+              <option value="needs_review">Needs Review</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Content Area -->
+        <div id="loading" class="loading-state" style="display:none;">CONNECTING ARCHIVE SCHEMA...</div>
+        
+        <div id="items-list" class="items-grid">
+          <!-- Content injected here via JS -->
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+</section>
+
+<!-- Moderation Popup Drawer -->
+<div class="mod-modal" id="mod-modal" role="dialog" aria-modal="true">
+  <div class="modal-content">
+    <div class="modal-header">Moderate Entry</div>
+    <div class="modal-body">
+      <p id="mod-target-info" style="font-size: 13px; color: var(--text-secondary);"></p>
+      
+      <div class="form-group">
+        <label for="mod-status-select">Verification Status</label>
+        <select id="mod-status-select" class="form-control">
+          <option value="verified">Verified (Publish to Static Guide)</option>
+          <option value="needs_review">Needs Review (Flag for later check)</option>
+          <option value="rejected">Rejected (Do not show)</option>
+          <option value="pending">Pending (Awaiting investigation)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="mod-notes">Reviewer Notes</label>
+        <textarea id="mod-notes" rows="4" placeholder="Citations, fee checks, duplicate remarks, NE candidate logistics..." class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="mod-reviewer-name">Reviewer Signature</label>
+        <input type="text" id="mod-reviewer-name" value="Madhurjya (Lakhimpur)" class="form-control">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="btn-mod-cancel">Cancel</button>
+      <button class="btn btn-primary" id="btn-mod-save">Submit Moderation</button>
+    </div>
+  </div>
+</div>
+
+<!-- Creation / Edit Drawer -->
+<div class="mod-modal" id="edit-modal" role="dialog" aria-modal="true">
+  <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+    <div class="modal-header" id="edit-modal-title">Add New Entry</div>
+    <div class="modal-body">
+      <form id="entry-form">
+        <input type="hidden" id="entry-id">
+        
+        <div class="form-group">
+          <label for="form-title">Opportunity Title *</label>
+          <input type="text" id="form-title" required class="form-control" placeholder="e.g. Diploma in Editing">
+        </div>
+
+        <div class="form-group" id="form-institute-container">
+          <label for="form-institute-id">Institute (Host) *</label>
+          <select id="form-institute-id" class="form-control">
+            <!-- Populated via API -->
+          </select>
+        </div>
+
+        <div class="form-group" id="form-org-container">
+          <label for="form-org">Hosting Organization *</label>
+          <input type="text" id="form-org" class="form-control" placeholder="e.g. Ministry of Tribal Affairs">
+        </div>
+
+        <div class="form-group" id="form-type-container">
+          <label for="form-type">Category Type *</label>
+          <select id="form-type" class="form-control">
+            <!-- Will adapt depending on tab -->
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label for="form-country">Country *</label>
+            <input type="text" id="form-country" required class="form-control" placeholder="e.g. India">
+          </div>
+          <div class="form-group">
+            <label for="form-region">Region Group *</label>
+            <select id="form-region" required class="form-control">
+              <option value="india">India (Local)</option>
+              <option value="europe">Europe</option>
+              <option value="asia">Asia</option>
+              <option value="north-america">North America</option>
+              <option value="online">Online / Global</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label for="form-format">Attendance Format *</label>
+            <select id="form-format" required class="form-control">
+              <option value="offline">In-Person (Offline)</option>
+              <option value="online">Online</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+          <div class="form-group" id="form-cost-container">
+            <label for="form-cost">Tuition Cost / Cost Band</label>
+            <input type="text" id="form-cost" class="form-control" placeholder="e.g. 0-3L, Free, €550/yr">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label for="form-duration">Duration</label>
+            <input type="text" id="form-duration" class="form-control" placeholder="e.g. 3 years, 6 weeks">
+          </div>
+          <div class="form-group">
+            <label for="form-deadline">Deadline Description</label>
+            <input type="text" id="form-deadline" class="form-control" placeholder="e.g. Annual June 2026">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="form-summary">Brief Summary (UI Card Body) *</label>
+          <textarea id="form-summary" required rows="2" class="form-control" placeholder="1-2 sentences on what this is..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="form-description">Detailed Description & Cost Breakdown</label>
+          <textarea id="form-description" rows="4" class="form-control" placeholder="Write cost bands, class sizes, online format remarks..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="form-eligibility">Assam / Northeast Ground Reality Notes</label>
+          <textarea id="form-eligibility" rows="3" class="form-control" placeholder="Guwahati attestation steps, flights, ST reserved quotas, remote connectivity fit..."></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label for="form-url">Website URL</label>
+            <input type="url" id="form-url" class="form-control" placeholder="https://">
+          </div>
+          <div class="form-group">
+            <label for="form-tags">Tags (Comma Separated)</label>
+            <input type="text" id="form-tags" class="form-control" placeholder="doc, free, st-friendly, editing">
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="btn-edit-cancel">Cancel</button>
+      <button class="btn btn-primary" id="btn-edit-save">Save Entry</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast-notify">Action successful.</div>
+
+<footer class="site-footer" style="margin-top: 100px;">
+  <div class="container">
+    <div style="font-size: 11px; text-align: center; color: var(--text-dim);">
+      NE Film Intelligence (NEFI) Database Administration Center &nbsp;·&nbsp; Lakhimpur, Assam
+    </div>
+  </div>
+</footer>
+
+<script src="js/public-shell.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

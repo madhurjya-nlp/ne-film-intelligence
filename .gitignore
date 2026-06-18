@@ -1,0 +1,11 @@
+node_modules/
+server/db/database.sqlite
+server/db/*.sqlite-journal
+server/db/*.sqlite-wal
+server/db/*.sqlite-shm
+tests/_phase51_tmp.sqlite
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db

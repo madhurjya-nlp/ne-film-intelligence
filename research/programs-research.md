@@ -1,8 +1,11 @@
-# 🎬 Comprehensive Guide: Affordable International Cinema & Media Education
-## For Indian ST Students from Northeast India | Budget: ₹2-3 Lakhs (~$2,500-3,600 USD)
+# 🎬 Comprehensive Guide: International Cinema & Media Education Paths
+## For Filmmakers & Students from Assam / Northeast India (Expanded Research)
 
-> **Prepared:** June 2026 | **Target Profile:** 25-year-old ST candidate from Assam, India
-> **Goal:** Online/hybrid international diploma or master's in film, cinema, media, or content creation
+> **Updated:** June 2026 | **Target Profile:** ST candidate from Assam (e.g. North Lakhimpur), NE India — low/mid budget, documentary & independent focus
+> **Key Updates:** Added cultural/media landscape research for NE/Assam (decision context); expanded university list; programs categorized by estimated tuition bands (0-3 / 4-6 / 7-9 Lacs INR); ground-reality notes for going abroad from Assam (visas, travel from Guwahati, NOS logistics, local attestation). Separate article-style docs generated: Cultural_Context_Assam_NE_Cinema_Media.docx and Pathways_Abroad_Assam_NE_Ground_Reality.docx + categorized xlsx.
+> **Budget Note:** Bands refer primarily to tuition/program fees. Add living (Europe ~₹8-15L/yr), flights from GAU (~₹50-90k one-way Europe), visa/insurance. Scholarships (esp. NOS) can zero many costs.
+
+> **Ground Reality First:** Start local where possible (DBHRGFTI Guwahati). Portfolio + completed work > degree name. ST status + unique NE stories are powerful advantages for scholarships and funding.
 
 ---
 
@@ -655,9 +658,48 @@
 
 ---
 
+## 🗺️ New: Cultural & Media Landscape in Assam / NE India (Critical Context)
+
+**Read the full article-style research:** `Cultural_Context_Assam_NE_Cinema_Media.docx`
+
+### Quick Summary for Decision Makers
+- **Roots (1935+):** 'Joymoti' by Jyoti Prasad Agarwala. Sensitive, literary style. 'Jollywood'. 
+- **Anchor Institutions:** Jyoti Chitraban Film Studio (Guwahati, 1961/68) — heart of production + festivals today. DBHRGFTI — only govt film training institute in NE, diplomas in cinematography/editing/sound + acting cert. Very low fees. Practical first step for anyone in Assam.
+- **Current Scene:** Strong independent/doc wave. Regional fests (NEIFF Manipur, NIIFF, Shillong IFF, local at Jyoti Chitraban). Growing OTT/international interest. New directors reclaiming indigenous/tribal narratives (Bodo, Mising, etc.).
+- **Challenges (Ground):** Limited infrastructure (one major studio historically), funding/distribution, subtitles for Assamese+local languages, travel from Lakhimpur/NE towns to Guwahati for everything.
+- **Your Superpower:** Underrepresented stories (tribes, Brahmaputra, biodiversity, oral traditions, Bihu, socio-political transitions). Global festivals/funds actively seek authentic voices from margins. ST status unlocks NOS and targeted grants.
+- **How to Use This:** If your core is cultural specificity/docs, prioritize programs strong in documentary, postcolonial, or non-fiction (DocNomads, EICTV, certain European media studies). Build portfolio locally first.
+
+## 📊 Programs by Tuition Cost Bands (0-3 / 4-6 / 7-9 Lacs)
+
+**Full interactive table + ground notes + strategy:** Open `Film_Education_Programs_Categorized_0-9Lacs_Assam_NE.xlsx` (3 sheets: categorized list, band summary, Assam-NE specific realities).
+
+### Band Highlights (Selected, Tuition-Focused, June 2026 est.)
+**0-3 Lacs (Start here / high priority for most profiles)**
+- DBHRGFTI (Assam): 3yr diplomas — govt low cost, local, practical.
+- Bir Tikendrajit Univ (Manipur): MA Film/TV online ~₹46k total.
+- Sapientia (Romania): MA Film Studies ~€550+/yr.
+- German public Media/Film Studies MA: €0 tuition + admin fees.
+- Free/near-free: DFS Africa curriculum, Google/Adobe/Coursera (aid), EICTV online workshops.
+
+**4-6 Lacs**
+- SRFTI Kolkata / FTII Pune: Prestigious Indian training (competitive entrances, hostel adds cost).
+- Select Poland, Baltic (Estonia/Lithuania), Georgia programs.
+- Mid-tier Europe with good scholarship potential.
+
+**7-9 Lacs (Reach with scholarship or strong case)**
+- FAMU English-track (Czech) — world-class but English premium.
+- UK online (Falmouth/AUB) — quality, use NOS or aid.
+- Self-funded Erasmus consortia or other mid-high Europe/Asia.
+- Georgia/selected Hungary/Italy options that land in upper mid when living added.
+
+**Always cross-check** current fees, exchange (use ~₹90/EUR), and exact living + travel from GAU. Many "expensive" become 0 with NOS/Erasmus.
+
+**More universities added** beyond original: expanded German public options, additional Polish/Georgian/Hungarian, explicit DBHRGFTI + other NE/Indian govt institutes, clarified online/flexible tracks.
+
 ## 💡 Strategic Recommendations
 
-### The Optimal Path for Someone From Assam with ₹2-3 Lakh
+### The Optimal Path for Someone From Assam with ₹2-3 Lakh (Updated)
 
 > [!IMPORTANT]
 > **Your unique advantages as an ST student from Northeast India:**

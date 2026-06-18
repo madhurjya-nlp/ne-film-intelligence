@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Country Intelligence — NE Film Intelligence</title>
+  <meta name="description" content="Film education country guides: tuition, living costs, visas, scholarships, and related programs.">
+  <link rel="canonical" href="/countries">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system-v2.css">
+</head>
+<body class="public-page" data-pub-header>
+  <div id="page-root" data-page="countries"></div>
+  <main class="pub-main">
+    <div class="pub-hero">
+      <p class="nb-eyebrow">Geographic Intelligence</p>
+      <h1>Country Explorer</h1>
+      <p>Structured country profiles with cost bands, visa notes, scholarship paths, and linked programs.</p>
+    </div>
+    <div class="pub-filters" id="filters">
+      <input type="search" id="f-search" class="pub-input" placeholder="Search countries…" aria-label="Search countries">
+      <select id="f-region" class="pub-select" aria-label="Filter by region">
+        <option value="">All regions</option>
+        <option value="europe">Europe</option>
+        <option value="asia">Asia</option>
+        <option value="north-america">North America</option>
+        <option value="india">India</option>
+      </select>
+      <select id="f-cost" class="pub-select" aria-label="Filter by cost band">
+        <option value="">Any cost band</option>
+        <option value="0-3L">0–3L</option>
+        <option value="4-6L">4–6L</option>
+        <option value="7-9L">7–9L</option>
+      </select>
+    </div>
+    <div class="pub-grid" id="content-grid"></div>
+  </main>
+  <script src="/js/public-api.js"></script>
+  <script src="/js/public-shell.js" defer></script>
+  <script src="/js/public-list.js" defer></script>
+</body>
+</html>

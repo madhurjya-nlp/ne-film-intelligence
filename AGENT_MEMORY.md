@@ -1,4 +1,4 @@
-# 🧠 AGENT MEMORY — The Film Path Project
+# 🧠 AGENT MEMORY — NE Film Intelligence
 > This file is the project's living brain. Every agent reads and updates it.  
 > Never delete entries — append only. Most recent entries go at the top of each section.
 
@@ -8,14 +8,492 @@
 
 | Key | Value |
 |---|---|
-| **Project Name** | The Film Path — Media & Cinema Education Research Hub |
-| **Version** | 1.0.0 |
+| **Project Name** | NE Film Intelligence (NEFI) — formerly CineEduAssan (CEA) |
+| **Version** | 5.1.0 |
 | **Owner** | Madhurjya, North Lakhimpur, Assam, NE India |
-| **Primary Interest** | Film, documentary, content, media education — low/no-cost options |
+| **Primary Interest** | Online degrees, colleges, institutions (programs-first) — low/no-cost options (0-3L priority); grants/books/events are secondary reference |
 | **Identity Context** | ST (Scheduled Tribe) candidate, Assamese, 25 years old, solo founder |
-| **Current Phase** | Phase 2: Page building + content integration |
-| **Next Priority** | Run continent-by-continent research (start Asia → Europe → Americas) |
-| **Guide Version** | v4 (existing file: `guide/media_programs_v4.html`) |
+| **Current Phase** | Phase 5.1: Motion System, UX Polish, Research Expansion & Monetization Foundation |
+| **Last Agent Action** | 2026-06-18 — Phase 5.1 complete: NEFI rebrand, motion/sound/typography, books schema, category sources; 53/53 tests pass |
+| **Next Priority** | Phase 5.2: seed books DB, production deploy, PWA, verified stamp in admin |
+| **Guide Version** | v5 + data seam v3 (SQLite Synced) + ingestion v1 + intelligence v1 |
+| **Live URL** | https://effortless-speculoos-0dde1a.netlify.app |
+
+---
+
+## Repository Invariants
+
+* AGENT_MEMORY.md is the source of truth.
+* Every feature updates AGENT_MEMORY.md.
+* No record is published without validation.
+* Every record has source attribution.
+* All ingestion passes through moderation.
+* Static site data is generated from database state.
+* Drift must be checked before implementation.
+* No feature is considered complete until memory is updated.
+
+---
+
+## Session Update — Drift Report (Phase 5.1 Pre-Run)
+
+**Date:** 2026-06-18  
+**Version:** 5.0.0 → 5.1.0  
+
+**Drift Findings (memory vs repository):**
+
+| Item | AGENT_MEMORY | Repository (actual) | Resolution |
+|---|---|---|---|
+| Version | 5.0.0 | package.json 5.0.0 | Bump to 5.1.0 in Phase 5.1 |
+| Project name | CineEduAssan (CEA) | Still CineEduAssan in HTML/JS | Rebrand to NE Film Intelligence |
+| Primary focus | grants/loans/paths | Programs-first pivot applied (live DB, explore default, nav order) | Memory corrected |
+| Mobile nav | "hamburger not yet added" | `public-shell.js` has mobile toggle + panel | Memory corrected |
+| Unified footer | Not documented | `pub-footer` injected via public-shell.js | Memory corrected |
+| User Phase 5.1 spec | Says v4.0.0 | Repo is v5.0.0 post design migration | Spec version stale; repo authoritative |
+| Tests | 40 total | 40/40 passing | Confirmed |
+| Architecture | All phases stable | DB, ingestion, intelligence, public layer intact | No schema/API drift |
+
+**Corrections applied before Phase 5.1 implementation:** snapshot table, primary interest, phase label, drift table above.
+
+---
+
+## Session Update — Phase 5.1 Complete
+
+**Date:** 2026-06-18  
+**Version:** 5.1.0  
+**Summary:** Rebranded to **NE Film Intelligence (NEFI)**. Added fluid typography tokens, editorial motion system, scroll engine, optional UI sounds, books affiliate-ready schema, and 10 additive ingestion sources across acting/screenwriting/theatre/video-editing/documentary. No API/route/architecture changes.
+
+**Typography System:**
+- `css/design-tokens-v3.css` — fluid `--h1` through `--caption` clamps
+- Imported into `design-system-v2.css`; hero/page titles use token scale
+- Overlap fixes: hero stats static below 1100px; `min-height: auto` on mobile; `max-width` guards on hero h1
+
+**Motion Features:**
+- `css/motion-system.css` — card drop (250ms), stamp slam, button press (6px shadow physics), search click, roadmap track fill, document drop (300ms)
+- `js/motion-controller.js` — IntersectionObserver, one-shot animations, roadmap progress
+- `js/scroll-engine.js` — staggered reveals, section activation (no scroll listeners)
+
+**Sound Features:**
+- `js/sound-engine.js` — OFF by default; `localStorage` key `nefi_ui_sounds`
+- `public/audio/` — tap, card-drop, stamp, toggle WAV (volume 0.15)
+- Settings panel bottom-left: "UI Sounds" toggle
+
+**Data Expansion (additive only):**
+- `sources.json` +10 sources: RADA, LAMDA, Sundance Writers, TorinoFilmLab, Series Mania, Drama Centre, ACE editing, IDFA Academy, Docedge, Hot Docs Labs, Documentary Campus
+- Categories: acting, screenwriting, theatre, video-editing, documentary
+
+**Books Ecosystem:**
+- Tables: `books`, `book_external_links` (migration)
+- Validation: `bookSchema`, `bookExternalLinkSchema` — types: publisher, amazon, archive, open_access, goodreads
+- `data/books.js` extended with `external_links`; legacy `link` preserved
+- `app.js` renders links priority: Open Access → Publisher → Amazon → Goodreads
+
+**Accessibility:**
+- `prefers-reduced-motion` bypasses all motion classes
+- `html.nefi-reduced-motion` class hook for manual override
+- Focus-visible preserved; ARIA on sound settings + roadmap track
+- Sounds off by default; explicit opt-in
+
+**Performance Notes:**
+- No GSAP/Framer/Lottie — CSS transforms + keyframes + IntersectionObserver only
+- Audio preloaded lazily; clone-on-play avoids overlap glitches
+- Target 60fps on transforms; scroll uses observers not listeners
+
+**Files Changed:**
+- New: `css/design-tokens-v3.css`, `css/motion-system.css`, `js/motion-controller.js`, `js/scroll-engine.js`, `js/sound-engine.js`, `scripts/generate-audio.js`, `public/audio/*.wav`, `tests/phase51.test.js`
+- Updated: `design-system-v2.css`, `public-shell.js`, `public-roadmap-detail.js`, `public-list.js`, `app.js`, `data/books.js`, `sources.json`, `migrate.js`, `validation.js`, `seo.js`, `package.json`, `index.html`, all HTML titles, `server/routes/pages.js`, `server/index.js`
+
+**New Tests:** 13 Phase 5.1 tests (**53 total**, all passing)
+
+**Follow-Up Tasks (Phase 5.2):**
+- Seed `books` table from static `data/books.js` via sync script
+- Manual reduced-motion toggle in settings panel
+- Stamp component on verified DB cards in admin moderation
+- Production Express deploy for live NEFI intelligence
+- PWA offline shell for programs research
+
+---
+
+## Session Update (Phase 5 — prior)
+
+**Date:** 2026-06-18  
+**Version:** 5.0.0
+**Summary:** Phase 5 Neo-Brutalist Design System Migration — transformed CineEduAssan visual layer to bold academic neo-brutalism. Created `design-system-v2.css` as single CSS source of truth. Migrated homepage, all public intelligence pages, legacy content pages, and admin console. No database, API, service, or business logic changes.
+
+**Drift Findings (pre-run):**
+- AGENT_MEMORY v4.0.0 matched repository (public pages, 33 tests, services intact)
+- Memory "Next Priority" listed PWA/personalization — user Phase 5 spec is design migration (corrected)
+- No schema or API drift
+
+**Design System:**
+- File: `css/design-system-v2.css` — tokens, typography, spacing, borders, shadows, layout, components, pub layer, homepage, admin, legacy compat
+- Colors: Paper #F5F1E8, Black #111, Accent Yellow #FFD400, Red #FF4D4D, Blue #4EA3FF
+- Typography: Space Grotesk 700/800 headings, Inter body, Courier Prime metadata
+- Spacing: 4px base scale (4–96px)
+- Borders: 4px solid black; radius 0–4px max
+- Shadows: 4px/8px/12px hard black offsets
+- Max width: 1440px; 12-column grid
+
+**Components Created:**
+- Buttons: `.nb-btn`, `--primary`, `--secondary`, `--danger`, `--ghost`
+- Cards: `.nb-card--roadmap`, `--country`, `--opportunity`, `--report`, `--metric`
+- Inputs: `.nb-input`, `.nb-select`, `.nb-checkbox`, `.nb-radio`
+- Tables: `.nb-table`
+- Badges: `.nb-badge--verified`, `--scholarship`, `--online`, `--hybrid`, `--country`
+- Alerts: `.nb-alert--success`, `--warning`, `--error`, `--info`
+- Layout: `.grid-12`, `.explore-layout` (sidebar filters), `.report-layout` (sticky TOC)
+
+**CSS Architecture:**
+- Single source: `design-system-v2.css` (all pages consume this only)
+- `public-intelligence.css` deprecated → `@import` shim for backward compat
+- `design-system.css` retained on disk but no longer linked
+- Legacy CSS variable aliases preserved for `app.js` / `admin.js` compatibility
+
+**Pages Migrated:**
+- `index.html` — brutalist hero, search bar, live intel hub (inline styles removed)
+- `pages/roadmaps.html`, `calendar.html`, `countries.html`, `explore.html`, `reports.html`, `relationships.html`, `search.html`, `404.html`
+- `programs.html`, `grants.html`, `books.html`, `events.html` (legacy content)
+- `admin.html` — unified pub header + brutalist admin components
+- SSR detail pages via `seo.js` → v2 CSS + Inter font
+
+**Accessibility Improvements:**
+- `:focus-visible` 3px blue outline on all interactive elements
+- `aria-current="page"` on active nav links
+- `aria-label` preserved on filters, search, pagination, milestone lists
+- `role="status"` + `aria-live="polite"` on loading states
+- `prefers-reduced-motion` disables ticker animation and transitions
+- Sufficient contrast: black on paper/white, yellow accent blocks
+
+**Known Limitations:**
+- Admin retains some inline `<style>` overrides (functional, not yet fully extracted to v2)
+- Legacy `app.js` bento renderers use old class names mapped via v2 compat layer
+- Mobile nav hidden on small screens (hamburger menu not yet added)
+- `design-system.css` file still exists (orphaned; safe to archive in Phase 6)
+
+**Files Changed:**
+- `css/design-system-v2.css` (new — ~700 lines, single source of truth)
+- `css/public-intelligence.css` (shim import)
+- `js/public-shell.js`, `public-home.js`, `public-list.js`, `public-roadmap-detail.js`, `public-country-detail.js`, `public-report-detail.js` (markup/classes only)
+- `index.html`, `admin.html`, all `pages/*.html`, legacy HTML pages
+- `server/utils/seo.js` (CSS/font links only)
+- `tests/design.test.js` (new — 7 tests)
+- `package.json` — v5.0.0
+
+**Design Changes:**
+- Warm paper → high-contrast paper + black borders + hard shadows
+- Glass/blur headers → solid white sticky header with yellow active states
+- Soft gold aesthetic → bold yellow/red/blue accent system
+- Explorer → sidebar filter panel + dense result grid
+- Reports → editorial layout with sticky table of contents
+- Countries → profile cards for cost/visa/scholarship sections
+
+**New Tests:** 7 Phase 5 design tests (40 total across all phases)
+
+**Follow-Up Tasks:**
+- Add mobile hamburger navigation
+- Extract remaining admin inline styles to v2
+- Archive `design-system.css`
+- Phase 6: PWA, personalization, production Express deploy
+
+---
+
+## Session Update (Phase 4 — prior)
+
+**Date:** 2026-06-18  
+**Version:** 4.0.0  
+**Summary:** Phase 4 Public Intelligence Layer — exposed all Phase 3 intelligence to filmmakers via clean URLs. Public site is now the primary research interface; admin is secondary. No duplicate data sources — all pages project existing DB tables.
+
+**Drift Findings (pre-run):**
+- AGENT_MEMORY at v3.0.0 matched Phase 3 backend; no public pages existed (expected pre-Phase 4)
+- `countryService.js` seed already sets `publication_status: 'published'` on create/update
+- No schema drift detected
+
+**Files Changed:**
+- `server/services/publicService.js` — public projections (published/verified filters), homepage, sitemap (new)
+- `server/services/explorerService.js` — paginated explore with URL-persistable filters (new)
+- `server/services/searchService.js` — unified server-side search across 6 entity types (new)
+- `server/routes/public.js` — `/api/public/*` endpoints (new)
+- `server/routes/pages.js` — clean URLs, SEO detail pages, sitemap.xml, robots.txt (new)
+- `server/utils/seo.js` — `renderPublicPage()` with meta, canonical, JSON-LD (new)
+- `server/index.js` — mount public API + pages router before static
+- `server/db/db.js` — WAL mode + busy_timeout for concurrent test stability
+- `css/public-intelligence.css` — public layer design extensions (new)
+- `js/public-api.js`, `public-shell.js`, `public-list.js`, `public-explore.js`, `public-relationships.js`, `public-search.js`, `public-home.js` (new)
+- `js/public-roadmap-detail.js`, `public-country-detail.js`, `public-report-detail.js` (new)
+- `pages/roadmaps.html`, `calendar.html`, `countries.html`, `explore.html`, `reports.html`, `relationships.html`, `search.html`, `404.html` (new)
+- `index.html` — research discovery portal: search bar, live intel sections, public nav
+- `tests/public.test.js` — 12 Phase 4 tests (new)
+- `package.json` — v4.0.0, sequential test runner
+
+**Routes Added:**
+- Public API: `/api/public/home`, `/roadmaps`, `/roadmaps/:slug`, `/calendar`, `/countries`, `/countries/:slug`, `/explore`, `/reports`, `/reports/:slug`, `/relationships`, `/relationships/:type/:id`, `/search`, `/sitemap-data`
+- Clean URLs: `/`, `/roadmaps`, `/roadmaps/:slug`, `/calendar`, `/countries`, `/countries/:slug`, `/explore`, `/reports`, `/reports/:slug`, `/relationships`, `/search`, `/sitemap.xml`, `/robots.txt`
+
+**Components Added:**
+- `PublicService`, `ExplorerService`, `SearchService` (server)
+- `PubUI` card/empty/loading helpers, public header nav (client)
+- Page shells: roadmaps, calendar, countries, explore, reports, relationships, search
+
+**New Queries:**
+- Published-only filters: `verification_status='verified' AND publication_status='published'` (entities); `publication_status='published'` (roadmaps, countries, reports)
+- Explorer: multi-table paginated query with budget/country/format/scholarship/deadline_status filters
+- Search: LIKE-based fuzzy search across programs, opportunities, institutes, countries, reports, roadmaps
+- Homepage: aggregated sections from existing services (no duplicate logic)
+
+**New Tests:** 12 Phase 4 tests (33 total across all phases)
+
+**Public Pages Added:**
+- `/roadmaps` — listing + category search + featured pathways
+- `/roadmaps/:slug` — milestones, prerequisites, resources, related countries/opportunities (SSR + SEO)
+- `/calendar` — Upcoming, Closing Soon, This Month, Recently Added, Expired views
+- `/countries` — search, region, affordability filters
+- `/countries/:slug` — cost/visa/scholarship profiles, related programs (SSR + SEO)
+- `/explore` — advanced filters, pagination, URL persistence
+- `/relationships` — lightweight pathway explorer with breadcrumb drill-down
+- `/reports` — published report archive
+- `/reports/:slug` — report detail with sections (SSR + SEO)
+- `/search` — unified search with categorized results
+- `/` (homepage) — live intel hub sections from `/api/public/home`
+
+**Known Limitations:**
+- Static Netlify deploy serves HTML only; live intelligence requires `npm start` (Express server)
+- Legacy static pages (programs.html, grants.html, etc.) coexist with DB-driven pages — not yet migrated
+- Explorer combines results from 3 tables per page (not single unified sort across types)
+- Relationship viewer shows edge chains, not a graph canvas (by design — lightweight)
+- Search uses SQL LIKE, not full-text index (adequate for current scale)
+- Roadmap related countries/opportunities are broad queries, not roadmap-specific graph links yet
+
+**Follow-Up Tasks:**
+- Deploy Express server (Railway/Render/Fly) for production public intelligence
+- Link roadmap step resources to actual entity IDs in seed config
+- Migrate legacy static pages to DB projections or deprecate gracefully
+- Scheduled cron for calendar sync + report generation + publish
+- Phase 5: personalized recommendations, offline PWA, public read-only API key tier
+
+---
+
+## Session Update (Phase 3 — prior)
+
+**Date:** 2026-06-18  
+**Version:** 3.0.0  
+**Summary:** Phase 3 Research Intelligence Layer — transformed database into pathway discovery platform with roadmaps, deadline calendar, query-generated reports, country intelligence, entity relationships, and live dashboard.
+
+**Files Changed:**
+- `server/db/schema.sql` — 11 new Phase 3 tables
+- `server/db/migrate.js` — Phase 3 table migrations
+- `server/db/seed-intelligence.js` — seeds roadmaps, countries, calendar, relationships (new)
+- `server/config/roadmaps.json` — 6 filmmaker pathways (new)
+- `server/config/countries.json` — 6 country profiles (new)
+- `server/services/dateParser.js` — deadline parsing/normalization (new)
+- `server/services/roadmapService.js` — roadmap engine (new)
+- `server/services/calendarService.js` — opportunity calendar (new)
+- `server/services/reportService.js` — query-based report generator (new)
+- `server/services/countryService.js` — country intelligence (new)
+- `server/services/relationshipService.js` — knowledge graph (new)
+- `server/services/dashboardService.js` — research overview metrics (new)
+- `server/routes/intelligence.js` — `/api/intelligence/*` routes (new)
+- `server/index.js` — mount intelligence router
+- `admin.html` — Research Overview, Roadmaps, Reports, Countries, Knowledge Graph tabs
+- `js/admin.js` — intelligence tab handlers + dashboard metrics
+- `tests/intelligence.test.js` — Phase 3 test suite (new)
+- `package.json` — v3.0.0, intelligence:seed, calendar:sync scripts
+
+**Schema Changes:** Extended schema with roadmaps, roadmap_steps, roadmap_resources, calendar_events, reports, report_sections, countries, country_cost_profiles, country_visa_notes, country_scholarship_notes, entity_relationships
+
+**New Modules:** Roadmap Engine, Opportunity Calendar, Research Report Generator, Country Knowledge Model, Entity Relationships, Research Dashboard
+
+**New Relationships:** country→opportunity (located_in), institute→program (offers), source→entity (administers) — auto-linked via `RelationshipService.autoLinkFromEntities()`
+
+**New Routes:** `/api/intelligence/dashboard`, `/roadmaps`, `/calendar`, `/reports`, `/countries`, `/graph`, `/relationships`, `/seed`
+
+**New Tests:** 8 Phase 3 tests (21 total across all phases)
+
+**Follow-Up Tasks:**
+- Link roadmap step resources to actual program/opportunity/event IDs
+- Build public-facing roadmap browser page
+- Calendar views on static site (Upcoming, Closing Soon)
+- Scheduled cron for calendar sync + report generation
+- Phase 4: personalized pathway recommendations, offline PWA, public API
+
+---
+
+## Session Update (Phase 2 — prior)
+
+**Date:** 2026-06-18  
+**Files Changed:**
+- `server/db/schema.sql` — extended `sources` table; added `sync_logs`, `source_record_hashes`
+- `server/db/migrate.js` — incremental Phase 2 migrations (new)
+- `server/db/db.js` — migration-before-schema init order
+- `server/config/sources.json` — 5 configurable initial sources (new)
+- `server/ingestion/trustModel.js` — trust scoring + verification rules (new)
+- `server/ingestion/normalizer.js` — normalize + content hash (new)
+- `server/ingestion/ingestionService.js` — full pipeline orchestrator (new)
+- `server/ingestion/parsers/BaseParser.js` — adapter base (new)
+- `server/ingestion/parsers/DAADParser.js` — Germany programs (new)
+- `server/ingestion/parsers/FestivalParser.js` — festivals/markets (new)
+- `server/ingestion/parsers/UniversityParser.js` — universities/scholarships (new)
+- `server/ingestion/parsers/index.js` — parser registry (new)
+- `server/services/sourceRegistryService.js` — registry + sync log CRUD (new)
+- `server/services/validation.js` — `ingestionSourceSchema`
+- `server/routes/ingestion.js` — ingestion API routes (new)
+- `server/index.js` — mount `/api/ingestion`
+- `admin.html` — Sources, Sync History, Pending Discoveries tabs + Run Sync button
+- `js/admin.js` — ingestion tab handlers
+- `tests/ingestion.test.js` — Phase 2 test suite (new)
+- `package.json` — v2.3.0, cheerio, migrate/sources:seed/ingest scripts
+
+**Reason:** Phase 2 deliverable — trusted opportunity ingestion pipeline extending existing DB/API/admin systems.
+
+**Implementation Notes:**
+- Pipeline: Source Registry → Fetch → Parse → Normalize → Validate → Deduplicate → Review Queue → Approval → Static Syndication
+- Sources loaded from `server/config/sources.json` (not hardcoded in business logic)
+- Trust 100 = auto-verify (never auto-publish; `publication_status` always `draft`)
+- Trust 95/85/0 = pending or needs_review
+- Incremental sync via `source_record_hashes.content_hash`
+- Parsers are pluggable adapters via `server/ingestion/parsers/index.js` registry
+- Uses native `fetch` + `cheerio` (no Puppeteer)
+- Initial sources: NOS Tribal, NFDC Film Bazaar, DAAD, Berlinale Talents, MGR Chennai
+
+**Follow-up Tasks:**
+- Run `npm start` + admin Run Sync on live network (some sources may fail fetch behind firewalls)
+- Moderate Pending Discoveries tab entries
+- `npm run sync` to syndicate verified records
+- Phase 3: scheduled cron sync, richer parsers, submission portal, continent research automation
+
+---
+
+## 🔄 Phase 2 Ingestion Architecture
+
+### Pipeline Flow
+```
+sources.json / DB registry
+  → SyncRunner (POST /api/ingestion/sync)
+  → Parser adapter (daad | festival | university | generic)
+  → Normalizer + content hash
+  → Zod validation
+  → Deduplication (title + website_url)
+  → Trust model → verification_status
+  → Entity insert/update (programs | opportunities | events)
+  → review_queue log
+  → sync_logs metrics
+```
+
+### New Tables
+| Table | Purpose |
+|---|---|
+| `sources` (extended) | Ingestion source registry with trust_level, parser_type, crawl_frequency, last_run_at |
+| `sync_logs` | Per-run history: found/inserted/updated/rejected/errors/duration |
+| `source_record_hashes` | Incremental sync — skip unchanged records |
+
+### New API Endpoints (`/api/ingestion/`)
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/sources` | List registry |
+| POST | `/sources` | Add source |
+| PUT | `/sources/:id` | Update source |
+| POST | `/sources/seed` | Load from sources.json |
+| POST | `/sync` | Run all active sources |
+| POST | `/sync/:sourceId` | Run single source |
+| GET | `/sync-logs` | Sync history |
+| GET | `/discoveries` | Pending ingested records |
+| GET | `/parsers` | Available parser types |
+| GET | `/trust-presets` | Trust level definitions |
+
+### Trust Model
+| Source Type | Score | Verification | Publication |
+|---|---|---|---|
+| Official University | 100 | auto-verified | draft (manual publish) |
+| Government Scholarship | 100 | auto-verified | draft |
+| Film Festival Official | 95 | pending | draft |
+| Industry Organization | 85 | pending | draft |
+| Unknown | 0 | needs_review | draft |
+
+### NPM Scripts (Phase 2)
+- `npm run migrate` — apply DB migrations
+- `npm run sources:seed` — seed sources from config
+- `npm run ingest` — CLI run all active source syncs
+- `npm test` — 40 tests (Phase 1 + 2 + 3 + 4 + 5)
+
+---
+
+## 🌐 Phase 4 Public Intelligence Architecture
+
+### Rule
+No new source of truth. All public pages read from existing tables via `PublicService`, `ExplorerService`, `SearchService`.
+
+### Public API (`/api/public/`)
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/home` | Homepage aggregated sections |
+| GET | `/roadmaps` | Published roadmap listing |
+| GET | `/roadmaps/:slug` | Roadmap with steps + resources |
+| GET | `/calendar?view=` | Calendar with view filter + countdown |
+| GET | `/countries` | Country listing with filters |
+| GET | `/countries/:slug` | Full country intelligence profile |
+| GET | `/explore` | Paginated multi-entity explorer |
+| GET | `/reports` | Published report archive |
+| GET | `/reports/:slug` | Report with sections |
+| GET | `/relationships` | Knowledge graph edges (full or rooted) |
+| GET | `/relationships/:type/:id` | Entity detail + breadcrumbs |
+| GET | `/search?q=` | Unified categorized search |
+
+### Clean URL Routes (pages router)
+`/roadmaps`, `/calendar`, `/countries`, `/explore`, `/reports`, `/relationships`, `/search` + SSR detail pages for roadmaps/countries/reports + `/sitemap.xml` + `/robots.txt`
+
+### Publication Filters
+- Entities (programs, opportunities, institutes, events): `verified` + `published`
+- Intelligence entities (roadmaps, countries, reports): `published`
+
+### Frontend Assets
+`css/public-intelligence.css` + `js/public-*.js` — warm paper aesthetic, double-bezel cards, Space Grotesk + Courier Prime
+
+---
+
+## 🧠 Phase 3 Research Intelligence Architecture
+
+### Modules
+| Module | Tables | Purpose |
+|---|---|---|
+| Roadmap Engine | `roadmaps`, `roadmap_steps`, `roadmap_resources` | Structured filmmaker pathways with milestones, prerequisites, linked resources |
+| Opportunity Calendar | `calendar_events` | Deadline extraction, normalization, status classification |
+| Report Generator | `reports`, `report_sections` | Query-based summaries (not AI-generated) |
+| Country Intelligence | `countries`, `country_cost_profiles`, `country_visa_notes`, `country_scholarship_notes` | Structured country knowledge |
+| Knowledge Graph | `entity_relationships` | Lightweight relational links between entities |
+| Research Dashboard | (queries only) | Live metrics from database — no fake numbers |
+
+### Seeded Roadmaps (6)
+Study Abroad, Become a Film Editor, Documentary Filmmaker, Film Funding, Festival Strategy, Low Budget Filmmaker
+
+### Seeded Countries (6)
+Germany, France, Japan, South Korea, UK, Canada
+
+### Calendar Views
+`upcoming` | `closing_soon` (≤30 days) | `expired` | `this_month` | `all`
+
+### Report Types
+`new_opportunities` | `scholarships_added` | `festivals_opening` | `country_update` | `online_programs`
+
+### API Endpoints (`/api/intelligence/`)
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/dashboard` | Research overview metrics |
+| GET/POST | `/roadmaps` | List/create roadmaps |
+| GET | `/roadmaps/:id` | Roadmap with steps + resources |
+| GET | `/calendar?view=` | Calendar with view filter |
+| POST | `/calendar/sync` | Sync deadlines from entities |
+| GET/POST | `/reports` | List/generate reports |
+| POST | `/reports/generate` | Generate query-based report |
+| POST | `/reports/:id/publish` | Publish report |
+| GET/POST | `/countries` | Country intelligence |
+| GET | `/graph` | Knowledge graph (full or rooted) |
+| POST | `/relationships/auto-link` | Auto-link entities |
+| POST | `/seed` | Seed intelligence data |
+
+### Relationship Types
+`offers`, `funds`, `hosts`, `located_in`, `requires`, `leads_to`, `partners_with`, `administers`
+
+### NPM Scripts (Phase 3)
+- `npm run intelligence:seed` — seed roadmaps, countries, calendar, relationships
+- `npm run calendar:sync` — sync calendar from entity deadlines
 
 ---
 
@@ -66,6 +544,9 @@
 - 2026-06-18 | `#` (Himalayan Story Lab) | guide/media_programs_v4.html | NO URL FOUND — needs research
 - 2026-06-18 | Various "Apply →" buttons link to homepage only, not application pages — needs deep linking
 
+## 🛠️ Agent-Browser Surf Notes / Issues
+- 2026-06-18 | HBF page (iffr.com/en/hubert-bals-fund) via npx agent-browser | Hit Cloudflare "Just a moment..." interstitial + connection timeout (os error 10060) after wait --load networkidle. Snapshot failed. | Used web_search + research/grants-research.md as fallback; HBF details already in grants.js with NE notes. Agent-browser worked for core load + other opens (NOS). Prefer direct tools or --headed for protected sites in future.
+
 ---
 
 ## 📚 Verified Open-Access Resources (Running List)
@@ -111,7 +592,24 @@
 ## 📝 Research Findings Log
 > Agents append discoveries here as they research. Format: date | finding | source | relevance
 
-### 2026-06-18 — Project Initialization
+### 2026-06-18 — Updated Research Phase (Skills Inspection + Expanded Research)
+- Inspected full system skills via list_dir + `grok inspect` (23 skills: docx/xlsx for research docs, agent-browser for deep research, design/implement/review for later site work, find-skills, help, create-skill, etc. + bundled agents/personas). User-guide 08-skills.md reviewed. No site HTML built per instruction.
+- Performed targeted web research on: Assam/NE cinema history & current scene (Joymoti 1935, Jyoti Chitraban, DBHRGFTI, festivals, indigenous representation challenges/opportunities); NOS 2026 deadlines/logistics; more universities & accurate fees (Germany tuition-free public, expanded Poland/Georgia/Hungary, explicit local NE options); ground realities (GAU flights, Guwahati attestation, travel from Lakhimpur, ST proofs).
+- Created deliverables (research/ folder):
+  - Film_Education_Programs_Categorized_0-9Lacs_Assam_NE.xlsx (categorized tables + band strategy + Assam-NE notes)
+  - Cultural_Context_Assam_NE_Cinema_Media.docx (full article-style)
+  - Pathways_Abroad_Assam_NE_Ground_Reality.docx (practical steps, NOS, visas, logistics)
+- Updated programs-research.md with new frontmatter, cultural summary section, band highlights, notes on added unis and ground reality. 
+- Next per request: Do not build site. Use these docs for decisions. Can iterate research or later use design/implement skills when ready for site update.
+
+### 2026-06-18 — Agent-Browser Surf + New Data (0-3L, Grants, Collab Paths)
+- Started processes per request: agent-browser core loaded + surf commands executed on key portals (NOS, grants pages).
+- Web + targeted: MGR Chennai (0-3L priority gem), German public film MA (near-zero tuition), IDFA Bertha (Global South docs funding), Tasveer, Reborn India (₹1L), NFDC/Film Bazaar (co-pro + grants + cash), more labs.
+- Collaboration paths highlighted: co-pro markets (Film Bazaar, Torino, Asian Cinema Fund), labs (Berlinale Talents, IDFA).
+- All new items added to data/*.js with full locality/assam/st details + links.
+- Rendered sleekly via existing adapters (no viewer disruption).
+
+### 2026-06-18 — Project Initialization (original)
 - Created project scaffolding (AGENT_INSTRUCTIONS.md, AGENT_MEMORY.md, RESEARCH_PLAN.md, index.html)
 - Inventoried v4 guide: identified major geographical and thematic gaps
 - Identified key missing sections: Business & Commerce, Research Papers, Continent deep-dives
@@ -157,10 +655,54 @@
 
 | Date-Time UTC | Agent | Done | Next |
 |---|---|---|---|
+| 2026-06-18 (latest) | Grok — Phase 5 Design | Neo-brutalist design-system-v2.css; migrated all pages + admin; 40/40 tests pass; zero logic changes. | Phase 6: PWA, personalization, mobile nav, production deploy |
+| 2026-06-18 | Grok — Phase 4 Public Layer | Exposed DB intelligence via public pages: roadmaps, calendar, countries, explore, search, SEO; homepage restructured; 33/33 tests pass. | Deploy Express server, Phase 5 personalization + PWA |
+| 2026-06-18 | Grok — Phase 3 Intelligence | Built research intelligence layer: roadmaps, calendar, reports, countries, knowledge graph, dashboard; 21/21 tests pass. | Public roadmap pages, entity linking, Phase 4 personalization |
+| 2026-06-18 (late) | Grok — Phase 2 Ingestion | Built full ingestion pipeline: source registry, sync logs, parser adapters, trust model, incremental hashes, ingestion API, admin UI extensions; 13/13 tests pass. | Run sync on live network, moderate discoveries, syndicate static |
+| 2026-06-18 11:07 UTC | Gemini 3.5 Flash — DB Foundation | Built SQLite database schema with indexes and relations; parsed and seeded 22 records from static files; implemented validation (Zod) and Express server; built admin.html console; added in-memory test runner (100% pass); added sync-static script. | Add web scrapers and external automation in Phase 2 |
 | 2026-06-18 | Claude (Anthropic) — Initial Setup | Created project infrastructure: AGENT_INSTRUCTIONS.md, AGENT_MEMORY.md, RESEARCH_PLAN.md, index.html. Inventoried v4 guide. Identified research gaps. | Start Asia continent research file |
 | 2026-06-18 11:21:28 | Opencode Assistant | Created all 4 missing subpages: programs.html, grants.html, books.html, events.html using comprehensive research data. Updated AGENT_MEMORY with results. | Next: Create research/continents/ continent files, explore business section |
+| 2026-06-18 11:38 | Opencode Assistant | Initialized git repo, committed all files, deployed to Netlify. Live at effortless-speculoos-0dde1a.netlify.app | Verify all pages loading, continue with continent research |
+| 2026-06-18 | Grok (xAI) — Agent Processes Start + Data Deepen | Started agent-browser (skills get core + targeted open/snapshot on NOS + IFFR HBF). Used web_search + open for MGR Chennai (₹15k/yr), Germany tuition-free public film MA, IDFA Bertha (€7.5-25k docs Global South), Tasveer (South Asian shorts), Reborn India (₹1L), NFDC grants/Film Bazaar ($5-20k). Wrote clean augmented data/programs.js (fixed dups + 2 new 0-3L: MGR + Germany), grants.js (8 rich entries), books (6), events (6). Verified node --check OK. Updated snapshot + memory. New info now renders sleek via existing bento adapters. | Integrate any further finds; small index polish; redeploy + test live. |
 
 ---
+
+### 2026-06-18 — Research Surf + Data Update (Agent-Browser + Web)
+
+- Launched agent-browser process: `npx agent-browser skills get core --full` loaded full core workflows (snapshot-ref loop, open/snapshot/extract for research).
+- Surfed: overseas.tribal.gov.in (NOS), IFFR HBF grants page (via automation + web).
+- Additional targeted research (web + page): 
+  - M.G.R. Govt Film & TV Institute Chennai: 0-3L standout — BVA/UG Diplomas ~₹15k/yr + fees; SC/ST aid; Asia's oldest film institute.
+  - Germany public unis: majority €0 tuition + €100-400/sem for English film/media/cinema MA (huge 0-3L win with NOS).
+  - Grants: IDFA Bertha Fund (India-eligible, up to €25k prod for docs); Tasveer Film Fund (South Asian); Reborn India Short Film Fund (₹1L direct); NFDC Film Bazaar co-pro grants + feature support.
+- Cleaned & extended data seam files. New cards (MGR, Germany, IDFA, Reborn, Tasveer, NFDC etc.) now appear dynamically in bentos with rich Assam/NE details + filters.
+- No HTML breakage; render adapters (renderBentoCard, renderGrantCard...) already handle new shapes.
+- Palette (white/gold/dark-red paper), guided journey landing, mixed-media art popups remain intact — new data slotted seamlessly.
+
+### 2026-06-18 — Site Implementation Started
+- Reviewed new research docs/xlsx via extraction.
+- Verified key data: NOS deadline 15 May – 30 June 2026 (5:30 PM, overseas.tribal.gov.in); Sapientia confirmed 550 EUR/yr on program page; DBHRGFTI fees still reference 2019 (low subsidized); Erasmus next cycle Oct 2026.
+- Updated programs.html: New hero with bands + NE focus, Cultural Context section (history, DBHRGFTI, challenges/opportunities), Cost Bands grid (0-3/4-6/7-9), Germany public MA card (0 tuition), updated timelines, NOS urgency, Bir Tikendrajit note + DBHRGFTI emphasis, research footer note.
+- Updated index.html hero/sub and description for new scope.
+- Expanded mentions of Germany, local NE priority, cultural decision-making.
+- Updated programs-research.md earlier with summaries.
+- No netlify.toml in repo; deployment is likely manual drag-drop or connected git to Netlify. After local changes, re-deploy the folder or push updates.
+- Next: User can push to Netlify. Further expansion (full continents md) or more verification on request.
+
+### 2026-06-18 11:38 — Deployment to Netlify
+- Initialized git repo and committed all project files
+- Deployed site to Netlify (manual drag-drop or CLI)
+- **Live URL:** https://effortless-speculoos-0dde1a.netlify.app
+- Verified homepage, programs.html, grants.html, books.html, events.html all load correctly
+- Site is a fully static HTML/CSS/JS deployment — no build step needed
+
+### 2026-06-18 — Agent Processes Started + New Data Integrated (current)
+- Executed "start the processes": read agent-browser/redesign skills, invoked npx agent-browser (core + surf sessions), performed deep targeted research for 0-3L + funds/paths.
+- Updated all data modules with fresh verified entries prioritized for Assam/NE/ST profile.
+- Data now projects new research into sleek bento cards (expandable rich details with ground reality).
+- Slight redesign follow-up: data integration itself is the premium polish (no template feel; locality + leverage preserved).
+- Memory updated with phase, logs, snapshot.
+- Next manual step: re-deploy folder to Netlify. Test filters/expand on live.
 
 *Memory file initialized: 2026-06-18*  
 *This file grows with every agent session — never truncate it*

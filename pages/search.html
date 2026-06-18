@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unified Search — NE Film Intelligence</title>
+  <meta name="description" content="Search across roadmaps, programs, opportunities, countries, reports, and institutions.">
+  <link rel="canonical" href="/search">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system-v2.css">
+</head>
+<body class="public-page" data-pub-header>
+  <div id="page-root" data-page="search"></div>
+  <main class="pub-main">
+    <div class="pub-hero">
+      <p class="nb-eyebrow">Global Search</p>
+      <h1>Search Research</h1>
+      <p>One search across all intelligence layers. Use arrow keys to navigate results.</p>
+    </div>
+    <div class="pub-search-hero">
+      <input type="search" id="search-input" class="pub-input" placeholder="Search programs, roadmaps, countries, reports…" aria-label="Unified search" autocomplete="off">
+    </div>
+    <div id="search-results"></div>
+  </main>
+  <script src="/js/public-api.js"></script>
+  <script src="/js/public-shell.js" defer></script>
+  <script src="/js/public-search.js" defer></script>
+</body>
+</html>

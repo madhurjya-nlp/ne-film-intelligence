@@ -3,26 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Events & Networking — The Film Path</title>
+  <title>Events & Networking — NE Film Intelligence (NEFI)</title>
   <meta name="description" content="Film labs, co-production markets, pitch forums, online filmmaker communities, and India-specific events for independent filmmakers from Northeast India.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css">
-  <style>
-.event-type { font-family: var(--f-display); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); padding: 32px 0 16px; border-bottom: 1px solid var(--rule); margin-bottom: 0; }
-.event-type em { font-style: normal; color: var(--sky); }
-.deadline-countdown { font-family: var(--f-mono); font-size: 8px; color: var(--mark); }
-.festival-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.festival-item { background: var(--card); padding: 20px; border-left: 3px solid var(--rule); transition: background var(--dur) var(--ease), border-left-color var(--dur) var(--ease); }
-.festival-item:hover { background: var(--card-hover); border-left-color: var(--celluloid); }
-.fest-name { font-family: var(--f-display); font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.fest-loc { font-family: var(--f-mono); font-size: 8px; color: var(--text-muted); margin-bottom: 6px; }
-.fest-desc { font-size: 12px; color: var(--archive); line-height: 1.6; }
-.fest-date { font-family: var(--f-mono); font-size: 8px; color: var(--text-dim); margin-top: 8px; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system-v2.css">
 </head>
-<body>
+<body class="public-page" data-pub-header>
 
 <div class="ticker" aria-hidden="true">
   <div class="ticker__belt">
@@ -31,37 +19,15 @@
     <span class="ticker__item"><b>10</b> India-Specific</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Online & In-Person</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Free Entry Options</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
-    <span class="ticker__item">NE India Home Ground</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">NE Film Intelligence (NEFI)</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>40+</b> Events & Labs</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>15</b> International Labs</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item"><b>10</b> India-Specific</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Online & In-Person</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
     <span class="ticker__item">Free Entry Options</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
-    <span class="ticker__item">NE India Home Ground</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">NE Film Intelligence (NEFI)</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
   </div>
 </div>
-
-<header class="site-header">
-  <a href="index.html" class="header-wordmark">The&nbsp;<span>Film</span>&nbsp;Path</a>
-  <nav aria-label="Primary navigation">
-    <ul class="header-nav">
-      <li><a href="programs.html">Programs</a></li>
-      <li><a href="grants.html">Grants</a></li>
-      <li><a href="books.html">Books</a></li>
-      <li><a href="events.html" class="active">Events</a></li>
-    </ul>
-  </nav>
-  <button class="menu-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-  <div class="header-meta">v2.0 &nbsp;·&nbsp; <span id="header-date">2026-06-18</span></div>
-</header>
-
-<nav class="mobile-nav" aria-label="Mobile navigation">
-  <a href="index.html">Home</a>
-  <a href="programs.html">Programs</a>
-  <a href="grants.html">Grants & Funds</a>
-  <a href="books.html">Books & Library</a>
-  <a href="events.html">Events & Networking</a>
-</nav>
 
 <section class="page-hero page-content">
   <div class="container container--narrow">
@@ -84,6 +50,7 @@
     <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Application-based programs — often free or heavily subsidized — that provide mentorship, script development, networking, and sometimes production grants. <strong style="color:var(--text)">The single most valuable category</strong> for an emerging NE India filmmaker seeking international exposure.</p>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="events-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <a href="https://www.berlinale-talents.de" target="_blank" rel="noopener" class="card" data-category="labs" data-searchable>
         <span class="card__tag card__tag--yellow">Free if selected</span>
@@ -184,6 +151,7 @@
     <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Essential for turning a developed project into a produced film. Connect with international buyers, producers, and distributors.</p>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="events-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <a href="https://filmbazaarindia.com" target="_blank" rel="noopener" class="card" data-category="markets" data-searchable>
         <span class="card__tag card__tag--green">Essential for Indian filmmakers</span>
@@ -244,6 +212,7 @@
     <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">Accessible from anywhere in Northeast India with an internet connection. <strong style="color:var(--text)">The most immediately actionable category.</strong></p>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="events-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <a href="https://www.stage32.com" target="_blank" rel="noopener" class="card" data-category="online" data-searchable>
         <span class="card__tag card__tag--green">Free basic membership</span>
@@ -295,6 +264,7 @@
     <p class="mt-2 mb-2" style="font-size:13px;color:var(--archive);line-height:1.7">The most geographically and financially accessible opportunities for an NE India filmmaker.</p>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="events-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <a href="https://diff.co.in" target="_blank" rel="noopener" class="card" data-category="india" data-searchable>
         <span class="card__tag card__tag--yellow">⚠️ Deadline Aug 2</span>
@@ -362,6 +332,7 @@
     <h2 class="event-type reveal">🎯 <em>Pitch Forums for Emerging Filmmakers</em></h2>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="events-container" class="bento-grid"></div>
     <div class="card-grid reveal">
       <a href="https://www.hotdocs.ca" target="_blank" rel="noopener" class="card" data-category="pitch" data-searchable>
         <h3 class="card__title">Hot Docs Forum (Toronto)</h3>
@@ -403,6 +374,7 @@
     </div>
   </div>
   <div class="container container--narrow" style="padding-top:0">
+<div id="events-container" class="bento-grid"></div>
     <div style="background:var(--surface);border:1px solid var(--rule);padding:24px;">
       <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;">
         <div>
@@ -440,30 +412,9 @@
   </div>
 </section>
 
-<footer class="site-footer" role="contentinfo">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="ft-logo">The <span>Film</span> Path</div>
-        <div class="ft-tagline">A research atlas for filmmakers from Northeast India</div>
-      </div>
-      <div class="ft-center">
-        <div class="ft-ver">v2.0.0 &nbsp;·&nbsp; Build 2026-06-18</div>
-        <div class="ft-ver ft-ver-highlight">Personal Research Use</div>
-      </div>
-      <div class="ft-right">
-        <div class="ft-updated" id="footer-ts">Last updated: 2026-06-18</div>
-        <nav class="ft-links" aria-label="Footer links">
-          <a href="index.html">Home</a>
-          <a href="programs.html">Programs</a>
-          <a href="grants.html">Grants</a>
-          <a href="books.html">Books</a>
-        </nav>
-      </div>
-    </div>
-  </div>
-</footer>
-
+<script src="js/public-api.js"></script>
+<script src="js/public-shell.js"></script>
+<script src="data/events.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,22 @@
+/* NE Film Intelligence — Fluid Typography Tokens (Phase 5.1) */
+:root {
+  --h1: clamp(4rem, 8vw, 8rem);
+  --h2: clamp(2.5rem, 5vw, 4rem);
+  --h3: clamp(1.75rem, 3vw, 2.5rem);
+  --h4: clamp(1.25rem, 2vw, 1.75rem);
+  --body: clamp(1rem, 1.25vw, 1.125rem);
+  --caption: clamp(0.75rem, 1vw, 0.875rem);
+
+  /* Map into design-system scale */
+  --text-h1: var(--h1);
+  --text-h2: var(--h2);
+  --text-h3: var(--h3);
+  --text-h4: var(--h4);
+  --text-body: var(--body);
+  --text-caption: var(--caption);
+
+  /* Button physics */
+  --btn-shadow: 6px 6px 0 var(--black);
+  --btn-press-x: 6px;
+  --btn-press-y: 6px;
+}

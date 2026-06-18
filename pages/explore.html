@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Program Explorer — NE Film Intelligence</title>
+  <meta name="description" content="Search online degrees, film schools, and institutions with filters for budget, country, format, and deadlines.">
+  <link rel="canonical" href="/explore">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system-v2.css">
+</head>
+<body class="public-page" data-pub-header>
+  <div id="page-root" data-page="explore"></div>
+  <main class="pub-main">
+    <div class="pub-hero">
+      <p class="nb-eyebrow">Programs &amp; Institutions</p>
+      <h1>Program Explorer</h1>
+      <p>Search verified online degrees, film schools, and institutions. Grants and opportunities are secondary — programs are the primary database focus.</p>
+    </div>
+    <div class="explore-layout">
+      <aside class="explore-sidebar" aria-label="Search filters">
+        <h2 class="h4" style="margin-bottom:var(--s-4);">Filters</h2>
+        <form class="pub-filters" id="explore-filters">
+          <input type="search" name="search" class="pub-input" placeholder="Keyword search…" aria-label="Search">
+          <select name="type" class="pub-select" aria-label="Entity type">
+            <option value="program">Programs</option>
+            <option value="institute">Institutions</option>
+            <option value="opportunity">Opportunities (grants)</option>
+            <option value="">All types</option>
+          </select>
+          <input type="text" name="country" class="pub-input" placeholder="Country" aria-label="Country">
+          <select name="format" class="pub-select" aria-label="Format">
+            <option value="">Any format</option>
+            <option value="online">Online</option>
+            <option value="offline">Offline</option>
+            <option value="hybrid">Hybrid</option>
+          </select>
+          <select name="budget" class="pub-select" aria-label="Budget band">
+            <option value="">Any budget</option>
+            <option value="0-3">0–3L</option>
+            <option value="4-6">4–6L</option>
+            <option value="7-9">7–9L</option>
+          </select>
+          <select name="scholarship" class="pub-select" aria-label="Scholarship available">
+            <option value="">Scholarship</option>
+            <option value="true">Scholarship available</option>
+          </select>
+          <select name="deadline_status" class="pub-select" aria-label="Deadline status">
+            <option value="">Deadline</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="closing_soon">Closing soon</option>
+            <option value="expired">Expired</option>
+          </select>
+          <select name="sort" class="pub-select" aria-label="Sort order">
+            <option value="newest">Newest</option>
+            <option value="title">Title A–Z</option>
+            <option value="country">Country</option>
+            <option value="deadline">Deadline</option>
+          </select>
+          <button type="submit" class="nb-btn nb-btn--primary" style="width:100%;">Apply Filters</button>
+        </form>
+      </aside>
+      <div class="explore-results">
+        <div class="pub-grid" id="content-grid" role="list" aria-label="Search results"></div>
+        <div class="pub-pagination" id="pagination" aria-label="Pagination"></div>
+      </div>
+    </div>
+  </main>
+  <script src="/js/public-api.js"></script>
+  <script src="/js/public-shell.js" defer></script>
+  <script src="/js/public-explore.js" defer></script>
+</body>
+</html>

@@ -1,60 +1,64 @@
 /* ═══════════════════════════════════════════════════════
-   THE FILM PATH — Design System v2.0
-   "Dark Archive" — Celluloid yellow on near-black,
-   screenplay Courier as label font, film-stock grain
+   CineEduAssan (CEA) — Graphic Design Edition
+   Lighter, artistic, white & gold with dark red accents
+   Mixed media, editorial, personal research hub for Assam filmmakers
    ═══════════════════════════════════════════════════════ */
 
-/* ── TOKENS ──────────────────────────────────────────── */
+/* ── NEW LIGHTER PALETTE ──────────────────────────────── */
 :root {
-  /* Palette */
-  --bg:            #060606;
-  --bg-elevated:   #0A0A0A;
-  --surface:       #0F0F0F;
-  --card:          #111111;
-  --card-hover:    #181818;
-  --card-active:   #1E1E1E;
+  /* Warm off-white paper background */
+  --bg:            #F8F4EC;
+  --bg-elevated:   #F4EDE3;
+  --surface:       #FFFFFF;
+  --surface-glass: rgba(255, 255, 255, 0.85);
 
-  --celluloid:     #F7C948;   /* aged 16mm film stock */
-  --celluloid-dim: rgba(247, 201, 72, 0.12);
-  --celluloid-glow:rgba(247, 201, 72, 0.06);
-  --mark:          #E84545;   /* red grease pencil */
-  --mark-dim:      rgba(232, 69, 69, 0.10);
-  --sage:          #4ADE80;   /* verified / complete */
-  --sage-dim:      rgba(74, 222, 128, 0.08);
-  --sky:           #38BDF8;   /* links, interactive */
-  --sky-dim:       rgba(56, 189, 248, 0.08);
-  --violet:        #A78BFA;   /* books, academic */
-  --violet-dim:    rgba(167, 139, 250, 0.08);
+  /* Cards with subtle texture */
+  --card:          #FEFCF7;
+  --card-hover:    #F9F5ED;
+  --card-active:   #F4EDE3;
+  --card-shell:    #F0E9DF;
 
-  --archive:       #888480;   /* warm caption gray */
-  --rule:          #1A1A1A;
-  --rule-light:    #252525;
-  --rule-hover:    #333333;
-  --text:          #E8E5E0;
-  --text-secondary:#A8A5A0;
-  --text-muted:    #666260;
-  --text-dim:      #3A3835;
+  /* Gold accent (warm, premium) */
+  --gold:          #C5A36E;
+  --gold-dim:      rgba(197, 163, 110, 0.15);
+  --gold-glow:     rgba(197, 163, 110, 0.25);
+  --gold-hairline: rgba(197, 163, 110, 0.4);
 
-  /* Typography */
-  --f-display:  'Space Grotesk', system-ui, sans-serif;
-  --f-body:     'Space Grotesk', system-ui, sans-serif;
+  /* Dark red for emphasis, alerts, mixed media touches */
+  --red:           #6B2D2D;
+  --red-dim:       rgba(107, 45, 45, 0.12);
+  --red-accent:    #8B3A3A;
+
+  --archive:       #5C5248;
+  --rule:          #D9CBB8;
+  --rule-light:    #EDE4D7;
+  --text:          #2C2522;
+  --text-secondary:#4A4139;
+  --text-muted:    #7A6F62;
+  --text-dim:      #9A8F80;
+
+  /* Typography — elegant editorial */
+  --f-display:  'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --f-body:     'Space Grotesk', system-ui, -apple-system, sans-serif;
   --f-mono:     'Courier Prime', 'Courier New', monospace;
 
-  /* Spacing */
-  --pad:        clamp(16px, 4vw, 48px);
-  --pad-section:clamp(48px, 8vw, 96px);
-  --gap-grid:   1px;
-  --radius:     0px;    /* sharp corners — film/editorial feel */
-  --radius-sm:  2px;
-  --radius-pill:100px;
+  /* Generous, artistic spacing */
+  --pad:        clamp(18px, 4vw, 56px);
+  --pad-section: clamp(56px, 9vw, 110px);
+  --gap-grid:   16px;
+  --radius:     6px;
+  --radius-sm:  3px;
+  --radius-lg:  12px;
+  --radius-xl:  20px;
+  --radius-pill:999px;
 
-  /* Motion */
-  --ease:       cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out:   cubic-bezier(0.33, 1, 0.68, 1);
-  --ease-spring:cubic-bezier(0.32, 0.72, 0, 1);
-  --dur:        220ms;
-  --dur-slow:   500ms;
-  --dur-reveal: 700ms;
+  /* Soft, intentional motion */
+  --ease:       cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --dur:        280ms;
+  --dur-slow:   550ms;
+  --dur-reveal: 750ms;
 }
 
 /* ── RESET ───────────────────────────────────────────── */
@@ -75,9 +79,13 @@ body {
   color: var(--text);
   font-family: var(--f-body);
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.65;
   overflow-x: hidden;
   min-height: 100vh;
+  background-image: 
+    linear-gradient(rgba(197,163,110,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(197,163,110,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 a {
   color: inherit;
@@ -185,7 +193,7 @@ body::before {
   text-transform: uppercase;
 }
 .ticker__item b {
-  color: var(--celluloid);
+  color: var(--gold);
   font-weight: 700;
 }
 .ticker__dot {
@@ -219,7 +227,7 @@ body::before {
   flex-shrink: 0;
 }
 .header-wordmark span {
-  color: var(--celluloid);
+  color: var(--gold);
 }
 .header-nav {
   display: flex;
@@ -247,7 +255,7 @@ body::before {
   left: 12px;
   right: 12px;
   height: 1px;
-  background: var(--celluloid);
+  background: var(--gold);
 }
 .header-meta {
   font-family: var(--f-mono);
@@ -310,7 +318,7 @@ body::before {
   transition: color var(--dur) var(--ease), padding-left var(--dur) var(--ease);
 }
 .mobile-nav a:hover {
-  color: var(--celluloid);
+  color: var(--gold);
   padding-left: 12px;
 }
 
@@ -350,7 +358,7 @@ body::before {
   display: block;
   width: 6px;
   height: 6px;
-  background: var(--celluloid);
+  background: var(--gold);
 }
 .section-count {
   font-family: var(--f-mono);
@@ -372,7 +380,7 @@ body::before {
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--celluloid);
+  background: var(--gold);
 }
 .page-hero__breadcrumb {
   font-family: var(--f-mono);
@@ -389,7 +397,7 @@ body::before {
   color: var(--text-muted);
 }
 .page-hero__breadcrumb a:hover {
-  color: var(--celluloid);
+  color: var(--gold);
 }
 .page-hero__breadcrumb span {
   color: var(--text-dim);
@@ -405,7 +413,7 @@ body::before {
 }
 .page-hero__title em {
   font-style: normal;
-  color: var(--celluloid);
+  color: var(--gold);
 }
 .page-hero__sub {
   font-size: 14px;
@@ -465,10 +473,10 @@ body::before {
 }
 .card:hover {
   background: var(--card-hover);
-  border-left-color: var(--celluloid);
+  border-left-color: var(--gold);
 }
 .card:focus-visible {
-  outline: 2px solid var(--celluloid);
+  outline: 2px solid var(--gold);
   outline-offset: -2px;
 }
 
@@ -483,16 +491,16 @@ body::before {
   margin-bottom: 10px;
 }
 .card__tag--yellow {
-  color: var(--celluloid);
-  background: var(--celluloid-dim);
+  color: var(--gold);
+  background: var(--gold-dim);
 }
 .card__tag--green {
   color: var(--sage);
   background: var(--sage-dim);
 }
 .card__tag--red {
-  color: var(--mark);
-  background: var(--mark-dim);
+  color: var(--red-accent);
+  background: var(--red-accent-dim);
 }
 .card__tag--blue {
   color: var(--sky);
@@ -514,7 +522,7 @@ body::before {
   transition: color var(--dur) var(--ease);
 }
 .card:hover .card__title {
-  color: var(--celluloid);
+  color: var(--gold);
 }
 .card__meta {
   font-family: var(--f-mono);
@@ -555,7 +563,7 @@ body::before {
 }
 .card:hover .card__arrow {
   transform: translateX(4px);
-  color: var(--celluloid);
+  color: var(--gold);
 }
 
 /* ── BADGE ───────────────────────────────────────────── */
@@ -571,7 +579,7 @@ body::before {
   border: 1px solid;
 }
 .badge--ready   { color: var(--sage);      border-color: var(--sage);      background: var(--sage-dim); }
-.badge--partial { color: var(--celluloid); border-color: var(--celluloid); background: var(--celluloid-glow); }
+.badge--partial { color: var(--gold); border-color: var(--gold); background: var(--gold-glow); }
 .badge--pending { color: var(--text-dim);  border-color: var(--rule-light); }
 .badge--new     { color: var(--sky);       border-color: var(--sky);       background: var(--sky-dim); }
 
@@ -592,7 +600,7 @@ body::before {
   transform: scale(0.98);
 }
 .btn--primary {
-  background: var(--celluloid);
+  background: var(--gold);
   color: #060606;
 }
 .btn--primary:hover {
@@ -616,8 +624,8 @@ body::before {
   padding: 8px 16px;
 }
 .btn--outline:hover {
-  border-color: var(--celluloid);
-  color: var(--celluloid);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
 /* ── TABLE ───────────────────────────────────────────── */
@@ -654,13 +662,13 @@ body::before {
   font-weight: 500;
 }
 .data-table a {
-  color: var(--celluloid);
+  color: var(--gold);
   text-decoration: underline;
   text-decoration-color: rgba(247, 201, 72, 0.3);
   text-underline-offset: 2px;
 }
 .data-table a:hover {
-  text-decoration-color: var(--celluloid);
+  text-decoration-color: var(--gold);
 }
 
 /* ── FILTERS / TABS ──────────────────────────────────── */
@@ -684,9 +692,9 @@ body::before {
 }
 .filter-btn:hover,
 .filter-btn.active {
-  border-color: var(--celluloid);
-  color: var(--celluloid);
-  background: var(--celluloid-glow);
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-glow);
 }
 
 /* ── SEARCH BOX ──────────────────────────────────────── */
@@ -709,7 +717,7 @@ body::before {
   color: var(--text-dim);
 }
 .search-input:focus {
-  border-color: var(--celluloid);
+  border-color: var(--gold);
 }
 .search-icon {
   position: absolute;
@@ -747,6 +755,319 @@ body::before {
   font-family: var(--f-display);
   font-size: 15px;
   font-weight: 600;
+
+/* ── RICH EXPANDABLE CARDS (film-reel metaphor) ─────── */
+.film-reel-details {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  margin-top: 1px;
+}
+
+.film-reel-details summary {
+  list-style: none;
+  padding: 10px 16px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.film-reel-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.film-reel-details summary::before {
+  content: "▶";
+  display: inline-block;
+  transition: transform var(--dur) var(--ease);
+  font-size: 9px;
+}
+
+.film-reel-details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.film-reel-details[open] summary {
+  border-bottom: 1px solid var(--rule);
+}
+
+.rich-panel {
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.rich-panel h4 {
+  font-family: var(--f-display);
+  font-size: 13px;
+  color: var(--text);
+  margin: 12px 0 4px;
+}
+
+.rich-panel ul {
+  margin: 4px 0 12px;
+  padding-left: 18px;
+}
+
+.rich-panel li {
+  margin-bottom: 3px;
+}
+
+.rich-panel .meta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+  font-size: 12px;
+}
+
+.rich-panel .meta {
+  background: var(--card);
+  padding: 2px 8px;
+  border-radius: 2px;
+  border: 1px solid var(--rule);
+}
+
+.rich-panel a {
+  color: var(--sky);
+  text-decoration: underline;
+  text-underline-offset: 1px;
+}
+
+.card--rich {
+  position: relative;
+}
+
+.card--rich .expand-hint {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 9px;
+  font-family: var(--f-mono);
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+/* ═══ HIGH-END VISUAL DESIGN (Ethereal Glass + Asymmetrical Bento) ═══ */
+
+/* Massive breathing room — high-end spatial rhythm */
+.section {
+  padding-top: var(--pad-section);
+  padding-bottom: var(--pad-section);
+}
+
+.container--narrow {
+  max-width: 1080px;
+  margin-inline: auto;
+}
+
+/* Asymmetrical Bento Grid for program cards */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+}
+
+.bento-card {
+  grid-column: span 12;
+}
+
+@media (min-width: 768px) {
+  .bento-card:nth-child(3n+1) { grid-column: span 7; }
+  .bento-card:nth-child(3n+2) { grid-column: span 5; }
+  .bento-card:nth-child(3n+3) { grid-column: span 12; }
+}
+
+/* Premium Double-Bezel on all major cards */
+.bento-card .glass-card,
+.bento-card .card--rich {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.bento-card .glass-card:hover,
+.bento-card .card--rich:hover {
+
+  transform: translateY(-2px);
+}
+
+/* ═══ MIXED MEDIA ART POPUPS & GUIDED LANDING ═══ */
+.art-popup {
+  position: fixed;
+  z-index: 9999;
+  max-width: 380px;
+  background: var(--surface);
+  border: 4px solid var(--gold);
+  box-shadow: 6px 6px 0 var(--red-dim), -1px -1px 0 var(--gold-dim);
+  padding: 1.25rem;
+  font-family: var(--f-body);
+  color: var(--text);
+  transform: rotate(-0.8deg);
+  transition: all 0.2s var(--ease);
+}
+.art-popup::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 1px solid var(--red);
+  opacity: 0.25;
+  pointer-events: none;
+  transform: rotate(1deg);
+}
+.art-popup .close {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 20px;
+  color: var(--red-accent);
+  cursor: pointer;
+  line-height: 1;
+}
+.art-popup h4 {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.art-popup p {
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.guide-step {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all 0.55s var(--ease);
+}
+.guide-step.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.direction-card {
+  border-left: 5px solid var(--gold);
+  padding-left: 1rem;
+  margin-bottom: 1.25rem;
+  transition: all 0.2s;
+}
+.direction-card:hover {
+  border-left-color: var(--red-accent);
+  transform: translateX(3px);
+}
+  transform: translateY(-2px);
+}
+
+/* Magnetic CTA Buttons (haptic) */
+.magnetic-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  color: #050505;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 120ms var(--ease-spring), background var(--dur) var(--ease);
+  will-change: transform;
+}
+
+.magnetic-cta:hover {
+  background: #fff;
+}
+
+.magnetic-cta:active {
+  transform: scale(0.985);
+}
+
+.magnetic-cta .icon-island {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.12);
+  transition: transform var(--dur) var(--ease-spring);
+}
+
+.magnetic-cta:hover .icon-island {
+  transform: translateX(3px) translateY(-1px) scale(1.05);
+}
+
+/* Fluid expandable details — cinematic */
+.film-reel-details {
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  margin-top: 12px;
+}
+
+.film-reel-details summary {
+  padding: 14px 18px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color var(--dur) var(--ease);
+}
+
+.film-reel-details summary:hover {
+  color: #fff;
+}
+
+.film-reel-details[open] summary {
+  border-bottom: 1px solid var(--rule-light);
+}
+
+/* Scroll entry — cinematic reveal (transform + opacity only) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity var(--dur-reveal) var(--ease), transform var(--dur-reveal) var(--ease);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reduced motion guard */
+@media (prefers-reduced-motion: reduce) {
+  .glass-card,
+  .magnetic-cta,
+  .reveal,
+  .film-reel-details summary::before {
+    transition: none !important;
+    transform: none !important;
+  }
+}
   color: var(--text);
 }
 .accordion__trigger-icon {
@@ -788,7 +1109,7 @@ body::before {
   margin-bottom: 4px;
 }
 .ft-logo span {
-  color: var(--celluloid);
+  color: var(--gold);
 }
 .ft-tagline {
   font-size: 11px;
@@ -808,7 +1129,7 @@ body::before {
   color: var(--text-dim);
 }
 .ft-ver-highlight {
-  color: var(--celluloid);
+  color: var(--gold);
 }
 .ft-right {
   display: flex;
@@ -835,7 +1156,7 @@ body::before {
   transition: color var(--dur) var(--ease);
 }
 .ft-links a:hover {
-  color: var(--celluloid);
+  color: var(--gold);
 }
 
 /* ── SCROLL REVEAL ANIMATION ─────────────────────────── */
@@ -925,12 +1246,12 @@ body::before {
 }
 
 /* ── UTILITY ─────────────────────────────────────────── */
-.text-celluloid { color: var(--celluloid); }
+.text-celluloid { color: var(--gold); }
 .text-muted     { color: var(--text-muted); }
 .text-dim       { color: var(--text-dim); }
 .text-archive   { color: var(--archive); }
 .text-sage      { color: var(--sage); }
-.text-mark      { color: var(--mark); }
+.text-mark      { color: var(--red-accent); }
 .text-sky       { color: var(--sky); }
 
 .mt-0 { margin-top: 0; }
