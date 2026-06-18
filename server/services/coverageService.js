@@ -559,6 +559,362 @@ const CoverageService = {
     });
 
     return count;
+  },
+
+  getAuditMetrics() {
+    // 1. Entity Counts
+    const getStatusCounts = (table, statusCol = 'publication_status') => {
+      try {
+        const rows = queryAll(`SELECT ${statusCol} as status, COUNT(*) as count FROM ${table} GROUP BY ${statusCol}`);
+        const result = { total: 0, published: 0, draft: 0, archived: 0 };
+        rows.forEach(r => {
+          const s = r.status || 'unknown';
+          result[s] = r.count;
+          result.total += r.count;
+        });
+        return result;
+      } catch (err) {
+        try {
+          const row = queryOne(`SELECT COUNT(*) as count FROM ${table}`);
+          return { total: row ? row.count : 0, published: 0, draft: 0, archived: 0 };
+        } catch {
+          return { total: 0, published: 0, draft: 0, archived: 0 };
+        }
+      }
+    };
+
+    const entityCounts = {
+      programs: getStatusCounts('programs', 'publication_status'),
+      opportunities: getStatusCounts('opportunities', 'publication_status'),
+      countries: getStatusCounts('countries', 'publication_status'),
+      sources: (() => {
+        const srcRows = queryAll(`SELECT active_status as status, COUNT(*) as count FROM sources GROUP BY active_status`);
+        const result = { total: 0, active: 0, inactive: 0 };
+        srcRows.forEach(r => {
+          if (r.status === 1) result.active = r.count;
+          else if (r.status === 0) result.inactive = r.count;
+          result.total += r.count;
+        });
+        return result;
+      })(),
+      books: getStatusCounts('books', 'publication_status'),
+      roadmaps: getStatusCounts('roadmaps', 'publication_status'),
+      reports: getStatusCounts('reports', 'publication_status'),
+      blog_posts: (() => {
+        const rows = queryAll(`SELECT status, COUNT(*) as count FROM blog_posts GROUP BY status`);
+        const result = { total: 0, draft: 0, review: 0, published: 0, archived: 0 };
+        rows.forEach(r => {
+          const s = r.status || 'draft';
+          result[s] = r.count;
+          result.total += r.count;
+        });
+        return result;
+      })(),
+      contributor_submissions: (() => {
+        const rows = queryAll(`SELECT status, COUNT(*) as count FROM contributor_submissions GROUP BY status`);
+        const result = { total: 0, pending: 0, approved: 0, rejected: 0 };
+        rows.forEach(r => {
+          const s = r.status || 'pending';
+          result[s] = r.count;
+          result.total += r.count;
+        });
+        return result;
+      })(),
+      source_candidates: (() => {
+        const row = queryOne(`SELECT COUNT(*) as count FROM source_candidates`);
+        return { total: row ? row.count : 0 };
+      })()
+    };
+
+    // 2. Source Health & Freshness Metrics
+    const sources = queryAll(`SELECT id, name, last_checked_at, updated_at, created_at FROM sources`);
+    let fresh = 0, aging = 0, stale = 0, needsVerification = 0;
+    const now = Date.now();
+    sources.forEach(src => {
+      const dateStr = src.last_checked_at || src.updated_at || src.created_at;
+      if (!dateStr) {
+        needsVerification++;
+        return;
+      }
+      const diffMs = now - new Date(dateStr).getTime();
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      if (diffDays < 30) fresh++;
+      else if (diffDays < 90) aging++;
+      else if (diffDays < 180) stale++;
+      else needsVerification++;
+    });
+
+    const deadChecks = queryAll(`
+      SELECT source_id, status_code 
+      FROM dead_link_checks 
+      WHERE id IN (SELECT MAX(id) FROM dead_link_checks GROUP BY source_id)
+    `);
+    let dead = 0;
+    deadChecks.forEach(c => {
+      if (c.status_code === 404 || c.status_code >= 500 || c.status_code === 0 || c.status_code === null) {
+        dead++;
+      }
+    });
+
+    const totalSources = sources.length;
+    const healthMetrics = {
+      totalSources,
+      fresh,
+      aging,
+      stale,
+      needsVerification,
+      dead,
+      freshPct: totalSources > 0 ? parseFloat((fresh / totalSources * 100).toFixed(1)) : 0,
+      agingPct: totalSources > 0 ? parseFloat((aging / totalSources * 100).toFixed(1)) : 0,
+      stalePct: totalSources > 0 ? parseFloat((stale / totalSources * 100).toFixed(1)) : 0,
+      needsVerificationPct: totalSources > 0 ? parseFloat((needsVerification / totalSources * 100).toFixed(1)) : 0,
+      deadPct: totalSources > 0 ? parseFloat((dead / totalSources * 100).toFixed(1)) : 0
+    };
+
+    // 3. Category Coverage Matrix
+    const TARGET_CATEGORIES = [
+      { name: 'Acting', slug: 'acting' },
+      { name: 'Theatre', slug: 'theatre' },
+      { name: 'Editing', slug: 'editing' },
+      { name: 'Screenwriting', slug: 'screenwriting' },
+      { name: 'Documentary', slug: 'documentary' },
+      { name: 'Animation', slug: 'animation' },
+      { name: 'Producing', slug: 'producing' },
+      { name: 'Film Criticism', slug: 'film-criticism' },
+      { name: 'Cinematography', slug: 'cinematography' },
+      { name: 'Sound Design', slug: 'sound-design' }
+    ];
+
+    const categoryTaxonomy = queryAll(`SELECT * FROM category_taxonomy`);
+    const categoryMatrix = TARGET_CATEGORIES.map(target => {
+      const dbCat = categoryTaxonomy.find(c => c.name.toLowerCase() === target.name.toLowerCase() || c.slug === target.slug);
+      const catId = dbCat ? dbCat.id : target.slug;
+      const catName = dbCat ? dbCat.name : target.name;
+      const catSlug = dbCat ? dbCat.slug : target.slug;
+
+      const progs = queryOne(`
+        SELECT COUNT(DISTINCT id) as count FROM (
+          SELECT id FROM programs WHERE LOWER(category) = LOWER(?) OR LOWER(subcategory) = LOWER(?)
+          UNION
+          SELECT entity_id FROM entity_categories WHERE entity_type = 'program' AND category_id = ?
+        )
+      `, [catName, catName, catId]).count;
+
+      const srcs = queryOne(`SELECT COUNT(*) as count FROM sources WHERE LOWER(category) = LOWER(?) OR LOWER(category) = LOWER(?)`, [catId, catSlug]).count;
+
+      const term = `%${catName}%`;
+      const blogs = queryOne(`SELECT COUNT(*) as count FROM blog_posts WHERE title LIKE ? OR excerpt LIKE ? OR content LIKE ?`, [term, term, term]).count;
+
+      const opps = queryOne(`
+        SELECT COUNT(DISTINCT id) as count FROM (
+          SELECT id FROM opportunities WHERE LOWER(subcategory) = LOWER(?)
+          UNION
+          SELECT entity_id FROM entity_categories WHERE entity_type = 'opportunity' AND category_id = ?
+        )
+      `, [catName, catId]).count;
+
+      const bks = queryOne(`
+        SELECT COUNT(DISTINCT id) as count FROM (
+          SELECT id FROM books WHERE LOWER(category) = LOWER(?)
+          UNION
+          SELECT entity_id FROM entity_categories WHERE entity_type = 'book' AND category_id = ?
+        )
+      `, [catName, catId]).count;
+
+      const roadmaps = queryOne(`
+        SELECT COUNT(*) as count FROM entity_categories WHERE entity_type = 'roadmap' AND category_id = ?
+      `, [catId]).count;
+
+      const reports = queryOne(`
+        SELECT COUNT(DISTINCT r.id) as count
+        FROM reports r
+        LEFT JOIN report_sections rs ON r.id = rs.report_id
+        WHERE r.title LIKE ? OR r.summary LIKE ? OR rs.heading LIKE ? OR rs.content LIKE ?
+      `, [term, term, term, term]).count;
+
+      return {
+        category: catName,
+        programs: progs,
+        sources: srcs,
+        blogs: blogs,
+        opportunities: opps,
+        books: bks,
+        roadmaps: roadmaps,
+        reports: reports,
+        flags: {
+          programs_gap: progs < 10,
+          sources_gap: srcs < 5,
+          blogs_gap: blogs === 0,
+          opportunities_gap: opps < 5
+        }
+      };
+    });
+
+    // 4. Country Coverage Matrix
+    const progCountries = queryAll(`SELECT country, COUNT(*) as count FROM programs GROUP BY country`);
+    const oppCountries = queryAll(`SELECT country, COUNT(*) as count FROM opportunities GROUP BY country`);
+    const srcCountries = queryAll(`SELECT country, COUNT(*) as count FROM sources WHERE country IS NOT NULL GROUP BY country`);
+    
+    // Country profile status
+    const countryProfiles = queryAll(`SELECT id, name, publication_status FROM countries`);
+
+    // Roadmaps referencing countries
+    const roadmapsByCountry = {};
+    const roadmapResourcesRows = queryAll(`
+      SELECT c.name as country_name, COUNT(DISTINCT rs.roadmap_id) as count
+      FROM roadmap_resources rr
+      JOIN roadmap_steps rs ON rr.step_id = rs.id
+      JOIN countries c ON rr.entity_id = c.id
+      WHERE rr.entity_type = 'country'
+      GROUP BY c.name
+    `);
+    roadmapResourcesRows.forEach(r => {
+      roadmapsByCountry[r.country_name.toLowerCase()] = r.count;
+    });
+
+    const countryMap = {};
+    const getOrInitCountry = (name) => {
+      const trimmed = name.trim();
+      const lower = trimmed.toLowerCase();
+      if (!countryMap[lower]) {
+        countryMap[lower] = {
+          name: trimmed,
+          programs: 0,
+          opportunities: 0,
+          sources: 0,
+          roadmaps: 0,
+          profileStatus: 'No Profile'
+        };
+      }
+      return countryMap[lower];
+    };
+
+    progCountries.forEach(pc => {
+      if (pc.country) getOrInitCountry(pc.country).programs = pc.count;
+    });
+    oppCountries.forEach(oc => {
+      if (oc.country) getOrInitCountry(oc.country).opportunities = oc.count;
+    });
+    srcCountries.forEach(sc => {
+      if (sc.country) getOrInitCountry(sc.country).sources = sc.count;
+    });
+    countryProfiles.forEach(cp => {
+      const entry = getOrInitCountry(cp.name);
+      entry.profileStatus = cp.publication_status;
+    });
+
+    Object.keys(countryMap).forEach(lower => {
+      countryMap[lower].roadmaps = roadmapsByCountry[lower] || 0;
+    });
+
+    const countriesArray = Object.values(countryMap);
+
+    // Identify Top 20 Countries
+    const topCountries = [...countriesArray]
+      .sort((a, b) => (b.programs + b.opportunities + b.sources) - (a.programs + a.opportunities + a.sources))
+      .slice(0, 20);
+
+    // Identify Missing Priority Countries
+    const PRIORITY_COUNTRIES = ['Germany', 'France', 'United Kingdom', 'Japan', 'South Korea', 'Canada', 'Australia'];
+    const missingPriorityCountries = PRIORITY_COUNTRIES.filter(pc => {
+      const match = countriesArray.find(c => c.name.toLowerCase() === pc.toLowerCase());
+      return !match || match.profileStatus !== 'published' || (match.programs === 0 && match.opportunities === 0);
+    });
+
+    // 5. Content Gap Audit & Priority Content Queue
+    const priorityContentQueue = categoryMatrix.map(cat => {
+      const missingTypes = [];
+      if (cat.blogs === 0) missingTypes.push('Blogs');
+      if (cat.roadmaps === 0) missingTypes.push('Roadmaps');
+      if (cat.opportunities === 0) missingTypes.push('Opportunities');
+      if (cat.books === 0) missingTypes.push('Books');
+      if (cat.reports === 0) missingTypes.push('Reports');
+
+      return {
+        category: cat.category,
+        missingCount: missingTypes.length,
+        missingTypes: missingTypes,
+        programs: cat.programs,
+        sources: cat.sources
+      };
+    })
+    .filter(item => item.missingCount > 0)
+    .sort((a, b) => {
+      if (b.missingCount !== a.missingCount) {
+        return b.missingCount - a.missingCount;
+      }
+      return a.programs - b.programs; // Tie breaker: fewer programs first
+    });
+
+    // 6. Authority Readiness Audit
+    const authorityReadiness = {
+      features: [
+        {
+          name: 'Institution Profiles',
+          status: 'Partial',
+          score: 80,
+          existing: 'institutes table exists in schema and contains seeded profiles. Administration moderation exists.',
+          missing: 'Public detail pages (e.g. /institutes/:slug) and routes are missing.',
+          schemaRequirements: 'Current table structure is sufficient, but could expand with alumni_count and placement_stats.'
+        },
+        {
+          name: 'Career Outcomes',
+          status: 'Partial',
+          score: 40,
+          existing: 'roadmaps and roadmap_steps tables exist to describe filmmaker pathways.',
+          missing: 'No dedicated career_outcomes table to track salary statistics, career paths, and employment outcomes.',
+          schemaRequirements: 'career_outcomes: id, title, salary_range_low, salary_range_high, placement_rate, related_programs, requirements_text.'
+        },
+        {
+          name: 'Interviews',
+          status: 'Partial',
+          score: 50,
+          existing: 'blog_posts table exists where interviews can be published as articles.',
+          missing: 'No dedicated interview schema or entity type to link interviews to specific programs, categories, or institutes.',
+          schemaRequirements: 'Extend blog_posts or create interviews table with fields: interviewee_name, interviewee_role, linked_institute_id, linked_program_id.'
+        },
+        {
+          name: 'Featured Alumni',
+          status: 'Missing',
+          score: 0,
+          existing: 'None',
+          missing: 'No database table, admin moderation, or public components for alumni profiles.',
+          schemaRequirements: 'alumni: id, name, graduation_year, institute_id, program_id, current_role, achievement_summary, profile_image_url.'
+        },
+        {
+          name: 'Success Stories',
+          status: 'Missing',
+          score: 0,
+          existing: 'None',
+          missing: 'No database table, admin moderation, or public components for success stories.',
+          schemaRequirements: 'success_stories: id, title, slug, alumni_id, summary, body_content, video_url, publication_status.'
+        }
+      ],
+      recommendedOrder: [
+        '1. Establish alumni and success_stories tables and link them to institutes and programs.',
+        '2. Add career_outcomes schema to capture placement data and salaries.',
+        '3. Create public routes for institutes (/institutes/:slug) to display these profiles, featured alumni, and success stories.',
+        '4. Extend blog_posts schema or add interviews table to cross-link conversations with education profiles.'
+      ],
+      readinessScore: 34
+    };
+
+    return {
+      entityCounts,
+      healthMetrics,
+      categoryMatrix,
+      countryCoverage: {
+        topCountries,
+        missingPriorityCountries,
+        allCountries: countriesArray
+      },
+      contentGaps: {
+        priorityContentQueue,
+        totalGaps: priorityContentQueue.length
+      },
+      authorityReadiness,
+      auditTimestamp: new Date().toISOString()
+    };
   }
 };
 

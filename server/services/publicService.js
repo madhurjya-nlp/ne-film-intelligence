@@ -196,6 +196,13 @@ const PublicService = {
       `SELECT p.id, p.slug, p.title, p.country, p.tuition_or_cost, p.format, p.summary
        FROM programs p WHERE ${PUB} ORDER BY p.created_at DESC LIMIT 6`
     );
+    const stats = {
+      programs: queryOne(`SELECT COUNT(*) as count FROM programs WHERE ${PUB}`).count,
+      opportunities: queryOne(`SELECT COUNT(*) as count FROM opportunities WHERE ${PUB}`).count,
+      countries: queryOne(`SELECT COUNT(*) as count FROM countries WHERE publication_status = 'published'`).count,
+      events: queryOne(`SELECT COUNT(*) as count FROM events WHERE ${PUB}`).count,
+      books: queryOne(`SELECT COUNT(*) as count FROM books WHERE ${PUB}`).count,
+    };
     return {
       featured_roadmaps: roadmaps,
       closing_soon: closingSoon,
@@ -203,6 +210,7 @@ const PublicService = {
       latest_reports: reports,
       upcoming_deadlines: upcoming,
       featured_programs: programs,
+      stats,
       generated_at: new Date().toISOString(),
     };
   },

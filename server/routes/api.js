@@ -328,6 +328,10 @@ router.get('/coverage/dashboard', asyncRoute(async (req, res) => {
   res.json(CoverageService.getCoverageDashboard());
 }));
 
+router.get('/audit/dashboard', asyncRoute(async (req, res) => {
+  res.json(CoverageService.getAuditMetrics());
+}));
+
 router.get('/sources/health', asyncRoute(async (req, res) => {
   res.json(CoverageService.getSourceHealthDashboard());
 }));

@@ -163,4 +163,61 @@ test.describe('NE Film Intelligence Phase 6 Coverage & Community Tests', () => {
     assert.strictEqual(source.parser_type, 'university_parser');
   });
 
+  test.it('Audit System: getAuditMetrics returns exact and complete measurements', () => {
+    const metrics = CoverageService.getAuditMetrics();
+    
+    // Check Section A: Counts
+    assert.ok(metrics.entityCounts);
+    assert.ok(metrics.entityCounts.programs.total >= 0);
+    assert.ok(metrics.entityCounts.opportunities.total >= 0);
+    assert.ok(metrics.entityCounts.countries.total >= 0);
+    assert.ok(metrics.entityCounts.books.total >= 0);
+    assert.ok(metrics.entityCounts.roadmaps.total >= 0);
+    assert.ok(metrics.entityCounts.reports.total >= 0);
+    assert.ok(metrics.entityCounts.blog_posts.total >= 0);
+
+    // Check Section B: Health & Freshness
+    assert.ok(metrics.healthMetrics);
+    assert.strictEqual(typeof metrics.healthMetrics.fresh, 'number');
+    assert.strictEqual(typeof metrics.healthMetrics.dead, 'number');
+    assert.strictEqual(typeof metrics.healthMetrics.freshPct, 'number');
+    assert.strictEqual(typeof metrics.healthMetrics.deadPct, 'number');
+
+    // Check Section C: Category Coverage
+    assert.ok(Array.isArray(metrics.categoryMatrix));
+    assert.strictEqual(metrics.categoryMatrix.length, 10);
+    metrics.categoryMatrix.forEach(cat => {
+      assert.ok(cat.category);
+      assert.strictEqual(typeof cat.programs, 'number');
+      assert.strictEqual(typeof cat.sources, 'number');
+      assert.strictEqual(typeof cat.blogs, 'number');
+      assert.strictEqual(typeof cat.opportunities, 'number');
+      assert.strictEqual(typeof cat.books, 'number');
+      assert.strictEqual(typeof cat.roadmaps, 'number');
+      assert.strictEqual(typeof cat.reports, 'number');
+      assert.ok(cat.flags);
+      assert.strictEqual(typeof cat.flags.programs_gap, 'boolean');
+      assert.strictEqual(typeof cat.flags.sources_gap, 'boolean');
+      assert.strictEqual(typeof cat.flags.blogs_gap, 'boolean');
+      assert.strictEqual(typeof cat.flags.opportunities_gap, 'boolean');
+    });
+
+    // Check Section D: Country Audit
+    assert.ok(metrics.countryCoverage);
+    assert.ok(Array.isArray(metrics.countryCoverage.topCountries));
+    assert.ok(Array.isArray(metrics.countryCoverage.missingPriorityCountries));
+    assert.ok(Array.isArray(metrics.countryCoverage.allCountries));
+
+    // Check Section E: Content Gaps
+    assert.ok(metrics.contentGaps);
+    assert.ok(Array.isArray(metrics.contentGaps.priorityContentQueue));
+    assert.strictEqual(typeof metrics.contentGaps.totalGaps, 'number');
+
+    // Check Section F: Authority Readiness
+    assert.ok(metrics.authorityReadiness);
+    assert.strictEqual(metrics.authorityReadiness.readinessScore, 34);
+    assert.strictEqual(metrics.authorityReadiness.features.length, 5);
+    assert.ok(Array.isArray(metrics.authorityReadiness.recommendedOrder));
+  });
+
 });

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coverage Reality Audit | NE Film Intelligence</title>
+  <link rel="stylesheet" href="/css/design-system-v2.css">
+  <link rel="stylesheet" href="/css/design-tokens-v3.css">
+  <link rel="stylesheet" href="/css/motion-system.css">
+  <style>
+    :root {
+      --card-border-width: 3px;
+      --shadow-offset: 6px;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--f-body);
+    }
+
+    .audit-container {
+      padding-top: 40px;
+      padding-bottom: 80px;
+    }
+
+    /* Neo-Brutalist Layout Components */
+    .audit-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .audit-col-8 {
+      grid-column: span 8;
+    }
+
+    .audit-col-4 {
+      grid-column: span 4;
+    }
+
+    .audit-col-12 {
+      grid-column: span 12;
+    }
+
+    @media (max-width: 1024px) {
+      .audit-col-8, .audit-col-4 {
+        grid-column: span 12;
+      }
+    }
+
+    .nb-card-audit {
+      border: var(--card-border-width) solid var(--black);
+      background: var(--surface);
+      padding: 24px;
+      box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--black);
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .nb-card-header {
+      border-bottom: 2px solid var(--black);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Entity counts grid */
+    .counts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .count-card {
+      border: 2px solid var(--black);
+      padding: 16px;
+      background: var(--surface);
+      box-shadow: 3px 3px 0 var(--black);
+      text-align: center;
+    }
+
+    .count-number {
+      font-family: var(--f-mono);
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .count-label {
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .count-breakdown {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      border-top: 1px dashed var(--black);
+      padding-top: 6px;
+    }
+
+    /* Health percentages visual band */
+    .health-bar-container {
+      margin: 16px 0;
+    }
+
+    .health-bar-track {
+      height: 24px;
+      border: 3px solid var(--black);
+      display: flex;
+      overflow: hidden;
+      background: #eee;
+    }
+
+    .health-bar-seg {
+      height: 100%;
+      transition: width 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-family: var(--f-mono);
+      font-weight: bold;
+      color: var(--black);
+    }
+
+    .seg-fresh { background-color: var(--accent); }
+    .seg-aging { background-color: var(--blue); }
+    .seg-stale { background-color: #ffd400aa; }
+    .seg-needs-ver { background-color: var(--red-dim); }
+
+    .health-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 12px;
+      font-size: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--black);
+      display: inline-block;
+    }
+
+    /* Badges */
+    .badge-gap {
+      background-color: var(--red-dim);
+      color: var(--red);
+      border: 1px solid var(--red);
+      font-size: 11px;
+      padding: 2px 6px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .badge-ok {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      font-size: 11px;
+      padding: 2px 6px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    /* Authority gauge */
+    .gauge-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .gauge-svg {
+      width: 90px;
+      height: 90px;
+      transform: rotate(-90deg);
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: #e6e6e6;
+      stroke-width: 10;
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke: var(--accent);
+      stroke-dasharray: 251.2;
+      stroke-dashoffset: 251.2;
+      stroke-width: 10;
+      transition: stroke-dashoffset 0.5s ease;
+      stroke-linecap: round;
+    }
+
+    .gauge-label {
+      font-family: var(--f-mono);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    /* Content gap list */
+    .gap-queue-item {
+      border: 2px solid var(--black);
+      padding: 12px 16px;
+      background: var(--surface);
+      margin-bottom: 12px;
+      box-shadow: 3px 3px 0 var(--black);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .gap-rank {
+      font-family: var(--f-mono);
+      font-size: 18px;
+      font-weight: bold;
+      background: var(--black);
+      color: var(--bg);
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body class="public-page" data-pub-header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__belt">
+    <span class="ticker__item"><b>Coverage Reality Audit</b> — Measuring actual platform database state</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Direct queries only — no estimations</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+    <span class="ticker__item">Authority Readiness Score Live</span><span class="ticker__dot">&nbsp;·&nbsp;</span>
+  </div>
+</div>
+
+<div class="container audit-container">
+  <p class="nb-caption" style="margin-bottom: 8px;">
+    <a href="/admin.html">Admin Console</a> <span>/</span> <a href="/admin/coverage">Coverage &amp; Health</a> <span>/</span> Reality Audit
+  </p>
+  
+  <h1 style="font-family: var(--f-display); font-size: var(--h1); letter-spacing: -0.02em; margin-bottom: 24px;">
+    Coverage Reality <em>Audit Dashboard</em>
+  </h1>
+  <p class="nb-caption" id="audit-timestamp" style="margin-bottom: 24px;">Running direct SQLite scans...</p>
+
+  <div class="audit-grid">
+    
+    <!-- SECTION A: COVERAGE REALITY -->
+    <div class="audit-col-12">
+      <section class="nb-card-audit">
+        <div class="nb-card-header">
+          <h2 style="font-family: var(--f-display); font-size: 22px;">Section A: Database Coverage Reality</h2>
+          <span class="nb-badge" style="background: var(--black); color: var(--bg);">10 Core Entities Scanned</span>
+        </div>
+        <div class="counts-grid" id="counts-container">
+          <!-- Populated by JS -->
+          <div style="grid-column: span 4; text-align: center; padding: 20px;">Scanning database entities...</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- SECTION B: SOURCE HEALTH AUDIT -->
+    <div class="audit-col-6">
+      <section class="nb-card-audit" style="height: calc(100% - 24px);">
+        <div class="nb-card-header">
+          <h2 style="font-family: var(--f-display); font-size: 20px;">Section B: Source Health &amp; Freshness</h2>
+        </div>
+        <div class="health-bar-container">
+          <div class="health-bar-track" id="health-bar-track">
+            <!-- Segments populated by JS -->
+          </div>
+        </div>
+        
+        <div class="health-legend" id="health-legend">
+          <!-- Legends populated by JS -->
+        </div>
+
+        <div style="margin-top: 24px; border-top: 2px solid var(--black); padding-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong style="font-size: 14px;">Dead Links Spotted:</strong>
+            <div style="font-size: 11px; color: var(--text-muted);">404 / 500+ / Timeout status codes</div>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span class="count-number" id="dead-links-count" style="font-size: 24px; color: var(--red);">0</span>
+            <span class="nb-badge badge-gap" id="dead-links-pct" style="font-size: 12px;">0%</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- SECTION F: AUTHORITY READINESS AUDIT -->
+    <div class="audit-col-6">
+      <section class="nb-card-audit" style="height: calc(100% - 24px);">
+        <div class="nb-card-header">
+          <h2 style="font-family: var(--f-display); font-size: 20px;">Section F: Authority Readiness Profile</h2>
+        </div>
+        
+        <div class="gauge-wrapper" style="margin-bottom: 20px;">
+          <svg class="gauge-svg">
+            <circle class="gauge-bg" cx="45" cy="45" r="40"></circle>
+            <circle class="gauge-fill" id="gauge-fill-circle" cx="45" cy="45" r="40"></circle>
+          </svg>
+          <div>
+            <div class="gauge-label" id="readiness-score-text">0%</div>
+            <div class="nb-caption">Authority Readiness Score</div>
+          </div>
+        </div>
+
+        <div style="font-size: 13px; line-height: 1.5;" id="readiness-details">
+          <!-- Readiness details populated by JS -->
+        </div>
+      </section>
+    </div>
+
+    <!-- SECTION C: CATEGORY COVERAGE MATRIX -->
+    <div class="audit-col-12">
+      <section class="nb-card-audit">
+        <div class="nb-card-header">
+          <h2 style="font-family: var(--f-display); font-size: 22px;">Section C: Category Coverage Audit Matrix</h2>
+          <span class="nb-badge badge-gap">Gaps Evaluated</span>
+        </div>
+        <p class="nb-caption" style="margin-top:-10px; margin-bottom:16px;">
+          Rule Flags: Programs &lt; 10 (P), Sources &lt; 5 (S), Blogs = 0 (B), Opportunities &lt; 5 (O)
+        </p>
+        <div style="overflow-x: auto;">
+          <table class="nb-table" id="table-category-matrix">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Programs</th>
+                <th>Sources</th>
+                <th>Blogs</th>
+                <th>Opportunities</th>
+                <th>Books</th>
+                <th>Roadmaps</th>
+                <th>Reports</th>
+                <th>Gap Flags</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="9" style="text-align: center;">Mapping category taxonomy layers...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- SECTION E: CONTENT GAP AUDIT & PRIORITY QUEUE -->
+    <div class="audit-col-6">
+      <section class="nb-card-audit" style="height: calc(100% - 24px);">
+        <div class="nb-card-header">
+          <h2 style="font-family: var(--f-display); font-size: 20px;">Section E: Priority Content Queue</h2>
+          <span class="nb-badge badge-gap" id="total-gaps-badge">0 Gaps</span>
+        </div>
+        <p class="nb-caption" style="margin-top:-10px; margin-bottom:16px;">
+          Highest-impact editorial gaps ranked first (categories missing the most content types):
+        </p>
+        <div id="content-gap-list">
+          <p>Auditing gaps...</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- SECTION D: COUNTRY COVERAGE AUDIT -->
+    <div class="audit-col-6">
+      <section class="nb-card-audit" style="height: calc(100% - 24px);">
+        <div class="nb-card-header">
+          <h2 style="font-family: var(--f-display); font-size: 20px;">Section D: Country Audit Profile</h2>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <strong style="font-size: 14px; color: var(--red); display: block; margin-bottom: 8px;">Missing Priority Countries:</strong>
+          <div id="missing-countries-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <!-- Missing priorities by JS -->
+          </div>
+        </div>
+
+        <div>
+          <strong style="font-size: 14px; display: block; margin-bottom: 10px;">Top Countries Covered (by density):</strong>
+          <div style="overflow-y: auto; max-height: 250px;">
+            <table class="nb-table" style="font-size: 12px;" id="table-country-audit">
+              <thead>
+                <tr>
+                  <th>Country</th>
+                  <th>Programs</th>
+                  <th>Opps</th>
+                  <th>Sources</th>
+                  <th>Roadmaps</th>
+                  <th>Profile Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="6" style="text-align: center;">Scanning geographical index...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- RECOMMENDATION: PROCEED / HALT -->
+    <div class="audit-col-12">
+      <section class="nb-card-audit" id="recommendation-card" style="border-width: 4px;">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div id="recommendation-icon" style="font-size: 48px;">⚠️</div>
+          <div>
+            <h2 style="font-family: var(--f-display); font-size: 24px; margin-bottom: 4px;" id="recommendation-title">Evaluating Audit Recommendations...</h2>
+            <p style="font-size: 14px; line-height: 1.5;" id="recommendation-text">Waiting for data sync...</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (async function() {
+    'use strict';
+
+    async function loadAudit() {
+      try {
+        const response = await fetch('/api/audit/dashboard');
+        if (!response.ok) throw new Error('Failed to fetch audit metrics');
+        
+        const data = await response.json();
+        renderAudit(data);
+      } catch (err) {
+        console.error(err);
+        document.getElementById('audit-timestamp').textContent = 'Error: ' + err.message;
+      }
+    }
+
+    function renderAudit(data) {
+      // Set timestamp
+      document.getElementById('audit-timestamp').innerHTML = `Direct database snapshot captured at: <code style="font-family:var(--f-mono); background:#eee; padding:2px 4px;">${data.auditTimestamp}</code>`;
+
+      // 1. Render Entity Counts
+      const countsContainer = document.getElementById('counts-container');
+      const countItems = [
+        { label: 'Programs', data: data.entityCounts.programs, details: `Pub: ${data.entityCounts.programs.published || 0} · Draft: ${data.entityCounts.programs.draft || 0}` },
+        { label: 'Opportunities', data: data.entityCounts.opportunities, details: `Pub: ${data.entityCounts.opportunities.published || 0} · Draft: ${data.entityCounts.opportunities.draft || 0}` },
+        { label: 'Countries', data: data.entityCounts.countries, details: `Pub: ${data.entityCounts.countries.published || 0} · Draft: ${data.entityCounts.countries.draft || 0}` },
+        { label: 'Sources', data: data.entityCounts.sources, details: `Active: ${data.entityCounts.sources.active || 0} · Inactive: ${data.entityCounts.sources.inactive || 0}` },
+        { label: 'Books', data: data.entityCounts.books, details: `Pub: ${data.entityCounts.books.published || 0} · Draft: ${data.entityCounts.books.draft || 0}` },
+        { label: 'Roadmaps', data: data.entityCounts.roadmaps, details: `Pub: ${data.entityCounts.roadmaps.published || 0} · Draft: ${data.entityCounts.roadmaps.draft || 0}` },
+        { label: 'Reports', data: data.entityCounts.reports, details: `Pub: ${data.entityCounts.reports.published || 0} · Draft: ${data.entityCounts.reports.draft || 0}` },
+        { label: 'Blog Posts', data: data.entityCounts.blog_posts, details: `Pub: ${data.entityCounts.blog_posts.published || 0} · Draft: ${data.entityCounts.blog_posts.draft || 0}` },
+        { label: 'Contributor Subm.', data: data.entityCounts.contributor_submissions, details: `Appr: ${data.entityCounts.contributor_submissions.approved || 0} · Pend: ${data.entityCounts.contributor_submissions.pending || 0}` },
+        { label: 'Source Candidates', data: data.entityCounts.source_candidates, details: `Total Discovered: ${data.entityCounts.source_candidates.total || 0}` }
+      ];
+
+      countsContainer.innerHTML = countItems.map(item => `
+        <div class="count-card">
+          <div class="count-number">${item.data.total || 0}</div>
+          <div class="count-label">${item.label}</div>
+          <div class="count-breakdown">${item.details}</div>
+        </div>
+      `).join('');
+
+      // 2. Render Source Health
+      const hm = data.healthMetrics;
+      const track = document.getElementById('health-bar-track');
+      
+      const freshW = hm.freshPct;
+      const agingW = hm.agingPct;
+      const staleW = hm.stalePct;
+      const needsVerW = hm.needsVerificationPct;
+
+      track.innerHTML = `
+        ${freshW > 0 ? `<div class="health-bar-seg seg-fresh" style="width: ${freshW}%" title="Fresh">${freshW}%</div>` : ''}
+        ${agingW > 0 ? `<div class="health-bar-seg seg-aging" style="width: ${agingW}%" title="Aging">${agingW}%</div>` : ''}
+        ${staleW > 0 ? `<div class="health-bar-seg seg-stale" style="width: ${staleW}%" title="Stale">${staleW}%</div>` : ''}
+        ${needsVerW > 0 ? `<div class="health-bar-seg seg-needs-ver" style="width: ${needsVerW}%" title="Needs Verification">${needsVerW}%</div>` : ''}
+      `;
+
+      const legend = document.getElementById('health-legend');
+      legend.innerHTML = `
+        <div class="legend-item"><span class="legend-dot seg-fresh"></span> Fresh (<30d): ${hm.fresh} (${freshW}%)</div>
+        <div class="legend-item"><span class="legend-dot seg-aging"></span> Aging (30-90d): ${hm.aging} (${agingW}%)</div>
+        <div class="legend-item"><span class="legend-dot seg-stale"></span> Stale (90-180d): ${hm.stale} (${staleW}%)</div>
+        <div class="legend-item"><span class="legend-dot seg-needs-ver"></span> Needs Verification (180d+): ${hm.needsVerification} (${needsVerW}%)</div>
+      `;
+
+      document.getElementById('dead-links-count').textContent = hm.dead;
+      document.getElementById('dead-links-pct').textContent = hm.deadPct + '%';
+
+      // 3. Render Category Matrix
+      const matrixTbody = document.querySelector('#table-category-matrix tbody');
+      matrixTbody.innerHTML = data.categoryMatrix.map(cat => {
+        const flags = [];
+        if (cat.flags.programs_gap) flags.push('<span class="nb-badge badge-gap" title="Programs < 10">P</span>');
+        if (cat.flags.sources_gap) flags.push('<span class="nb-badge badge-gap" title="Sources < 5">S</span>');
+        if (cat.flags.blogs_gap) flags.push('<span class="nb-badge badge-gap" title="Blogs = 0">B</span>');
+        if (cat.flags.opportunities_gap) flags.push('<span class="nb-badge badge-gap" title="Opportunities < 5">O</span>');
+
+        const hasGaps = flags.length > 0;
+        const gapLabel = hasGaps ? flags.join(' ') : '<span class="nb-badge badge-ok">HEALTHY</span>';
+
+        return `
+          <tr style="${hasGaps ? 'background:#fff8f8;' : ''}">
+            <td><strong>${cat.category}</strong></td>
+            <td>${cat.programs}</td>
+            <td>${cat.sources}</td>
+            <td>${cat.blogs}</td>
+            <td>${cat.opportunities}</td>
+            <td>${cat.books}</td>
+            <td>${cat.roadmaps}</td>
+            <td>${cat.reports}</td>
+            <td>${gapLabel}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // 4. Render Country Coverage
+      const missingContainer = document.getElementById('missing-countries-container');
+      const missing = data.countryCoverage.missingPriorityCountries;
+      if (missing.length === 0) {
+        missingContainer.innerHTML = '<span class="nb-badge badge-ok">All Priority Countries Covered</span>';
+      } else {
+        missingContainer.innerHTML = missing.map(c => `<span class="nb-badge badge-gap">${c}</span>`).join('');
+      }
+
+      const countryTbody = document.querySelector('#table-country-audit tbody');
+      countryTbody.innerHTML = data.countryCoverage.topCountries.map(c => {
+        let statClass = 'badge-gap';
+        if (c.profileStatus === 'published') statClass = 'badge-ok';
+        else if (c.profileStatus === 'draft') statClass = 'badge-ok';
+
+        return `
+          <tr>
+            <td><strong>${c.name}</strong></td>
+            <td>${c.programs}</td>
+            <td>${c.opportunities}</td>
+            <td>${c.sources}</td>
+            <td>${c.roadmaps}</td>
+            <td><span class="nb-badge ${statClass}" style="font-size:10px; padding:1px 4px;">${c.profileStatus}</span></td>
+          </tr>
+        `;
+      }).join('');
+
+      // 5. Render Content Gaps & Queue
+      const totalGapsBadge = document.getElementById('total-gaps-badge');
+      const gapsList = document.getElementById('content-gap-list');
+      const queue = data.contentGaps.priorityContentQueue;
+
+      totalGapsBadge.textContent = `${data.contentGaps.totalGaps} Flagged Gaps`;
+
+      if (queue.length === 0) {
+        gapsList.innerHTML = '<p class="nb-badge badge-ok" style="width:100%; text-align:center; padding:12px;">✅ No gaps detected across studied categories.</p>';
+      } else {
+        gapsList.innerHTML = queue.map((gap, index) => `
+          <div class="gap-queue-item">
+            <div style="display:flex; align-items:center;">
+              <div class="gap-rank">${index + 1}</div>
+              <div>
+                <strong style="font-size:15px;">${gap.category}</strong>
+                <div style="font-size:11px; color:var(--text-muted);">
+                  Prog: ${gap.programs} | Src: ${gap.sources}
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:4px; max-width:50%; justify-content:flex-end;">
+              ${gap.missingTypes.map(type => `<span class="nb-badge badge-gap" style="font-size:9px; padding:1px 3px;">No ${type}</span>`).join('')}
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 6. Render Authority Readiness Circle
+      const readiness = data.authorityReadiness;
+      const score = readiness.readinessScore;
+      document.getElementById('readiness-score-text').textContent = score + '%';
+      
+      const circumference = 2 * Math.PI * 40; // 251.2
+      const strokeDashoffset = circumference - (score / 100) * circumference;
+      const circle = document.getElementById('gauge-fill-circle');
+      circle.style.strokeDashoffset = strokeDashoffset;
+
+      const rDetails = document.getElementById('readiness-details');
+      rDetails.innerHTML = `
+        <table class="nb-table" style="font-size:11px; margin-bottom:12px;">
+          <thead>
+            <tr>
+              <th>Target</th>
+              <th>Status</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${readiness.features.map(f => `
+              <tr>
+                <td><strong>${f.name}</strong></td>
+                <td>${f.status}</td>
+                <td><strong>${f.score}%</strong></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        <strong style="font-size:12px; display:block; margin-bottom:4px;">Missing Infrastructure Specs:</strong>
+        <ul style="padding-left:16px; margin-bottom:12px; font-size:11px; line-height:1.4;">
+          ${readiness.features.filter(f => f.score < 100).map(f => `
+            <li><strong>${f.name}:</strong> ${f.missing}</li>
+          `).join('')}
+        </ul>
+      `;
+
+      // 7. Render Recommendation proceed/halt
+      const recCard = document.getElementById('recommendation-card');
+      const recIcon = document.getElementById('recommendation-icon');
+      const recTitle = document.getElementById('recommendation-title');
+      const recText = document.getElementById('recommendation-text');
+
+      // Condition: Proceed if program coverage > 10, opportunities > 10, source health dead links < 10%
+      const totalPrograms = data.entityCounts.programs.total;
+      const totalOpps = data.entityCounts.opportunities.total;
+      const deadPctVal = parseFloat(hm.deadPct);
+
+      if (totalPrograms >= 10 && totalOpps >= 10 && deadPctVal <= 10.0) {
+        recCard.style.borderColor = 'var(--accent)';
+        recCard.style.backgroundColor = '#d4edda';
+        recIcon.textContent = '✅';
+        recTitle.textContent = 'RECOMMENDATION: PROCEED TO PHASE 6.2';
+        recTitle.style.color = '#155724';
+        recText.textContent = `Platform database parameters are solid. We have ${totalPrograms} programs and ${totalOpps} opportunities with a dead link rate of ${deadPctVal}%. Core infrastructure validation is verified.`;
+      } else {
+        recCard.style.borderColor = 'var(--red)';
+        recCard.style.backgroundColor = 'var(--red-dim)';
+        recIcon.textContent = '❌';
+        recTitle.textContent = 'RECOMMENDATION: DO NOT PROCEED';
+        recTitle.style.color = 'var(--red)';
+        recText.textContent = `Minimum parameters are not satisfied: We need programs >= 10 (actual: ${totalPrograms}), opportunities >= 10 (actual: ${totalOpps}), and dead links <= 10% (actual: ${deadPctVal}%). Enrich raw datasets before building secondary publications.`;
+      }
+    }
+
+    loadAudit();
+  })();
+</script>
+</body>
+</html>
